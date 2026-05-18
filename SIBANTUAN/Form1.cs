@@ -19,6 +19,7 @@ namespace SIBANTUAN
 
         private void Form1_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             try
             {
                 var conn = DBHelper.GetConnection();
@@ -32,6 +33,9 @@ namespace SIBANTUAN
                 MessageBox.Show("Koneksi gagal: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+=======
+
+>>>>>>> 65be8233f47538577c93ad29b243549ab4eaef0a
         }
     }
 }
