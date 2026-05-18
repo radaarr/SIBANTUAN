@@ -19,23 +19,7 @@ namespace SIBANTUAN
 
         private void Form1_Load(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            try
-            {
-                var conn = DBHelper.GetConnection();
-                conn.Open();
-                MessageBox.Show("Koneksi ke MySQL berhasil!", "Info",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Koneksi gagal: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-=======
 
->>>>>>> 65be8233f47538577c93ad29b243549ab4eaef0a
         }
     }
 }
