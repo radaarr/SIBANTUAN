@@ -13,7 +13,6 @@ namespace SIBANTUAN
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            // Validasi input kosong
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 MessageBox.Show("Username tidak boleh kosong!", "Peringatan",
@@ -30,7 +29,6 @@ namespace SIBANTUAN
                 return;
             }
 
-            // Cek ke database
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
@@ -50,14 +48,12 @@ namespace SIBANTUAN
 
                     if (reader.Read())
                     {
-                        // Login berhasil, ambil datanya
                         int userId = reader.GetInt32("id");
                         string nama = reader.GetString("nama");
                         string role = reader.GetString("role");
                         reader.Close();
                         conn.Close();
 
-                        // Arahkan ke dashboard sesuai role
                         this.Hide();
 
                         if (role == "admin_pusat")
@@ -82,7 +78,6 @@ namespace SIBANTUAN
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
 
-                        // Kalau form dashboard ditutup, tutup juga aplikasinya
                         Application.Exit();
                     }
                     else
@@ -114,13 +109,16 @@ namespace SIBANTUAN
             }
         }
 
-        // Biar bisa tekan Enter untuk login
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
                 btnLogin_Click(sender, e);
             }
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }
