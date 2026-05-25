@@ -207,5 +207,10 @@ namespace SIBANTUAN.Forms.Petugas
             LoadDataPermohonan();
             MessageBox.Show("Data berhasil direfresh!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

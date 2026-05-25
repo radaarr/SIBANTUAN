@@ -85,7 +85,7 @@
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(41, 62);
+            this.label8.Location = new System.Drawing.Point(64, 62);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(309, 23);
             this.label8.TabIndex = 0;
@@ -95,9 +95,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(33, 135);
+            this.label1.Location = new System.Drawing.Point(31, 135);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 15);
+            this.label1.Size = new System.Drawing.Size(197, 18);
             this.label1.TabIndex = 21;
             this.label1.Text = "DAFTAR PERMOHONAN";
             // 
@@ -105,7 +105,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(33, 300);
+            this.label2.Location = new System.Drawing.Point(33, 380);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 20);
             this.label2.TabIndex = 22;
@@ -115,7 +115,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(33, 335);
+            this.label3.Location = new System.Drawing.Point(33, 415);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 20);
             this.label3.TabIndex = 23;
@@ -125,9 +125,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(33, 370);
+            this.label4.Location = new System.Drawing.Point(33, 450);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 20);
+            this.label4.Size = new System.Drawing.Size(88, 20);
             this.label4.TabIndex = 24;
             this.label4.Text = " Program :";
             // 
@@ -135,9 +135,9 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(33, 405);
+            this.label5.Location = new System.Drawing.Point(33, 485);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 20);
+            this.label5.Size = new System.Drawing.Size(103, 20);
             this.label5.TabIndex = 25;
             this.label5.Text = " Keputusan :";
             // 
@@ -145,54 +145,54 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(33, 440);
+            this.label6.Location = new System.Drawing.Point(33, 520);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 20);
+            this.label6.Size = new System.Drawing.Size(82, 20);
             this.label6.TabIndex = 26;
             this.label6.Text = " Catatan :";
             // 
             // tb_nik
             // 
             this.tb_nik.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_nik.Location = new System.Drawing.Point(150, 300);
+            this.tb_nik.Location = new System.Drawing.Point(150, 380);
             this.tb_nik.Name = "tb_nik";
             this.tb_nik.ReadOnly = true;
-            this.tb_nik.Size = new System.Drawing.Size(150, 24);
+            this.tb_nik.Size = new System.Drawing.Size(164, 24);
             this.tb_nik.TabIndex = 27;
             // 
             // tb_nama
             // 
             this.tb_nama.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_nama.Location = new System.Drawing.Point(150, 335);
+            this.tb_nama.Location = new System.Drawing.Point(150, 415);
             this.tb_nama.Name = "tb_nama";
             this.tb_nama.ReadOnly = true;
-            this.tb_nama.Size = new System.Drawing.Size(150, 24);
+            this.tb_nama.Size = new System.Drawing.Size(164, 24);
             this.tb_nama.TabIndex = 28;
             // 
             // tb_program
             // 
             this.tb_program.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_program.Location = new System.Drawing.Point(150, 370);
+            this.tb_program.Location = new System.Drawing.Point(150, 450);
             this.tb_program.Name = "tb_program";
             this.tb_program.ReadOnly = true;
-            this.tb_program.Size = new System.Drawing.Size(150, 24);
+            this.tb_program.Size = new System.Drawing.Size(164, 24);
             this.tb_program.TabIndex = 29;
             // 
             // tb_catatan
             // 
             this.tb_catatan.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_catatan.Location = new System.Drawing.Point(150, 440);
+            this.tb_catatan.Location = new System.Drawing.Point(150, 520);
             this.tb_catatan.Multiline = true;
             this.tb_catatan.Name = "tb_catatan";
-            this.tb_catatan.Size = new System.Drawing.Size(150, 50);
+            this.tb_catatan.Size = new System.Drawing.Size(164, 50);
             this.tb_catatan.TabIndex = 30;
             // 
             // rb_disetujui
             // 
             this.rb_disetujui.AutoSize = true;
-            this.rb_disetujui.Location = new System.Drawing.Point(150, 405);
+            this.rb_disetujui.Location = new System.Drawing.Point(150, 485);
             this.rb_disetujui.Name = "rb_disetujui";
-            this.rb_disetujui.Size = new System.Drawing.Size(78, 20);
+            this.rb_disetujui.Size = new System.Drawing.Size(79, 20);
             this.rb_disetujui.TabIndex = 31;
             this.rb_disetujui.TabStop = true;
             this.rb_disetujui.Text = "Disetujui";
@@ -202,9 +202,9 @@
             // rb_ditolak
             // 
             this.rb_ditolak.AutoSize = true;
-            this.rb_ditolak.Location = new System.Drawing.Point(234, 405);
+            this.rb_ditolak.Location = new System.Drawing.Point(234, 485);
             this.rb_ditolak.Name = "rb_ditolak";
-            this.rb_ditolak.Size = new System.Drawing.Size(66, 20);
+            this.rb_ditolak.Size = new System.Drawing.Size(70, 20);
             this.rb_ditolak.TabIndex = 32;
             this.rb_ditolak.TabStop = true;
             this.rb_ditolak.Text = "Ditolak";
@@ -214,7 +214,7 @@
             // tb_alasan
             // 
             this.tb_alasan.Font = new System.Drawing.Font("Microsoft PhagsPa", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_alasan.Location = new System.Drawing.Point(405, 310);
+            this.tb_alasan.Location = new System.Drawing.Point(416, 351);
             this.tb_alasan.Multiline = true;
             this.tb_alasan.Name = "tb_alasan";
             this.tb_alasan.Size = new System.Drawing.Size(180, 180);
@@ -225,9 +225,9 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(335, 310);
+            this.label9.Location = new System.Drawing.Point(335, 347);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 20);
+            this.label9.Size = new System.Drawing.Size(75, 20);
             this.label9.TabIndex = 34;
             this.label9.Text = " Alasan :";
             this.label9.Visible = false;
@@ -236,11 +236,12 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(335, 135);
+            this.label10.Location = new System.Drawing.Point(32, 347);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(88, 15);
+            this.label10.Size = new System.Drawing.Size(142, 18);
             this.label10.TabIndex = 35;
             this.label10.Text = "VERIFIKASI DATA";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // dataGridView1
             // 
@@ -251,11 +252,11 @@
             this.Program,
             this.Tanggal,
             this.Status});
-            this.dataGridView1.Location = new System.Drawing.Point(33, 160);
+            this.dataGridView1.Location = new System.Drawing.Point(33, 159);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(291, 123);
+            this.dataGridView1.Size = new System.Drawing.Size(559, 123);
             this.dataGridView1.TabIndex = 36;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -297,7 +298,7 @@
             // bt_simpan
             // 
             this.bt_simpan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_simpan.Location = new System.Drawing.Point(405, 500);
+            this.bt_simpan.Location = new System.Drawing.Point(416, 537);
             this.bt_simpan.Name = "bt_simpan";
             this.bt_simpan.Size = new System.Drawing.Size(95, 35);
             this.bt_simpan.TabIndex = 37;
@@ -308,7 +309,7 @@
             // bt_batal
             // 
             this.bt_batal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_batal.Location = new System.Drawing.Point(506, 500);
+            this.bt_batal.Location = new System.Drawing.Point(517, 537);
             this.bt_batal.Name = "bt_batal";
             this.bt_batal.Size = new System.Drawing.Size(79, 35);
             this.bt_batal.TabIndex = 38;
@@ -319,9 +320,9 @@
             // bt_refresh
             // 
             this.bt_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_refresh.Location = new System.Drawing.Point(193, 288);
+            this.bt_refresh.Location = new System.Drawing.Point(33, 288);
             this.bt_refresh.Name = "bt_refresh";
-            this.bt_refresh.Size = new System.Drawing.Size(70, 23);
+            this.bt_refresh.Size = new System.Drawing.Size(82, 35);
             this.bt_refresh.TabIndex = 39;
             this.bt_refresh.Text = "Refresh";
             this.bt_refresh.UseVisualStyleBackColor = true;
@@ -332,7 +333,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
-            this.ClientSize = new System.Drawing.Size(620, 550);
+            this.ClientSize = new System.Drawing.Size(721, 608);
             this.Controls.Add(this.bt_refresh);
             this.Controls.Add(this.bt_batal);
             this.Controls.Add(this.bt_simpan);

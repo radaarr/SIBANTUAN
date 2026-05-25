@@ -129,6 +129,9 @@
     <EmbeddedResource Include="Forms\Petugas\FormPetugas.resx">
       <DependentUpon>FormPetugas.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\FormVerifikasi.resx">
+      <DependentUpon>FormVerifikasi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -138,6 +141,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="CHANGELOG_VERIFIKASI_PENYALURAN.md" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -148,6 +152,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="README_IMPLEMENTASI.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
