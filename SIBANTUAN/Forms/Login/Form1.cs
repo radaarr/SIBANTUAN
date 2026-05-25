@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using SIBANTUAN.Forms.Petugas;
 
 namespace SIBANTUAN
 {
@@ -65,10 +66,8 @@ namespace SIBANTUAN
                         }
                         else if (role == "petugas_rtrw")
                         {
-                            // FormDashboardPetugas formPetugas = new FormDashboardPetugas(userId, nama);
-                            // formPetugas.ShowDialog();
-                            MessageBox.Show("Selamat datang Petugas: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            FormPetugas formPetugas = new FormPetugas();
+                            formPetugas.ShowDialog();
                         }
                         else if (role == "penerima_bantuan")
                         {
@@ -119,6 +118,11 @@ namespace SIBANTUAN
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
