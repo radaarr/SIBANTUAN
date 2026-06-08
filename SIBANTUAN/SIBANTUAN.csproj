@@ -102,35 +102,19 @@
     <Compile Include="Forms\Login\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Petugas\FormPenyaluran.cs">
+    <Compile Include="Forms\Petugas\DashboardPetugas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Petugas\FormPenyaluran.Designer.cs" />
-    <Compile Include="Forms\Petugas\FormPetugas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Petugas\FormPetugas.Designer.cs">
-      <DependentUpon>FormPetugas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Petugas\FormVerifikasi.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Petugas\FormVerifikasi.Designer.cs">
-      <DependentUpon>FormVerifikasi.cs</DependentUpon>
+    <Compile Include="Forms\Petugas\DashboardPetugas.Designer.cs">
+      <DependentUpon>DashboardPetugas.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Login\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Petugas\FormPenyaluran.resx">
-      <DependentUpon>FormPenyaluran.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Petugas\FormPetugas.resx">
-      <DependentUpon>FormPetugas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Petugas\FormVerifikasi.resx">
-      <DependentUpon>FormVerifikasi.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Petugas\DashboardPetugas.resx">
+      <DependentUpon>DashboardPetugas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

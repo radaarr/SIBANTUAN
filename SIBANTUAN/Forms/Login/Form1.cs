@@ -66,8 +66,8 @@ namespace SIBANTUAN
                         }
                         else if (role == "petugas_rtrw")
                         {
-                            FormPetugas formPetugas = new FormPetugas();
-                            formPetugas.ShowDialog();
+                            DashboardPetugas dashboardPetugas = new DashboardPetugas();
+                            dashboardPetugas.ShowDialog();
                         }
                         else if (role == "penerima_bantuan")
                         {
