@@ -152,7 +152,7 @@
             // 
             this.verifikasi_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.verifikasi_bt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.verifikasi_bt.Location = new System.Drawing.Point(149, 89);
+            this.verifikasi_bt.Location = new System.Drawing.Point(172, 89);
             this.verifikasi_bt.Name = "verifikasi_bt";
             this.verifikasi_bt.Size = new System.Drawing.Size(118, 27);
             this.verifikasi_bt.TabIndex = 2;
@@ -163,7 +163,7 @@
             // 
             this.permohonan_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.permohonan_bt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.permohonan_bt.Location = new System.Drawing.Point(279, 89);
+            this.permohonan_bt.Location = new System.Drawing.Point(320, 89);
             this.permohonan_bt.Name = "permohonan_bt";
             this.permohonan_bt.Size = new System.Drawing.Size(118, 27);
             this.permohonan_bt.TabIndex = 3;
@@ -174,7 +174,7 @@
             // 
             this.distribus_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.distribus_bt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.distribus_bt.Location = new System.Drawing.Point(407, 89);
+            this.distribus_bt.Location = new System.Drawing.Point(464, 89);
             this.distribus_bt.Name = "distribus_bt";
             this.distribus_bt.Size = new System.Drawing.Size(118, 27);
             this.distribus_bt.TabIndex = 4;
@@ -185,7 +185,7 @@
             // 
             this.laporan_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.laporan_bt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.laporan_bt.Location = new System.Drawing.Point(537, 89);
+            this.laporan_bt.Location = new System.Drawing.Point(613, 89);
             this.laporan_bt.Name = "laporan_bt";
             this.laporan_bt.Size = new System.Drawing.Size(118, 27);
             this.laporan_bt.TabIndex = 5;
@@ -197,7 +197,7 @@
             this.keluar_bt.BackColor = System.Drawing.Color.Red;
             this.keluar_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.keluar_bt.ForeColor = System.Drawing.Color.White;
-            this.keluar_bt.Location = new System.Drawing.Point(665, 89);
+            this.keluar_bt.Location = new System.Drawing.Point(757, 89);
             this.keluar_bt.Name = "keluar_bt";
             this.keluar_bt.Size = new System.Drawing.Size(118, 27);
             this.keluar_bt.TabIndex = 6;
@@ -247,8 +247,9 @@
             this.pnlStatistik.Controls.Add(this.lblStatistikTitle);
             this.pnlStatistik.Location = new System.Drawing.Point(25, 175);
             this.pnlStatistik.Name = "pnlStatistik";
-            this.pnlStatistik.Size = new System.Drawing.Size(850, 120);
+            this.pnlStatistik.Size = new System.Drawing.Size(850, 142);
             this.pnlStatistik.TabIndex = 10;
+            this.pnlStatistik.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlStatistik_Paint);
             // 
             // pnlCard4
             // 
@@ -258,15 +259,16 @@
             this.pnlCard4.Controls.Add(this.lblCard4Value);
             this.pnlCard4.Location = new System.Drawing.Point(645, 35);
             this.pnlCard4.Name = "pnlCard4";
-            this.pnlCard4.Size = new System.Drawing.Size(190, 75);
+            this.pnlCard4.Size = new System.Drawing.Size(190, 90);
             this.pnlCard4.TabIndex = 4;
+            this.pnlCard4.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCard4_Paint);
             // 
             // lblCard4Title
             // 
             this.lblCard4Title.AutoSize = true;
             this.lblCard4Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard4Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard4Title.Location = new System.Drawing.Point(15, 50);
+            this.lblCard4Title.Location = new System.Drawing.Point(26, 62);
             this.lblCard4Title.Name = "lblCard4Title";
             this.lblCard4Title.Size = new System.Drawing.Size(141, 17);
             this.lblCard4Title.TabIndex = 1;
@@ -279,7 +281,7 @@
             this.lblCard4Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.lblCard4Value.Location = new System.Drawing.Point(10, 8);
             this.lblCard4Value.Name = "lblCard4Value";
-            this.lblCard4Value.Size = new System.Drawing.Size(169, 42);
+            this.lblCard4Value.Size = new System.Drawing.Size(169, 54);
             this.lblCard4Value.TabIndex = 0;
             this.lblCard4Value.Text = "18";
             this.lblCard4Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -292,7 +294,7 @@
             this.pnlCard3.Controls.Add(this.lblCard3Value);
             this.pnlCard3.Location = new System.Drawing.Point(435, 35);
             this.pnlCard3.Name = "pnlCard3";
-            this.pnlCard3.Size = new System.Drawing.Size(190, 75);
+            this.pnlCard3.Size = new System.Drawing.Size(190, 90);
             this.pnlCard3.TabIndex = 3;
             // 
             // lblCard3Title
@@ -300,7 +302,7 @@
             this.lblCard3Title.AutoSize = true;
             this.lblCard3Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard3Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard3Title.Location = new System.Drawing.Point(20, 50);
+            this.lblCard3Title.Location = new System.Drawing.Point(22, 62);
             this.lblCard3Title.Name = "lblCard3Title";
             this.lblCard3Title.Size = new System.Drawing.Size(145, 17);
             this.lblCard3Title.TabIndex = 1;
@@ -313,7 +315,7 @@
             this.lblCard3Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
             this.lblCard3Value.Location = new System.Drawing.Point(10, 8);
             this.lblCard3Value.Name = "lblCard3Value";
-            this.lblCard3Value.Size = new System.Drawing.Size(170, 35);
+            this.lblCard3Value.Size = new System.Drawing.Size(170, 54);
             this.lblCard3Value.TabIndex = 0;
             this.lblCard3Value.Text = "3";
             this.lblCard3Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -326,7 +328,7 @@
             this.pnlCard2.Controls.Add(this.lblCard2Value);
             this.pnlCard2.Location = new System.Drawing.Point(225, 35);
             this.pnlCard2.Name = "pnlCard2";
-            this.pnlCard2.Size = new System.Drawing.Size(190, 75);
+            this.pnlCard2.Size = new System.Drawing.Size(190, 90);
             this.pnlCard2.TabIndex = 2;
             // 
             // lblCard2Title
@@ -334,7 +336,7 @@
             this.lblCard2Title.AutoSize = true;
             this.lblCard2Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard2Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard2Title.Location = new System.Drawing.Point(20, 50);
+            this.lblCard2Title.Location = new System.Drawing.Point(23, 62);
             this.lblCard2Title.Name = "lblCard2Title";
             this.lblCard2Title.Size = new System.Drawing.Size(136, 17);
             this.lblCard2Title.TabIndex = 1;
@@ -347,7 +349,7 @@
             this.lblCard2Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(152)))), ((int)(((byte)(0)))));
             this.lblCard2Value.Location = new System.Drawing.Point(10, 8);
             this.lblCard2Value.Name = "lblCard2Value";
-            this.lblCard2Value.Size = new System.Drawing.Size(170, 35);
+            this.lblCard2Value.Size = new System.Drawing.Size(170, 54);
             this.lblCard2Value.TabIndex = 0;
             this.lblCard2Value.Text = "5";
             this.lblCard2Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -360,7 +362,7 @@
             this.pnlCard1.Controls.Add(this.lblCard1Value);
             this.pnlCard1.Location = new System.Drawing.Point(15, 35);
             this.pnlCard1.Name = "pnlCard1";
-            this.pnlCard1.Size = new System.Drawing.Size(190, 75);
+            this.pnlCard1.Size = new System.Drawing.Size(190, 90);
             this.pnlCard1.TabIndex = 1;
             // 
             // lblCard1Title
@@ -368,7 +370,7 @@
             this.lblCard1Title.AutoSize = true;
             this.lblCard1Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard1Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard1Title.Location = new System.Drawing.Point(15, 50);
+            this.lblCard1Title.Location = new System.Drawing.Point(15, 62);
             this.lblCard1Title.Name = "lblCard1Title";
             this.lblCard1Title.Size = new System.Drawing.Size(149, 17);
             this.lblCard1Title.TabIndex = 1;
@@ -381,7 +383,7 @@
             this.lblCard1Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
             this.lblCard1Value.Location = new System.Drawing.Point(10, 8);
             this.lblCard1Value.Name = "lblCard1Value";
-            this.lblCard1Value.Size = new System.Drawing.Size(170, 35);
+            this.lblCard1Value.Size = new System.Drawing.Size(170, 54);
             this.lblCard1Value.TabIndex = 0;
             this.lblCard1Value.Text = "24";
             this.lblCard1Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -401,7 +403,7 @@
             this.pnlNotifikasi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlNotifikasi.Controls.Add(this.lstNotifikasi);
             this.pnlNotifikasi.Controls.Add(this.lblNotifikasiTitle);
-            this.pnlNotifikasi.Location = new System.Drawing.Point(25, 310);
+            this.pnlNotifikasi.Location = new System.Drawing.Point(25, 357);
             this.pnlNotifikasi.Name = "pnlNotifikasi";
             this.pnlNotifikasi.Size = new System.Drawing.Size(420, 220);
             this.pnlNotifikasi.TabIndex = 11;
@@ -446,7 +448,7 @@
             this.pnlMenuCepat.Controls.Add(this.btnMenuPermohonan);
             this.pnlMenuCepat.Controls.Add(this.btnMenuVerifikasi);
             this.pnlMenuCepat.Controls.Add(this.lblMenuCepatTitle);
-            this.pnlMenuCepat.Location = new System.Drawing.Point(455, 310);
+            this.pnlMenuCepat.Location = new System.Drawing.Point(455, 357);
             this.pnlMenuCepat.Name = "pnlMenuCepat";
             this.pnlMenuCepat.Size = new System.Drawing.Size(420, 220);
             this.pnlMenuCepat.TabIndex = 12;

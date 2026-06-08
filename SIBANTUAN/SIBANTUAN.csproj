@@ -108,6 +108,12 @@
     <Compile Include="Forms\Petugas\DashboardPetugas.Designer.cs">
       <DependentUpon>DashboardPetugas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Petugas\Verifikasi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Verifikasi.Designer.cs">
+      <DependentUpon>Verifikasi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Login\Form1.resx">
@@ -115,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Petugas\DashboardPetugas.resx">
       <DependentUpon>DashboardPetugas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Verifikasi.resx">
+      <DependentUpon>Verifikasi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -41,5 +41,15 @@ namespace SIBANTUAN.Forms.Petugas
         {
 
         }
+
+        private void pnlCard4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlStatistik_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
