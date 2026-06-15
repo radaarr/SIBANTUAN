@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using SIBANTUAN.Forms.Petugas;
+using SIBANTUAN.Forms.Admin;
+using SIBANTUAN.Forms.Penerima;
 
 namespace SIBANTUAN
 {
@@ -53,28 +55,23 @@ namespace SIBANTUAN
                         string nama = reader.GetString("nama");
                         string role = reader.GetString("role");
                         reader.Close();
-                        conn.Close();
 
                         this.Hide();
 
                         if (role == "admin_pusat")
                         {
-                            // FormDashboardAdmin formAdmin = new FormDashboardAdmin(userId, nama);
-                            // formAdmin.ShowDialog();
-                            MessageBox.Show("Selamat datang Admin: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            FormDashboardAdmin formAdmin = new FormDashboardAdmin(userId, nama);
+                            formAdmin.ShowDialog();
                         }
                         else if (role == "petugas_rtrw")
                         {
-                            DashboardPetugas dashboardPetugas = new DashboardPetugas();
+                            DashboardPetugas dashboardPetugas = new DashboardPetugas(userId, nama);
                             dashboardPetugas.ShowDialog();
                         }
                         else if (role == "penerima_bantuan")
                         {
-                            // FormDashboardPenerima formPenerima = new FormDashboardPenerima(userId, nama);
-                            // formPenerima.ShowDialog();
-                            MessageBox.Show("Selamat datang: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            FormDashboardPenerima formPenerima = new FormDashboardPenerima(userId, nama);
+                            formPenerima.ShowDialog();
                         }
 
                         Application.Exit();

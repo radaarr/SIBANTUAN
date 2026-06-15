@@ -111,10 +111,16 @@ namespace SIBANTUAN.Forms.Petugas
 
                     if (status != "Semua Status")
                     {
-                        query += " WHERE status = '" + status + "'";
+                        query += " WHERE status = @status";
                     }
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    if (status != "Semua Status")
+                    {
+                        cmd.Parameters.AddWithValue("@status", status);
+                    }
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
@@ -147,9 +153,12 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string searchTerm = cari_tb.Text;
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE nama_lengkap LIKE '%" + searchTerm + "%' OR nik LIKE '%" + searchTerm + "%'";
+                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm";
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@searchTerm", "%" + searchTerm + "%");
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
@@ -197,8 +206,9 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nik, tgl_lahir, alamat, kelurahan, nama_lengkap, jenis_kelamin, rt_rw FROM pendaftar WHERE nik = '" + nik + "'";
+                    string query = "SELECT nik, tgl_lahir, alamat, kelurahan, nama_lengkap, jenis_kelamin, rt_rw FROM pendaftar WHERE nik = @nik";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nik", nik);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
@@ -224,5 +234,12 @@ namespace SIBANTUAN.Forms.Petugas
         {
 
         }
+
+        private void dashboard_bt_Click(object sender, EventArgs e) { new DashboardPetugas(0, "Petugas").ShowDialog(); }
+        private void verifikasi_bt_Click(object sender, EventArgs e) { /* already here */ }
+        private void permohonan_bt_Click(object sender, EventArgs e) { new Permohonan().ShowDialog(); }
+        private void distribus_bt_Click(object sender, EventArgs e) { new Distribusi().ShowDialog(); }
+        private void laporan_bt_Click(object sender, EventArgs e) { new Laporan().ShowDialog(); }
+        private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
     }
 }

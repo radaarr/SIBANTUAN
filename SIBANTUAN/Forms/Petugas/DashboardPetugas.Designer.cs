@@ -100,7 +100,6 @@
             this.label4.Size = new System.Drawing.Size(171, 16);
             this.label4.TabIndex = 3;
             this.label4.Text = "RT 001/RW 001 - Sukamaju";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label3
             // 
@@ -123,7 +122,6 @@
             this.label2.Size = new System.Drawing.Size(269, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Sistem Informasi Penyaluran Bantuan Sosial";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -135,7 +133,6 @@
             this.label1.Size = new System.Drawing.Size(136, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "SIBANTUAN";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // dashboard_bt
             // 
@@ -147,6 +144,7 @@
             this.dashboard_bt.TabIndex = 1;
             this.dashboard_bt.Text = "Dashboard";
             this.dashboard_bt.UseVisualStyleBackColor = true;
+            this.dashboard_bt.Click += new System.EventHandler(this.dashboard_bt_Click);
             // 
             // verifikasi_bt
             // 
@@ -158,6 +156,7 @@
             this.verifikasi_bt.TabIndex = 2;
             this.verifikasi_bt.Text = "Verifikasi Warga";
             this.verifikasi_bt.UseVisualStyleBackColor = true;
+            this.verifikasi_bt.Click += new System.EventHandler(this.verifikasi_bt_Click);
             // 
             // permohonan_bt
             // 
@@ -169,6 +168,7 @@
             this.permohonan_bt.TabIndex = 3;
             this.permohonan_bt.Text = "Permohonan";
             this.permohonan_bt.UseVisualStyleBackColor = true;
+            this.permohonan_bt.Click += new System.EventHandler(this.permohonan_bt_Click);
             // 
             // distribus_bt
             // 
@@ -180,6 +180,7 @@
             this.distribus_bt.TabIndex = 4;
             this.distribus_bt.Text = "Distribusi";
             this.distribus_bt.UseVisualStyleBackColor = true;
+            this.distribus_bt.Click += new System.EventHandler(this.distribus_bt_Click);
             // 
             // laporan_bt
             // 
@@ -191,6 +192,7 @@
             this.laporan_bt.TabIndex = 5;
             this.laporan_bt.Text = "Laporan";
             this.laporan_bt.UseVisualStyleBackColor = true;
+            this.laporan_bt.Click += new System.EventHandler(this.laporan_bt_Click);
             // 
             // keluar_bt
             // 
@@ -203,6 +205,7 @@
             this.keluar_bt.TabIndex = 6;
             this.keluar_bt.Text = "Keluar";
             this.keluar_bt.UseVisualStyleBackColor = false;
+            this.keluar_bt.Click += new System.EventHandler(this.keluar_bt_Click);
             // 
             // panel2
             // 
@@ -223,7 +226,6 @@
             this.lblGreeting.Size = new System.Drawing.Size(521, 20);
             this.lblGreeting.TabIndex = 8;
             this.lblGreeting.Text = "Selamat datang, Petugas RT 01. Ada tugas yang perlu ditindaklanjuti.";
-            this.lblGreeting.Click += new System.EventHandler(this.lblGreeting_Click);
             // 
             // lblDate
             // 
@@ -249,7 +251,6 @@
             this.pnlStatistik.Name = "pnlStatistik";
             this.pnlStatistik.Size = new System.Drawing.Size(850, 142);
             this.pnlStatistik.TabIndex = 10;
-            this.pnlStatistik.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlStatistik_Paint);
             // 
             // pnlCard4
             // 
@@ -261,7 +262,6 @@
             this.pnlCard4.Name = "pnlCard4";
             this.pnlCard4.Size = new System.Drawing.Size(190, 90);
             this.pnlCard4.TabIndex = 4;
-            this.pnlCard4.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCard4_Paint);
             // 
             // lblCard4Title
             // 
@@ -465,6 +465,7 @@
             this.btnMenuLaporan.TabIndex = 4;
             this.btnMenuLaporan.Text = "Laporan\r\nWilayah RT/RW";
             this.btnMenuLaporan.UseVisualStyleBackColor = false;
+            this.btnMenuLaporan.Click += new System.EventHandler(this.btnMenuLaporan_Click);
             // 
             // btnMenuDistribusi
             // 
@@ -478,6 +479,7 @@
             this.btnMenuDistribusi.TabIndex = 3;
             this.btnMenuDistribusi.Text = "Distribusi\r\nCatat penyaluran";
             this.btnMenuDistribusi.UseVisualStyleBackColor = false;
+            this.btnMenuDistribusi.Click += new System.EventHandler(this.btnMenuDistribusi_Click);
             // 
             // btnMenuPermohonan
             // 
@@ -491,6 +493,7 @@
             this.btnMenuPermohonan.TabIndex = 2;
             this.btnMenuPermohonan.Text = "Permohonan\r\n3 pending\r\n🔴";
             this.btnMenuPermohonan.UseVisualStyleBackColor = false;
+            this.btnMenuPermohonan.Click += new System.EventHandler(this.btnMenuPermohonan_Click);
             // 
             // btnMenuVerifikasi
             // 
@@ -504,6 +507,7 @@
             this.btnMenuVerifikasi.TabIndex = 1;
             this.btnMenuVerifikasi.Text = "Verifikasi Warga\r\n5 menunggu\r\n🔴 ";
             this.btnMenuVerifikasi.UseVisualStyleBackColor = false;
+            this.btnMenuVerifikasi.Click += new System.EventHandler(this.btnMenuVerifikasi_Click);
             // 
             // lblMenuCepatTitle
             // 

@@ -165,6 +165,7 @@
             this.keluar_bt.TabIndex = 13;
             this.keluar_bt.Text = "Keluar";
             this.keluar_bt.UseVisualStyleBackColor = false;
+            this.keluar_bt.Click += new System.EventHandler(this.keluar_bt_Click);
             // 
             // laporan_bt
             // 
@@ -176,6 +177,7 @@
             this.laporan_bt.TabIndex = 12;
             this.laporan_bt.Text = "Laporan";
             this.laporan_bt.UseVisualStyleBackColor = true;
+            this.laporan_bt.Click += new System.EventHandler(this.laporan_bt_Click);
             // 
             // distribus_bt
             // 
@@ -187,6 +189,7 @@
             this.distribus_bt.TabIndex = 11;
             this.distribus_bt.Text = "Distribusi";
             this.distribus_bt.UseVisualStyleBackColor = true;
+            this.distribus_bt.Click += new System.EventHandler(this.distribus_bt_Click);
             // 
             // permohonan_bt
             // 
@@ -198,6 +201,7 @@
             this.permohonan_bt.TabIndex = 10;
             this.permohonan_bt.Text = "Permohonan";
             this.permohonan_bt.UseVisualStyleBackColor = true;
+            this.permohonan_bt.Click += new System.EventHandler(this.permohonan_bt_Click);
             // 
             // verifikasi_bt
             // 
@@ -209,6 +213,7 @@
             this.verifikasi_bt.TabIndex = 9;
             this.verifikasi_bt.Text = "Verifikasi Warga";
             this.verifikasi_bt.UseVisualStyleBackColor = true;
+            this.verifikasi_bt.Click += new System.EventHandler(this.verifikasi_bt_Click);
             // 
             // dashboard_bt
             // 
@@ -220,44 +225,45 @@
             this.dashboard_bt.TabIndex = 8;
             this.dashboard_bt.Text = "Dashboard";
             this.dashboard_bt.UseVisualStyleBackColor = true;
+            this.dashboard_bt.Click += new System.EventHandler(this.dashboard_bt_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(2, 40);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 25);
+            this.label5.Size = new System.Drawing.Size(67, 20);
             this.label5.TabIndex = 15;
             this.label5.Text = "Status :";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // status_cmb
             // 
-            this.status_cmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.status_cmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.status_cmb.FormattingEnabled = true;
-            this.status_cmb.Location = new System.Drawing.Point(87, 38);
+            this.status_cmb.Location = new System.Drawing.Point(75, 38);
             this.status_cmb.Name = "status_cmb";
-            this.status_cmb.Size = new System.Drawing.Size(179, 33);
+            this.status_cmb.Size = new System.Drawing.Size(179, 26);
             this.status_cmb.TabIndex = 16;
             this.status_cmb.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(306, 40);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 25);
+            this.label6.Size = new System.Drawing.Size(50, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Cari :";
             // 
             // cari_tb
             // 
-            this.cari_tb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cari_tb.Location = new System.Drawing.Point(371, 38);
+            this.cari_tb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cari_tb.Location = new System.Drawing.Point(362, 38);
             this.cari_tb.Name = "cari_tb";
-            this.cari_tb.Size = new System.Drawing.Size(266, 30);
+            this.cari_tb.Size = new System.Drawing.Size(266, 24);
             this.cari_tb.TabIndex = 18;
             // 
             // cari_bt
@@ -306,7 +312,7 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Location = new System.Drawing.Point(18, 138);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(857, 93);
+            this.panel3.Size = new System.Drawing.Size(857, 85);
             this.panel3.TabIndex = 22;
             // 
             // label8
@@ -385,7 +391,7 @@
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.dataGridView1);
             this.panel4.Controls.Add(this.label8);
-            this.panel4.Location = new System.Drawing.Point(18, 253);
+            this.panel4.Location = new System.Drawing.Point(18, 241);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(856, 290);
             this.panel4.TabIndex = 24;
@@ -415,7 +421,7 @@
             this.panel5.Controls.Add(this.label12);
             this.panel5.Controls.Add(this.label11);
             this.panel5.Controls.Add(this.label10);
-            this.panel5.Location = new System.Drawing.Point(18, 559);
+            this.panel5.Location = new System.Drawing.Point(18, 554);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(856, 336);
             this.panel5.TabIndex = 25;
@@ -633,7 +639,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(894, 943);
+            this.ClientSize = new System.Drawing.Size(894, 902);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
