@@ -9,9 +9,10 @@
 msbuild SIBANTUAN.slnx
 # or open SIBANTUAN.slnx in Visual Studio and build
 ```
+NuGet packages already restored in `packages/`.
 
 ## Database setup
-Run `SIBANTUAN/Database/sibantuan.sql` against a local MySQL instance. It creates the `sibantuan` DB, tables (`users`, `penduduk`, `program_bantuan`, `permohonan`, `distribusi`), and seed data.
+Run `SIBANTUAN/Database/sibantuan.sql` against a local MySQL instance. Creates `sibantuan` DB, 5 tables (`users`, `penduduk`, `program_bantuan`, `permohonan`, `distribusi`), foreign keys, and seed data.
 
 ## Default logins (plain text passwords, no hashing)
 | username | password | role |
@@ -21,14 +22,22 @@ Run `SIBANTUAN/Database/sibantuan.sql` against a local MySQL instance. It create
 | budi | Admin123 | penerima_bantuan |
 
 ## Entry point
-`SIBANTUAN/Program.cs` → `Form1` (login form in `Forms/Login/`).
+`SIBANTUAN/Program.cs` → `Form1` (login form in `Forms/Login/Form1.cs`). Authenticates against `users` table with plain-text password comparison.
 
 ## Forms structure
-- `Forms/Login/Form1.cs` — login with username/password against `users` table
-- `Forms/Petugas/DashboardPetugas.cs` — petugas dashboard (stub, wired but empty)
+- `Forms/Login/Form1.cs` — login. Only `petugas_rtrw` role navigates to a real form (`DashboardPetugas`); `admin_pusat` and `penerima_bantuan` show a MessageBox then exit.
+- `Forms/Petugas/` — all petugas forms:
+  - `DashboardPetugas.cs` — dashboard with nav buttons, statistik cards. **Code-behind is empty** (all event handlers are stubs).
+  - `Verifikasi.cs` — verifikasi warga CRUD. Queries `pendaftar` view/table.
+  - `Permohonan.cs` — permohonan CRUD. Queries `permohonan` view/table.
+  - `Distribusi.cs` — distribusi CRUD. Queries `distribusi` view/table.
+  - `Laporan.cs` — **empty stub** (constructor only).
 
-## Known issue: .csproj is stale
-`SIBANTUAN.csproj` references non-existent files `FormPetugas.cs`, `FormVerifikasi.cs`, `FormPenyaluran.cs` in `Forms/Petugas/`. The actual file is `DashboardPetugas.cs`. The `.csproj` needs updating before it will build.
+## Known issues
+- **SQL injection in all Petugas CRUD forms**: `Verifikasi.cs:78`, `Permohonan.cs:90`, `Distribusi.cs:119` use string concatenation for filters and search terms instead of parameterized queries.
+- **admin_pusat and penerima_bantuan dashboards not wired**: Login only shows a MessageBox and exits for these roles — no `FormDashboardAdmin` or `FormDashboardPenerima` exists.
+- **Distribusi.Designer.cs missing**: Referenced in `.csproj` but does not exist on disk (only `Distribusi.cs` and `Distribusi.resx` exist).
+- **DBHelper.cs imports `System.Data.SqlClient`** — unused import (`MySql.Data.MySqlClient` is the actual provider used).
 
 ## Tests
-None — no test project exists in the repo.
+None.

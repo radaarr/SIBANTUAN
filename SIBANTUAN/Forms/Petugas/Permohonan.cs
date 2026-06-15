@@ -11,9 +11,9 @@ using MySql.Data.MySqlClient;
 
 namespace SIBANTUAN.Forms.Petugas
 {
-    public partial class Verifikasi : Form
+    public partial class Permohonan : Form
     {
-        public Verifikasi()
+        public Permohonan()
         {
             InitializeComponent();
         }
@@ -25,7 +25,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE status = 'Belum Diverifikasi' OR status = 'Disetujui' OR status = 'Ditolak'";
+                    string query = "SELECT nama_warga, program_bantuan, tgl_ajuan, status_ekonomi, status FROM permohonan WHERE status IN ('Pending', 'Disetujui', 'Ditolak')";
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -36,10 +36,10 @@ namespace SIBANTUAN.Forms.Petugas
                     {
                         dataGridView1.Rows.Add(
                             no++,
-                            row["nama_lengkap"].ToString(),
-                            row["nik"].ToString(),
-                            row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
+                            row["nama_warga"].ToString(),
+                            row["program_bantuan"].ToString(),
+                            row["tgl_ajuan"].ToString(),
+                            row["status_ekonomi"].ToString(),
                             row["status"].ToString()
                         );
                     }
@@ -54,11 +54,34 @@ namespace SIBANTUAN.Forms.Petugas
         private void LoadStatusFilter()
         {
             status_cmb.Items.Clear();
-            status_cmb.Items.Add("Semua Status");
-            status_cmb.Items.Add("Belum Diverifikasi");
+            status_cmb.Items.Add("Semua");
+            status_cmb.Items.Add("Pending");
             status_cmb.Items.Add("Disetujui");
             status_cmb.Items.Add("Ditolak");
             status_cmb.SelectedIndex = 0;
+
+            program_cmb.Items.Clear();
+            program_cmb.Items.Add("Semua Program");
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT DISTINCT program_bantuan FROM permohonan";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        program_cmb.Items.Add(reader["program_bantuan"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading programs: " + ex.Message);
+            }
+            program_cmb.SelectedIndex = 0;
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -67,22 +90,12 @@ namespace SIBANTUAN.Forms.Petugas
             LoadData();
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void status_cmb_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            FilterData();
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void program_cmb_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterData();
         }
@@ -96,6 +109,7 @@ namespace SIBANTUAN.Forms.Petugas
         {
             cari_tb.Clear();
             status_cmb.SelectedIndex = 0;
+            program_cmb.SelectedIndex = 0;
             LoadData();
         }
 
@@ -107,11 +121,17 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string status = status_cmb.SelectedItem.ToString();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar";
+                    string program = program_cmb.SelectedItem.ToString();
+                    string query = "SELECT nama_warga, program_bantuan, tgl_ajuan, status_ekonomi, status FROM permohonan WHERE 1=1";
 
-                    if (status != "Semua Status")
+                    if (status != "Semua")
                     {
-                        query += " WHERE status = '" + status + "'";
+                        query += " AND status = '" + status + "'";
+                    }
+
+                    if (program != "Semua Program")
+                    {
+                        query += " AND program_bantuan = '" + program + "'";
                     }
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
@@ -124,10 +144,10 @@ namespace SIBANTUAN.Forms.Petugas
                     {
                         dataGridView1.Rows.Add(
                             no++,
-                            row["nama_lengkap"].ToString(),
-                            row["nik"].ToString(),
-                            row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
+                            row["nama_warga"].ToString(),
+                            row["program_bantuan"].ToString(),
+                            row["tgl_ajuan"].ToString(),
+                            row["status_ekonomi"].ToString(),
                             row["status"].ToString()
                         );
                     }
@@ -147,7 +167,7 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string searchTerm = cari_tb.Text;
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE nama_lengkap LIKE '%" + searchTerm + "%' OR nik LIKE '%" + searchTerm + "%'";
+                    string query = "SELECT nama_warga, program_bantuan, tgl_ajuan, status_ekonomi, status FROM permohonan WHERE nama_warga LIKE '%" + searchTerm + "%'";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
@@ -159,10 +179,10 @@ namespace SIBANTUAN.Forms.Petugas
                     {
                         dataGridView1.Rows.Add(
                             no++,
-                            row["nama_lengkap"].ToString(),
-                            row["nik"].ToString(),
-                            row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
+                            row["nama_warga"].ToString(),
+                            row["program_bantuan"].ToString(),
+                            row["tgl_ajuan"].ToString(),
+                            row["status_ekonomi"].ToString(),
                             row["status"].ToString()
                         );
                     }
@@ -180,8 +200,8 @@ namespace SIBANTUAN.Forms.Petugas
             {
                 try
                 {
-                    string nik = dataGridView1.Rows[e.RowIndex].Cells["nik"].Value.ToString();
-                    LoadDetailPendaftar(nik);
+                    string nama_warga = dataGridView1.Rows[e.RowIndex].Cells["nama_warga"].Value.ToString();
+                    LoadDetailPermohonan(nama_warga);
                 }
                 catch (Exception ex)
                 {
@@ -190,26 +210,30 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
-        private void LoadDetailPendaftar(string nik)
+        private void LoadDetailPermohonan(string nama_warga)
         {
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nik, tgl_lahir, alamat, kelurahan, nama_lengkap, jenis_kelamin, rt_rw FROM pendaftar WHERE nik = '" + nik + "'";
+                    string query = "SELECT nama_warga, program_bantuan, status_ekonomi, kuota_program, nik, tgl_pengajuan, alamat, periode_program FROM permohonan WHERE nama_warga = '" + nama_warga + "'";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        textBox1.Text = reader["nik"].ToString();
-                        textBox2.Text = reader["tgl_lahir"].ToString();
-                        textBox3.Text = reader["alamat"].ToString();
-                        textBox4.Text = reader["kelurahan"].ToString();
-                        button1.Text = reader["nama_lengkap"].ToString();
-                        button2.Text = reader["jenis_kelamin"].ToString();
-                        button4.Text = reader["rt_rw"].ToString();
+                        textBox1.Text = reader["nama_warga"].ToString();
+                        textBox2.Text = reader["program_bantuan"].ToString();
+                        textBox3.Text = reader["status_ekonomi"].ToString();
+                        textBox4.Text = reader["kuota_program"].ToString();
+                        textBox5.Text = reader["nik"].ToString();
+                        textBox6.Text = reader["tgl_pengajuan"].ToString();
+                        textBox7.Text = reader["alamat"].ToString();
+                        textBox8.Text = reader["periode_program"].ToString();
+
+                        label10.Text = "Detail Permohonan — " + nama_warga;
+                        label20.Text = "Detail Permohonan — " + nama_warga;
                     }
                     reader.Close();
                 }
@@ -218,11 +242,6 @@ namespace SIBANTUAN.Forms.Petugas
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

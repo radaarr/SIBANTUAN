@@ -108,6 +108,14 @@
     <Compile Include="Forms\Petugas\DashboardPetugas.Designer.cs">
       <DependentUpon>DashboardPetugas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Petugas\Distribusi.cs" />
+    <Compile Include="Forms\Petugas\Distribusi.Designer.cs" />
+    <Compile Include="Forms\Petugas\Permohonan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Permohonan.Designer.cs">
+      <DependentUpon>Permohonan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Petugas\Verifikasi.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Petugas\DashboardPetugas.resx">
       <DependentUpon>DashboardPetugas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Permohonan.resx">
+      <DependentUpon>Permohonan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Petugas\Verifikasi.resx">
       <DependentUpon>Verifikasi.cs</DependentUpon>
