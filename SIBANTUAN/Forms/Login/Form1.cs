@@ -1,6 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
+using System;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace SIBANTUAN
 {
@@ -72,10 +73,13 @@ namespace SIBANTUAN
                         }
                         else if (role == "penerima_bantuan")
                         {
-                            // FormDashboardPenerima formPenerima = new FormDashboardPenerima(userId, nama);
-                            // formPenerima.ShowDialog();
-                            MessageBox.Show("Selamat datang: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Session.UserId = userId;
+                            Session.Username = txtUsername.Text.Trim();
+                            Session.Nama = nama;
+                            Session.Role = role;
+
+                            Forms.Penerima.DashboardPenerima formPenerima = new Forms.Penerima.DashboardPenerima();
+                            formPenerima.ShowDialog();
                         }
 
                         Application.Exit();

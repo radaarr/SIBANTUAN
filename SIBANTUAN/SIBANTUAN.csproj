@@ -102,10 +102,47 @@
     <Compile Include="Forms\Login\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Penerima\AjukanPermohonan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Penerima\AjukanPermohonan.Designer.cs">
+      <DependentUpon>AjukanPermohonan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Penerima\DashboardPenerima.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Penerima\DashboardPenerima.Designer.cs">
+      <DependentUpon>DashboardPenerima.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Penerima\RiwayatBantuan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Penerima\RiwayatBantuan.Designer.cs">
+      <DependentUpon>RiwayatBantuan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Penerima\StatusPermohonan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Penerima\StatusPermohonan.Designer.cs">
+      <DependentUpon>StatusPermohonan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
     <EmbeddedResource Include="Forms\Login\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Penerima\AjukanPermohonan.resx">
+      <DependentUpon>AjukanPermohonan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Penerima\DashboardPenerima.resx">
+      <DependentUpon>DashboardPenerima.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Penerima\RiwayatBantuan.resx">
+      <DependentUpon>RiwayatBantuan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Penerima\StatusPermohonan.resx">
+      <DependentUpon>StatusPermohonan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
