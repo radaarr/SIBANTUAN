@@ -25,7 +25,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE status = 'Belum Diverifikasi' OR status = 'Disetujui' OR status = 'Ditolak'";
+                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk";
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -39,8 +39,8 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nama_lengkap"].ToString(),
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
-                            row["status"].ToString()
+                            Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
+                            row["status_ekonomi"].ToString()
                         );
                     }
                 }
@@ -55,9 +55,9 @@ namespace SIBANTUAN.Forms.Petugas
         {
             status_cmb.Items.Clear();
             status_cmb.Items.Add("Semua Status");
-            status_cmb.Items.Add("Belum Diverifikasi");
-            status_cmb.Items.Add("Disetujui");
-            status_cmb.Items.Add("Ditolak");
+            status_cmb.Items.Add("sangat_miskin");
+            status_cmb.Items.Add("miskin");
+            status_cmb.Items.Add("rentan");
             status_cmb.SelectedIndex = 0;
         }
 
@@ -107,11 +107,15 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string status = status_cmb.SelectedItem.ToString();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar";
+                    string query;
 
-                    if (status != "Semua Status")
+                    if (status == "Semua Status")
                     {
-                        query += " WHERE status = @status";
+                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk";
+                    }
+                    else
+                    {
+                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk WHERE status_ekonomi = @status";
                     }
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -119,7 +123,6 @@ namespace SIBANTUAN.Forms.Petugas
                     {
                         cmd.Parameters.AddWithValue("@status", status);
                     }
-
                     MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -133,8 +136,8 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nama_lengkap"].ToString(),
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
-                            row["status"].ToString()
+                            Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
+                            row["status_ekonomi"].ToString()
                         );
                     }
                 }
@@ -153,7 +156,7 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string searchTerm = cari_tb.Text;
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, tgl_daftar, status FROM pendaftar WHERE nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm";
+                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk WHERE nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@searchTerm", "%" + searchTerm + "%");
@@ -171,8 +174,8 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nama_lengkap"].ToString(),
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
-                            row["tgl_daftar"].ToString(),
-                            row["status"].ToString()
+                            Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
+                            row["status_ekonomi"].ToString()
                         );
                     }
                 }
@@ -183,7 +186,7 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -206,7 +209,10 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nik, tgl_lahir, alamat, kelurahan, nama_lengkap, jenis_kelamin, rt_rw FROM pendaftar WHERE nik = @nik";
+                    string query = @"SELECT nik, tanggal_lahir, alamat, nama_lengkap, jenis_kelamin,
+                                            status_ekonomi, kelurahan, rt_rw, nomor_telepon
+                                     FROM penduduk
+                                     WHERE nik = @nik";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@nik", nik);
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -214,12 +220,13 @@ namespace SIBANTUAN.Forms.Petugas
                     if (reader.Read())
                     {
                         textBox1.Text = reader["nik"].ToString();
-                        textBox2.Text = reader["tgl_lahir"].ToString();
+                        textBox2.Text = Convert.ToDateTime(reader["tanggal_lahir"]).ToString("dd/MM/yyyy");
                         textBox3.Text = reader["alamat"].ToString();
-                        textBox4.Text = reader["kelurahan"].ToString();
-                        button1.Text = reader["nama_lengkap"].ToString();
-                        button2.Text = reader["jenis_kelamin"].ToString();
-                        button4.Text = reader["rt_rw"].ToString();
+                        textBox9.Text = reader["kelurahan"].ToString();
+                        textBox6.Text = reader["nama_lengkap"].ToString();
+                        textBox7.Text = reader["jenis_kelamin"].ToString();
+                        textBox8.Text = reader["status_ekonomi"].ToString();
+                        textBox4.Text = reader["nomor_telepon"] == DBNull.Value ? "" : reader["nomor_telepon"].ToString();
                     }
                     reader.Close();
                 }

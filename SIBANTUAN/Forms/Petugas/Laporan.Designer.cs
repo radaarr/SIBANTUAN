@@ -49,27 +49,33 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.pnlStatistik = new System.Windows.Forms.Panel();
-            this.pnlCard1 = new System.Windows.Forms.Panel();
-            this.lblCard1Title = new System.Windows.Forms.Label();
-            this.lblCard1Value = new System.Windows.Forms.Label();
-            this.pnlCard2 = new System.Windows.Forms.Panel();
-            this.lblCard2Title = new System.Windows.Forms.Label();
-            this.lblCard2Value = new System.Windows.Forms.Label();
-            this.pnlCard3 = new System.Windows.Forms.Panel();
-            this.lblCard3Title = new System.Windows.Forms.Label();
-            this.lblCard3Value = new System.Windows.Forms.Label();
-            this.pnlCard4 = new System.Windows.Forms.Panel();
-            this.lblCard4Title = new System.Windows.Forms.Label();
-            this.lblCard4Value = new System.Windows.Forms.Label();
-            this.lblStatistikTitle = new System.Windows.Forms.Label();
-            this.pnlCard5 = new System.Windows.Forms.Panel();
-            this.lblCard5Title = new System.Windows.Forms.Label();
-            this.lblCard5Value = new System.Windows.Forms.Label();
             this.pnlCard6 = new System.Windows.Forms.Panel();
             this.lblCard6Title = new System.Windows.Forms.Label();
             this.lblCard6Value = new System.Windows.Forms.Label();
+            this.pnlCard5 = new System.Windows.Forms.Panel();
+            this.lblCard5Title = new System.Windows.Forms.Label();
+            this.lblCard5Value = new System.Windows.Forms.Label();
+            this.pnlCard4 = new System.Windows.Forms.Panel();
+            this.lblCard4Title = new System.Windows.Forms.Label();
+            this.lblCard4Value = new System.Windows.Forms.Label();
+            this.pnlCard3 = new System.Windows.Forms.Panel();
+            this.lblCard3Title = new System.Windows.Forms.Label();
+            this.lblCard3Value = new System.Windows.Forms.Label();
+            this.pnlCard2 = new System.Windows.Forms.Panel();
+            this.lblCard2Title = new System.Windows.Forms.Label();
+            this.lblCard2Value = new System.Windows.Forms.Label();
+            this.pnlCard1 = new System.Windows.Forms.Panel();
+            this.lblCard1Title = new System.Windows.Forms.Label();
+            this.lblCard1Value = new System.Windows.Forms.Label();
+            this.lblStatistikTitle = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblPagination = new System.Windows.Forms.Label();
+            this.btnFirstPage = new System.Windows.Forms.Button();
+            this.btnPrev = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnLastPage = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nama_warga = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,27 +83,22 @@
             this.tgl_distribusi = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jumlah = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bentuk_bantuan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlFooter = new System.Windows.Forms.Panel();
-            this.lblFooter = new System.Windows.Forms.Label();
-            this.btnPrev = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnFirstPage = new System.Windows.Forms.Button();
-            this.btnLastPage = new System.Windows.Forms.Button();
-            this.lblPagination = new System.Windows.Forms.Label();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.pnlStatistik.SuspendLayout();
-            this.pnlCard1.SuspendLayout();
-            this.pnlCard2.SuspendLayout();
-            this.pnlCard3.SuspendLayout();
-            this.pnlCard4.SuspendLayout();
-            this.pnlCard5.SuspendLayout();
             this.pnlCard6.SuspendLayout();
+            this.pnlCard5.SuspendLayout();
+            this.pnlCard4.SuspendLayout();
+            this.pnlCard3.SuspendLayout();
+            this.pnlCard2.SuspendLayout();
+            this.pnlCard1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.pnlFooter.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -242,7 +243,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(33, 20);
+            this.label5.Location = new System.Drawing.Point(33, 34);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(83, 20);
             this.label5.TabIndex = 15;
@@ -252,7 +253,7 @@
             // 
             this.program_cmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.program_cmb.FormattingEnabled = true;
-            this.program_cmb.Location = new System.Drawing.Point(116, 17);
+            this.program_cmb.Location = new System.Drawing.Point(116, 31);
             this.program_cmb.Name = "program_cmb";
             this.program_cmb.Size = new System.Drawing.Size(160, 26);
             this.program_cmb.TabIndex = 16;
@@ -261,9 +262,9 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(310, 20);
+            this.label6.Location = new System.Drawing.Point(310, 34);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(83, 20);
+            this.label6.Size = new System.Drawing.Size(76, 20);
             this.label6.TabIndex = 17;
             this.label6.Text = "Periode :";
             // 
@@ -271,7 +272,7 @@
             // 
             this.periode_cmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.periode_cmb.FormattingEnabled = true;
-            this.periode_cmb.Location = new System.Drawing.Point(393, 17);
+            this.periode_cmb.Location = new System.Drawing.Point(393, 31);
             this.periode_cmb.Name = "periode_cmb";
             this.periode_cmb.Size = new System.Drawing.Size(160, 26);
             this.periode_cmb.TabIndex = 18;
@@ -281,7 +282,7 @@
             this.tampilkan_bt.BackColor = System.Drawing.Color.LimeGreen;
             this.tampilkan_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tampilkan_bt.ForeColor = System.Drawing.Color.White;
-            this.tampilkan_bt.Location = new System.Drawing.Point(580, 17);
+            this.tampilkan_bt.Location = new System.Drawing.Point(580, 31);
             this.tampilkan_bt.Name = "tampilkan_bt";
             this.tampilkan_bt.Size = new System.Drawing.Size(96, 26);
             this.tampilkan_bt.TabIndex = 19;
@@ -294,7 +295,7 @@
             this.cetak_bt.BackColor = System.Drawing.Color.DodgerBlue;
             this.cetak_bt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cetak_bt.ForeColor = System.Drawing.Color.White;
-            this.cetak_bt.Location = new System.Drawing.Point(690, 17);
+            this.cetak_bt.Location = new System.Drawing.Point(690, 31);
             this.cetak_bt.Name = "cetak_bt";
             this.cetak_bt.Size = new System.Drawing.Size(96, 26);
             this.cetak_bt.TabIndex = 20;
@@ -314,7 +315,7 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Location = new System.Drawing.Point(25, 138);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(957, 60);
+            this.panel3.Size = new System.Drawing.Size(957, 78);
             this.panel3.TabIndex = 22;
             // 
             // label8
@@ -323,13 +324,14 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 3);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(131, 20);
+            this.label8.Size = new System.Drawing.Size(127, 20);
             this.label8.TabIndex = 21;
             this.label8.Text = "Filter Laporan";
             // 
             // pnlStatistik
             // 
             this.pnlStatistik.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlStatistik.Controls.Add(this.panel5);
             this.pnlStatistik.Controls.Add(this.pnlCard6);
             this.pnlStatistik.Controls.Add(this.pnlCard5);
             this.pnlStatistik.Controls.Add(this.pnlCard4);
@@ -337,10 +339,182 @@
             this.pnlStatistik.Controls.Add(this.pnlCard2);
             this.pnlStatistik.Controls.Add(this.pnlCard1);
             this.pnlStatistik.Controls.Add(this.lblStatistikTitle);
-            this.pnlStatistik.Location = new System.Drawing.Point(25, 215);
+            this.pnlStatistik.Location = new System.Drawing.Point(25, 234);
             this.pnlStatistik.Name = "pnlStatistik";
-            this.pnlStatistik.Size = new System.Drawing.Size(957, 160);
+            this.pnlStatistik.Size = new System.Drawing.Size(957, 288);
             this.pnlStatistik.TabIndex = 10;
+            this.pnlStatistik.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlStatistik_Paint);
+            // 
+            // pnlCard6
+            // 
+            this.pnlCard6.BackColor = System.Drawing.Color.White;
+            this.pnlCard6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCard6.Controls.Add(this.lblCard6Title);
+            this.pnlCard6.Controls.Add(this.lblCard6Value);
+            this.pnlCard6.Location = new System.Drawing.Point(641, 162);
+            this.pnlCard6.Name = "pnlCard6";
+            this.pnlCard6.Size = new System.Drawing.Size(302, 110);
+            this.pnlCard6.TabIndex = 6;
+            // 
+            // lblCard6Title
+            // 
+            this.lblCard6Title.AutoSize = true;
+            this.lblCard6Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard6Title.ForeColor = System.Drawing.Color.Gray;
+            this.lblCard6Title.Location = new System.Drawing.Point(105, 82);
+            this.lblCard6Title.Name = "lblCard6Title";
+            this.lblCard6Title.Size = new System.Drawing.Size(93, 17);
+            this.lblCard6Title.TabIndex = 1;
+            this.lblCard6Title.Text = "Program Aktif";
+            this.lblCard6Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCard6Value
+            // 
+            this.lblCard6Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard6Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(152)))), ((int)(((byte)(0)))));
+            this.lblCard6Value.Location = new System.Drawing.Point(87, 8);
+            this.lblCard6Value.Name = "lblCard6Value";
+            this.lblCard6Value.Size = new System.Drawing.Size(127, 74);
+            this.lblCard6Value.TabIndex = 0;
+            this.lblCard6Value.Text = "2 Program";
+            this.lblCard6Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblCard6Value.Click += new System.EventHandler(this.lblCard6Value_Click);
+            // 
+            // pnlCard5
+            // 
+            this.pnlCard5.BackColor = System.Drawing.Color.White;
+            this.pnlCard5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCard5.Controls.Add(this.lblCard5Title);
+            this.pnlCard5.Controls.Add(this.lblCard5Value);
+            this.pnlCard5.Location = new System.Drawing.Point(15, 162);
+            this.pnlCard5.Name = "pnlCard5";
+            this.pnlCard5.Size = new System.Drawing.Size(302, 110);
+            this.pnlCard5.TabIndex = 5;
+            // 
+            // lblCard5Title
+            // 
+            this.lblCard5Title.AutoSize = true;
+            this.lblCard5Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard5Title.ForeColor = System.Drawing.Color.Gray;
+            this.lblCard5Title.Location = new System.Drawing.Point(76, 82);
+            this.lblCard5Title.Name = "lblCard5Title";
+            this.lblCard5Title.Size = new System.Drawing.Size(166, 17);
+            this.lblCard5Title.TabIndex = 1;
+            this.lblCard5Title.Text = "Total Anggaran Terpakai";
+            this.lblCard5Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCard5Value
+            // 
+            this.lblCard5Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard5Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.lblCard5Value.Location = new System.Drawing.Point(74, 8);
+            this.lblCard5Value.Name = "lblCard5Value";
+            this.lblCard5Value.Size = new System.Drawing.Size(145, 74);
+            this.lblCard5Value.TabIndex = 0;
+            this.lblCard5Value.Text = "Rp\r\n5.400.000";
+            this.lblCard5Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlCard4
+            // 
+            this.pnlCard4.BackColor = System.Drawing.Color.White;
+            this.pnlCard4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCard4.Controls.Add(this.lblCard4Title);
+            this.pnlCard4.Controls.Add(this.lblCard4Value);
+            this.pnlCard4.Location = new System.Drawing.Point(723, 35);
+            this.pnlCard4.Name = "pnlCard4";
+            this.pnlCard4.Size = new System.Drawing.Size(220, 110);
+            this.pnlCard4.TabIndex = 4;
+            // 
+            // lblCard4Title
+            // 
+            this.lblCard4Title.AutoSize = true;
+            this.lblCard4Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard4Title.ForeColor = System.Drawing.Color.Gray;
+            this.lblCard4Title.Location = new System.Drawing.Point(30, 82);
+            this.lblCard4Title.Name = "lblCard4Title";
+            this.lblCard4Title.Size = new System.Drawing.Size(139, 17);
+            this.lblCard4Title.TabIndex = 1;
+            this.lblCard4Title.Text = "Belum Pernah Dapat";
+            this.lblCard4Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCard4Value
+            // 
+            this.lblCard4Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard4Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(152)))), ((int)(((byte)(0)))));
+            this.lblCard4Value.Location = new System.Drawing.Point(27, 8);
+            this.lblCard4Value.Name = "lblCard4Value";
+            this.lblCard4Value.Size = new System.Drawing.Size(145, 74);
+            this.lblCard4Value.TabIndex = 0;
+            this.lblCard4Value.Text = "2";
+            this.lblCard4Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlCard3
+            // 
+            this.pnlCard3.BackColor = System.Drawing.Color.White;
+            this.pnlCard3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCard3.Controls.Add(this.lblCard3Title);
+            this.pnlCard3.Controls.Add(this.lblCard3Value);
+            this.pnlCard3.Location = new System.Drawing.Point(488, 35);
+            this.pnlCard3.Name = "pnlCard3";
+            this.pnlCard3.Size = new System.Drawing.Size(220, 110);
+            this.pnlCard3.TabIndex = 3;
+            // 
+            // lblCard3Title
+            // 
+            this.lblCard3Title.AutoSize = true;
+            this.lblCard3Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard3Title.ForeColor = System.Drawing.Color.Gray;
+            this.lblCard3Title.Location = new System.Drawing.Point(32, 82);
+            this.lblCard3Title.Name = "lblCard3Title";
+            this.lblCard3Title.Size = new System.Drawing.Size(136, 17);
+            this.lblCard3Title.TabIndex = 1;
+            this.lblCard3Title.Text = "Permohonan Ditolak";
+            this.lblCard3Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCard3Value
+            // 
+            this.lblCard3Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard3Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
+            this.lblCard3Value.Location = new System.Drawing.Point(26, 8);
+            this.lblCard3Value.Name = "lblCard3Value";
+            this.lblCard3Value.Size = new System.Drawing.Size(145, 74);
+            this.lblCard3Value.TabIndex = 0;
+            this.lblCard3Value.Text = "4";
+            this.lblCard3Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlCard2
+            // 
+            this.pnlCard2.BackColor = System.Drawing.Color.White;
+            this.pnlCard2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCard2.Controls.Add(this.lblCard2Title);
+            this.pnlCard2.Controls.Add(this.lblCard2Value);
+            this.pnlCard2.Location = new System.Drawing.Point(252, 35);
+            this.pnlCard2.Name = "pnlCard2";
+            this.pnlCard2.Size = new System.Drawing.Size(220, 110);
+            this.pnlCard2.TabIndex = 2;
+            // 
+            // lblCard2Title
+            // 
+            this.lblCard2Title.AutoSize = true;
+            this.lblCard2Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard2Title.ForeColor = System.Drawing.Color.Gray;
+            this.lblCard2Title.Location = new System.Drawing.Point(24, 82);
+            this.lblCard2Title.Name = "lblCard2Title";
+            this.lblCard2Title.Size = new System.Drawing.Size(149, 17);
+            this.lblCard2Title.TabIndex = 1;
+            this.lblCard2Title.Text = "Warga Dapat Bantuan";
+            this.lblCard2Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCard2Value
+            // 
+            this.lblCard2Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCard2Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.lblCard2Value.Location = new System.Drawing.Point(29, 8);
+            this.lblCard2Value.Name = "lblCard2Value";
+            this.lblCard2Value.Size = new System.Drawing.Size(145, 74);
+            this.lblCard2Value.TabIndex = 0;
+            this.lblCard2Value.Text = "18";
+            this.lblCard2Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlCard1
             // 
@@ -350,7 +524,7 @@
             this.pnlCard1.Controls.Add(this.lblCard1Value);
             this.pnlCard1.Location = new System.Drawing.Point(15, 35);
             this.pnlCard1.Name = "pnlCard1";
-            this.pnlCard1.Size = new System.Drawing.Size(145, 110);
+            this.pnlCard1.Size = new System.Drawing.Size(220, 110);
             this.pnlCard1.TabIndex = 1;
             // 
             // lblCard1Title
@@ -358,7 +532,7 @@
             this.lblCard1Title.AutoSize = true;
             this.lblCard1Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard1Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard1Title.Location = new System.Drawing.Point(6, 82);
+            this.lblCard1Title.Location = new System.Drawing.Point(26, 82);
             this.lblCard1Title.Name = "lblCard1Title";
             this.lblCard1Title.Size = new System.Drawing.Size(149, 17);
             this.lblCard1Title.TabIndex = 1;
@@ -369,114 +543,12 @@
             // 
             this.lblCard1Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCard1Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
-            this.lblCard1Value.Location = new System.Drawing.Point(0, 8);
+            this.lblCard1Value.Location = new System.Drawing.Point(26, 8);
             this.lblCard1Value.Name = "lblCard1Value";
             this.lblCard1Value.Size = new System.Drawing.Size(145, 74);
             this.lblCard1Value.TabIndex = 0;
             this.lblCard1Value.Text = "24";
             this.lblCard1Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pnlCard2
-            // 
-            this.pnlCard2.BackColor = System.Drawing.Color.White;
-            this.pnlCard2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCard2.Controls.Add(this.lblCard2Title);
-            this.pnlCard2.Controls.Add(this.lblCard2Value);
-            this.pnlCard2.Location = new System.Drawing.Point(175, 35);
-            this.pnlCard2.Name = "pnlCard2";
-            this.pnlCard2.Size = new System.Drawing.Size(145, 110);
-            this.pnlCard2.TabIndex = 2;
-            // 
-            // lblCard2Title
-            // 
-            this.lblCard2Title.AutoSize = true;
-            this.lblCard2Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard2Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard2Title.Location = new System.Drawing.Point(5, 82);
-            this.lblCard2Title.Name = "lblCard2Title";
-            this.lblCard2Title.Size = new System.Drawing.Size(127, 17);
-            this.lblCard2Title.TabIndex = 1;
-            this.lblCard2Title.Text = "Warga Dapat Bantuan";
-            this.lblCard2Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCard2Value
-            // 
-            this.lblCard2Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard2Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
-            this.lblCard2Value.Location = new System.Drawing.Point(0, 8);
-            this.lblCard2Value.Name = "lblCard2Value";
-            this.lblCard2Value.Size = new System.Drawing.Size(145, 74);
-            this.lblCard2Value.TabIndex = 0;
-            this.lblCard2Value.Text = "18";
-            this.lblCard2Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pnlCard3
-            // 
-            this.pnlCard3.BackColor = System.Drawing.Color.White;
-            this.pnlCard3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCard3.Controls.Add(this.lblCard3Title);
-            this.pnlCard3.Controls.Add(this.lblCard3Value);
-            this.pnlCard3.Location = new System.Drawing.Point(335, 35);
-            this.pnlCard3.Name = "pnlCard3";
-            this.pnlCard3.Size = new System.Drawing.Size(145, 110);
-            this.pnlCard3.TabIndex = 3;
-            // 
-            // lblCard3Title
-            // 
-            this.lblCard3Title.AutoSize = true;
-            this.lblCard3Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard3Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard3Title.Location = new System.Drawing.Point(8, 82);
-            this.lblCard3Title.Name = "lblCard3Title";
-            this.lblCard3Title.Size = new System.Drawing.Size(128, 17);
-            this.lblCard3Title.TabIndex = 1;
-            this.lblCard3Title.Text = "Permohonan Ditolak";
-            this.lblCard3Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCard3Value
-            // 
-            this.lblCard3Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard3Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
-            this.lblCard3Value.Location = new System.Drawing.Point(0, 8);
-            this.lblCard3Value.Name = "lblCard3Value";
-            this.lblCard3Value.Size = new System.Drawing.Size(145, 74);
-            this.lblCard3Value.TabIndex = 0;
-            this.lblCard3Value.Text = "4";
-            this.lblCard3Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pnlCard4
-            // 
-            this.pnlCard4.BackColor = System.Drawing.Color.White;
-            this.pnlCard4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCard4.Controls.Add(this.lblCard4Title);
-            this.pnlCard4.Controls.Add(this.lblCard4Value);
-            this.pnlCard4.Location = new System.Drawing.Point(495, 35);
-            this.pnlCard4.Name = "pnlCard4";
-            this.pnlCard4.Size = new System.Drawing.Size(145, 110);
-            this.pnlCard4.TabIndex = 4;
-            // 
-            // lblCard4Title
-            // 
-            this.lblCard4Title.AutoSize = true;
-            this.lblCard4Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard4Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard4Title.Location = new System.Drawing.Point(8, 82);
-            this.lblCard4Title.Name = "lblCard4Title";
-            this.lblCard4Title.Size = new System.Drawing.Size(126, 17);
-            this.lblCard4Title.TabIndex = 1;
-            this.lblCard4Title.Text = "Belum Pernah Dapat";
-            this.lblCard4Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCard4Value
-            // 
-            this.lblCard4Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard4Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(152)))), ((int)(((byte)(0)))));
-            this.lblCard4Value.Location = new System.Drawing.Point(0, 8);
-            this.lblCard4Value.Name = "lblCard4Value";
-            this.lblCard4Value.Size = new System.Drawing.Size(145, 74);
-            this.lblCard4Value.TabIndex = 0;
-            this.lblCard4Value.Text = "2";
-            this.lblCard4Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblStatistikTitle
             // 
@@ -484,104 +556,52 @@
             this.lblStatistikTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatistikTitle.Location = new System.Drawing.Point(10, 10);
             this.lblStatistikTitle.Name = "lblStatistikTitle";
-            this.lblStatistikTitle.Size = new System.Drawing.Size(385, 20);
+            this.lblStatistikTitle.Size = new System.Drawing.Size(408, 20);
             this.lblStatistikTitle.TabIndex = 0;
             this.lblStatistikTitle.Text = "Ringkasan Wilayah — RT 001/RW 001 Sukamaju";
-            // 
-            // pnlCard5
-            // 
-            this.pnlCard5.BackColor = System.Drawing.Color.White;
-            this.pnlCard5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCard5.Controls.Add(this.lblCard5Title);
-            this.pnlCard5.Controls.Add(this.lblCard5Value);
-            this.pnlCard5.Location = new System.Drawing.Point(655, 35);
-            this.pnlCard5.Name = "pnlCard5";
-            this.pnlCard5.Size = new System.Drawing.Size(145, 110);
-            this.pnlCard5.TabIndex = 5;
-            // 
-            // lblCard5Title
-            // 
-            this.lblCard5Title.AutoSize = true;
-            this.lblCard5Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard5Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard5Title.Location = new System.Drawing.Point(7, 82);
-            this.lblCard5Title.Name = "lblCard5Title";
-            this.lblCard5Title.Size = new System.Drawing.Size(132, 17);
-            this.lblCard5Title.TabIndex = 1;
-            this.lblCard5Title.Text = "Total Anggaran Terpakai";
-            this.lblCard5Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCard5Value
-            // 
-            this.lblCard5Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard5Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
-            this.lblCard5Value.Location = new System.Drawing.Point(0, 8);
-            this.lblCard5Value.Name = "lblCard5Value";
-            this.lblCard5Value.Size = new System.Drawing.Size(145, 74);
-            this.lblCard5Value.TabIndex = 0;
-            this.lblCard5Value.Text = "Rp\r\n5.400.000";
-            this.lblCard5Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pnlCard6
-            // 
-            this.pnlCard6.BackColor = System.Drawing.Color.White;
-            this.pnlCard6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCard6.Controls.Add(this.lblCard6Title);
-            this.pnlCard6.Controls.Add(this.lblCard6Value);
-            this.pnlCard6.Location = new System.Drawing.Point(815, 35);
-            this.pnlCard6.Name = "pnlCard6";
-            this.pnlCard6.Size = new System.Drawing.Size(127, 110);
-            this.pnlCard6.TabIndex = 6;
-            // 
-            // lblCard6Title
-            // 
-            this.lblCard6Title.AutoSize = true;
-            this.lblCard6Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard6Title.ForeColor = System.Drawing.Color.Gray;
-            this.lblCard6Title.Location = new System.Drawing.Point(10, 82);
-            this.lblCard6Title.Name = "lblCard6Title";
-            this.lblCard6Title.Size = new System.Drawing.Size(103, 17);
-            this.lblCard6Title.TabIndex = 1;
-            this.lblCard6Title.Text = "Program Aktif";
-            this.lblCard6Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCard6Value
-            // 
-            this.lblCard6Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCard6Value.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(152)))), ((int)(((byte)(0)))));
-            this.lblCard6Value.Location = new System.Drawing.Point(0, 8);
-            this.lblCard6Value.Name = "lblCard6Value";
-            this.lblCard6Value.Size = new System.Drawing.Size(127, 74);
-            this.lblCard6Value.TabIndex = 0;
-            this.lblCard6Value.Text = "2 Program";
-            this.lblCard6Value.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.lblPagination);
+            this.panel4.Controls.Add(this.btnFirstPage);
+            this.panel4.Controls.Add(this.btnPrev);
+            this.panel4.Controls.Add(this.btnNext);
+            this.panel4.Controls.Add(this.btnLastPage);
             this.panel4.Controls.Add(this.btnRefresh);
             this.panel4.Controls.Add(this.btnExport);
-            this.panel4.Controls.Add(this.lblPagination);
-            this.panel4.Controls.Add(this.btnLastPage);
-            this.panel4.Controls.Add(this.btnNext);
-            this.panel4.Controls.Add(this.btnPrev);
-            this.panel4.Controls.Add(this.btnFirstPage);
             this.panel4.Controls.Add(this.dataGridView1);
             this.panel4.Controls.Add(this.label9);
-            this.panel4.Location = new System.Drawing.Point(25, 390);
+            this.panel4.Location = new System.Drawing.Point(25, 546);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(957, 350);
             this.panel4.TabIndex = 24;
             // 
-            // label9
+            // btnRefresh
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(3, 5);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(263, 20);
-            this.label9.TabIndex = 22;
-            this.label9.Text = "Detail Laporan Per Warga";
+            this.btnRefresh.BackColor = System.Drawing.Color.White;
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnRefresh.Location = new System.Drawing.Point(152, 280);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(80, 27);
+            this.btnRefresh.TabIndex = 30;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.LimeGreen;
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.White;
+            this.btnExport.Location = new System.Drawing.Point(35, 280);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(110, 27);
+            this.btnExport.TabIndex = 29;
+            this.btnExport.Text = "Export Excel";
+            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // dataGridView1
             // 
@@ -641,116 +661,111 @@
             this.bentuk_bantuan.HeaderText = "Bentuk";
             this.bentuk_bantuan.MinimumWidth = 6;
             this.bentuk_bantuan.Name = "bentuk_bantuan";
-            this.bentuk_bantuan.Width = 100;
-            // 
-            // pnlFooter
-            // 
-            this.pnlFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.pnlFooter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlFooter.Controls.Add(this.lblFooter);
-            this.pnlFooter.Location = new System.Drawing.Point(0, 745);
-            this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(1000, 25);
-            this.pnlFooter.TabIndex = 13;
-            // 
-            // lblFooter
-            // 
-            this.lblFooter.AutoSize = true;
-            this.lblFooter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFooter.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblFooter.Location = new System.Drawing.Point(10, 5);
-            this.lblFooter.Name = "lblFooter";
-            this.lblFooter.Size = new System.Drawing.Size(598, 17);
-            this.lblFooter.TabIndex = 0;
-            this.lblFooter.Text = "● Terhubung     Laporan Wilayah — RT 001/RW 001 Sukamaju                         4 data ditampilkan";
-            // 
-            // btnPrev
-            // 
-            this.btnPrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrev.Location = new System.Drawing.Point(553, 280);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(32, 27);
-            this.btnPrev.TabIndex = 24;
-            this.btnPrev.Text = "◄";
-            this.btnPrev.UseVisualStyleBackColor = true;
-            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
-            // 
-            // btnNext
-            // 
-            this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.Location = new System.Drawing.Point(621, 280);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(32, 27);
-            this.btnNext.TabIndex = 25;
-            this.btnNext.Text = "►";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
-            // btnFirstPage
-            // 
-            this.btnFirstPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFirstPage.Location = new System.Drawing.Point(521, 280);
-            this.btnFirstPage.Name = "btnFirstPage";
-            this.btnFirstPage.Size = new System.Drawing.Size(32, 27);
-            this.btnFirstPage.TabIndex = 26;
-            this.btnFirstPage.Text = "◄◄";
-            this.btnFirstPage.UseVisualStyleBackColor = true;
-            this.btnFirstPage.Click += new System.EventHandler(this.btnFirstPage_Click);
-            // 
-            // btnLastPage
-            // 
-            this.btnLastPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLastPage.Location = new System.Drawing.Point(653, 280);
-            this.btnLastPage.Name = "btnLastPage";
-            this.btnLastPage.Size = new System.Drawing.Size(32, 27);
-            this.btnLastPage.TabIndex = 27;
-            this.btnLastPage.Text = "►►";
-            this.btnLastPage.UseVisualStyleBackColor = true;
-            this.btnLastPage.Click += new System.EventHandler(this.btnLastPage_Click);
             // 
             // lblPagination
             // 
             this.lblPagination.AutoSize = true;
             this.lblPagination.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPagination.Location = new System.Drawing.Point(693, 285);
+            this.lblPagination.Location = new System.Drawing.Point(400, 285);
             this.lblPagination.Name = "lblPagination";
-            this.lblPagination.Size = new System.Drawing.Size(128, 18);
-            this.lblPagination.TabIndex = 28;
+            this.lblPagination.Size = new System.Drawing.Size(88, 18);
+            this.lblPagination.TabIndex = 31;
             this.lblPagination.Text = "Halaman 1 dari 1";
             // 
-            // btnExport
+            // btnFirstPage
             // 
-            this.btnExport.BackColor = System.Drawing.Color.LimeGreen;
-            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.ForeColor = System.Drawing.Color.White;
-            this.btnExport.Location = new System.Drawing.Point(35, 280);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(110, 27);
-            this.btnExport.TabIndex = 29;
-            this.btnExport.Text = "Export Excel";
-            this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.btnFirstPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFirstPage.Location = new System.Drawing.Point(520, 280);
+            this.btnFirstPage.Name = "btnFirstPage";
+            this.btnFirstPage.Size = new System.Drawing.Size(50, 27);
+            this.btnFirstPage.TabIndex = 28;
+            this.btnFirstPage.Text = "<<";
+            this.btnFirstPage.UseVisualStyleBackColor = true;
+            this.btnFirstPage.Click += new System.EventHandler(this.btnFirstPage_Click);
             // 
-            // btnRefresh
+            // btnPrev
             // 
-            this.btnRefresh.BackColor = System.Drawing.Color.White;
-            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnRefresh.Location = new System.Drawing.Point(152, 280);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(80, 27);
-            this.btnRefresh.TabIndex = 30;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = false;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.btnPrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrev.Location = new System.Drawing.Point(570, 280);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(50, 27);
+            this.btnPrev.TabIndex = 27;
+            this.btnPrev.Text = "<";
+            this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNext.Location = new System.Drawing.Point(620, 280);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(50, 27);
+            this.btnNext.TabIndex = 26;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnLastPage
+            // 
+            this.btnLastPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLastPage.Location = new System.Drawing.Point(670, 280);
+            this.btnLastPage.Name = "btnLastPage";
+            this.btnLastPage.Size = new System.Drawing.Size(50, 27);
+            this.btnLastPage.TabIndex = 25;
+            this.btnLastPage.Text = ">>";
+            this.btnLastPage.UseVisualStyleBackColor = true;
+            this.btnLastPage.Click += new System.EventHandler(this.btnLastPage_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(3, 5);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(228, 20);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Detail Laporan Per Warga";
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.label7);
+            this.panel5.Controls.Add(this.label10);
+            this.panel5.Location = new System.Drawing.Point(328, 162);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(304, 110);
+            this.panel5.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Gray;
+            this.label7.Location = new System.Drawing.Point(73, 82);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(166, 17);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Total Anggaran Terpakai";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.label10.Location = new System.Drawing.Point(81, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(145, 74);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Rp\r\n5.400.000";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Laporan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 770);
-            this.Controls.Add(this.pnlFooter);
+            this.ClientSize = new System.Drawing.Size(1000, 930);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.pnlStatistik);
             this.Controls.Add(this.panel3);
@@ -771,25 +786,24 @@
             this.panel3.PerformLayout();
             this.pnlStatistik.ResumeLayout(false);
             this.pnlStatistik.PerformLayout();
-            this.pnlCard1.ResumeLayout(false);
-            this.pnlCard1.PerformLayout();
-            this.pnlCard2.ResumeLayout(false);
-            this.pnlCard2.PerformLayout();
-            this.pnlCard3.ResumeLayout(false);
-            this.pnlCard3.PerformLayout();
-            this.pnlCard4.ResumeLayout(false);
-            this.pnlCard4.PerformLayout();
-            this.pnlCard5.ResumeLayout(false);
-            this.pnlCard5.PerformLayout();
             this.pnlCard6.ResumeLayout(false);
             this.pnlCard6.PerformLayout();
+            this.pnlCard5.ResumeLayout(false);
+            this.pnlCard5.PerformLayout();
+            this.pnlCard4.ResumeLayout(false);
+            this.pnlCard4.PerformLayout();
+            this.pnlCard3.ResumeLayout(false);
+            this.pnlCard3.PerformLayout();
+            this.pnlCard2.ResumeLayout(false);
+            this.pnlCard2.PerformLayout();
+            this.pnlCard1.ResumeLayout(false);
+            this.pnlCard1.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.pnlFooter.ResumeLayout(false);
-            this.pnlFooter.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -844,14 +858,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tgl_distribusi;
         private System.Windows.Forms.DataGridViewTextBoxColumn jumlah;
         private System.Windows.Forms.DataGridViewTextBoxColumn bentuk_bantuan;
-        private System.Windows.Forms.Panel pnlFooter;
-        private System.Windows.Forms.Label lblFooter;
-        private System.Windows.Forms.Button btnPrev;
-        private System.Windows.Forms.Button btnNext;
-        private System.Windows.Forms.Button btnFirstPage;
-        private System.Windows.Forms.Button btnLastPage;
-        private System.Windows.Forms.Label lblPagination;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblPagination;
+        private System.Windows.Forms.Button btnFirstPage;
+        private System.Windows.Forms.Button btnPrev;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnLastPage;
     }
 }

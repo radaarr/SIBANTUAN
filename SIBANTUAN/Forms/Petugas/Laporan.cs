@@ -81,15 +81,15 @@ namespace SIBANTUAN.Forms.Petugas
                     lblCard1Value.Text = cmd1.ExecuteScalar().ToString();
 
                     // Warga Dapat Bantuan
-                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT p.penduduk_id) FROM distribusi d JOIN permohonan p ON d.permohonan_id = p.id", conn);
+                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT id_pendaftar) FROM distribusi", conn);
                     lblCard2Value.Text = cmd2.ExecuteScalar().ToString();
 
                     // Permohonan Ditolak
-                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan WHERE status_permohonan = 'ditolak'", conn);
+                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan WHERE status = 'Ditolak'", conn);
                     lblCard3Value.Text = cmd3.ExecuteScalar().ToString();
 
                     // Belum Pernah Dapat
-                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE id NOT IN (SELECT DISTINCT p.penduduk_id FROM distribusi d JOIN permohonan p ON d.permohonan_id = p.id)", conn);
+                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM pendaftar WHERE id_pendaftar NOT IN (SELECT DISTINCT id_pendaftar FROM distribusi)", conn);
                     lblCard4Value.Text = cmd4.ExecuteScalar().ToString();
 
                     // Total Anggaran Terpakai
@@ -118,20 +118,15 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string query = @"SELECT 
-                                      d.id AS id_distribusi,
+                                      d.id_distribusi,
                                       pd.nama_lengkap,
-                                      pb.nama_program,
+                                      pr.nama_program,
                                       d.tanggal_distribusi,
                                       d.jumlah_bantuan,
-                                      CASE 
-                                        WHEN d.bentuk_bantuan = 'uang_tunai' THEN 'Uang Tunai'
-                                        WHEN d.bentuk_bantuan = 'sembako' THEN 'Sembako'
-                                        WHEN d.bentuk_bantuan = 'voucher' THEN 'Voucher'
-                                      END AS bentuk_bantuan
+                                      d.bentuk_bantuan
                                    FROM distribusi d
-                                   JOIN permohonan p ON d.permohonan_id = p.id
-                                   JOIN penduduk pd ON p.penduduk_id = pd.id
-                                   JOIN program_bantuan pb ON p.program_id = pb.id
+                                   JOIN pendaftar pd ON d.id_pendaftar = pd.id_pendaftar
+                                   JOIN program pr ON d.id_program = pr.id_program
                                    ORDER BY d.tanggal_distribusi DESC";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
@@ -298,5 +293,20 @@ namespace SIBANTUAN.Forms.Petugas
         private void distribusi_bt_Click(object sender, EventArgs e) { new Distribusi().ShowDialog(); }
         private void laporan_bt_Click(object sender, EventArgs e) { /* already here */ }
         private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
+
+        private void lblFooter_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlStatistik_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblCard6Value_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
