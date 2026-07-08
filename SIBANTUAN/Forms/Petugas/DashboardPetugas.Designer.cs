@@ -65,8 +65,6 @@
             this.btnMenuPermohonan = new System.Windows.Forms.Button();
             this.btnMenuVerifikasi = new System.Windows.Forms.Button();
             this.lblMenuCepatTitle = new System.Windows.Forms.Label();
-            this.pnlFooter = new System.Windows.Forms.Panel();
-            this.lblFooter = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.pnlStatistik.SuspendLayout();
             this.pnlCard4.SuspendLayout();
@@ -75,7 +73,6 @@
             this.pnlCard1.SuspendLayout();
             this.pnlNotifikasi.SuspendLayout();
             this.pnlMenuCepat.SuspendLayout();
-            this.pnlFooter.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -519,35 +516,12 @@
             this.lblMenuCepatTitle.TabIndex = 0;
             this.lblMenuCepatTitle.Text = "Menu Cepat";
             // 
-            // pnlFooter
-            // 
-            this.pnlFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.pnlFooter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlFooter.Controls.Add(this.lblFooter);
-            this.pnlFooter.Location = new System.Drawing.Point(0, 665);
-            this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(900, 35);
-            this.pnlFooter.TabIndex = 13;
-            // 
-            // lblFooter
-            // 
-            this.lblFooter.AutoSize = true;
-            this.lblFooter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFooter.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblFooter.Location = new System.Drawing.Point(10, 10);
-            this.lblFooter.Name = "lblFooter";
-            this.lblFooter.Size = new System.Drawing.Size(598, 17);
-            this.lblFooter.TabIndex = 0;
-            this.lblFooter.Text = "● Terhubung     Petugas RT 01 — RT 001/RW 001 Sukamaju                         SI" +
-    "BANTUAN v1.0";
-            // 
             // DashboardPetugas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(900, 700);
-            this.Controls.Add(this.pnlFooter);
+            this.ClientSize = new System.Drawing.Size(898, 611);
             this.Controls.Add(this.pnlMenuCepat);
             this.Controls.Add(this.pnlNotifikasi);
             this.Controls.Add(this.pnlStatistik);
@@ -561,7 +535,10 @@
             this.Controls.Add(this.verifikasi_bt);
             this.Controls.Add(this.dashboard_bt);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "DashboardPetugas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SIBANTUAN — Dashboard Petugas";
             this.Load += new System.EventHandler(this.DashboardPetugas_Load);
             this.panel1.ResumeLayout(false);
@@ -580,8 +557,6 @@
             this.pnlNotifikasi.PerformLayout();
             this.pnlMenuCepat.ResumeLayout(false);
             this.pnlMenuCepat.PerformLayout();
-            this.pnlFooter.ResumeLayout(false);
-            this.pnlFooter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -626,7 +601,5 @@
         private System.Windows.Forms.Button btnMenuPermohonan;
         private System.Windows.Forms.Button btnMenuDistribusi;
         private System.Windows.Forms.Button btnMenuLaporan;
-        private System.Windows.Forms.Panel pnlFooter;
-        private System.Windows.Forms.Label lblFooter;
     }
 }

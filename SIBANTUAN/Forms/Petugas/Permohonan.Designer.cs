@@ -60,7 +60,8 @@
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -81,8 +82,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -398,12 +397,14 @@
             this.status_ekonomi.HeaderText = "Stat. Ekonomi";
             this.status_ekonomi.MinimumWidth = 6;
             this.status_ekonomi.Name = "status_ekonomi";
+            this.status_ekonomi.Width = 125;
             // 
             // status
             // 
             this.status.HeaderText = "Status";
             this.status.MinimumWidth = 6;
             this.status.Name = "status";
+            this.status.Width = 125;
             // 
             // panel4
             // 
@@ -419,7 +420,6 @@
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.textBox9);
-            this.panel5.Controls.Add(this.label21);
             this.panel5.Controls.Add(this.label20);
             this.panel5.Controls.Add(this.button3);
             this.panel5.Controls.Add(this.button2);
@@ -446,17 +446,26 @@
             this.panel5.Size = new System.Drawing.Size(856, 304);
             this.panel5.TabIndex = 26;
             // 
-            // label21
+            // textBox9
             // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(473, 266);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(355, 18);
-            this.label21.TabIndex = 26;
-            this.label21.Text = "Dipilih: Ahmad Fauzi | Pending: 2 permohonan";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.label21.Click += new System.EventHandler(this.label21_Click);
+            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox9.Location = new System.Drawing.Point(28, 199);
+            this.textBox9.Multiline = true;
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(800, 40);
+            this.textBox9.TabIndex = 27;
+            this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(3, 5);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(157, 18);
+            this.label20.TabIndex = 25;
+            this.label20.Text = "Detail Permohonan ";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // button3
             // 
@@ -467,6 +476,7 @@
             this.button3.TabIndex = 19;
             this.button3.Text = "Reset";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -479,6 +489,7 @@
             this.button2.TabIndex = 18;
             this.button2.Text = "Tolak";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -491,6 +502,7 @@
             this.button1.TabIndex = 17;
             this.button1.Text = "Setujui";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox8
             // 
@@ -646,30 +658,12 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Nama Warga";
             // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(3, 5);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(269, 18);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "Detail Permohonan — Ahmad Fauzi";
-            // 
-            // textBox9
-            // 
-            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(28, 199);
-            this.textBox9.Multiline = true;
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(800, 40);
-            this.textBox9.TabIndex = 27;
-            this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
-            // 
             // Permohonan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(894, 838);
             this.Controls.Add(this.panel5);

@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="FormHelper.cs" />
     <Compile Include="Forms\Login\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

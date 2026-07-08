@@ -25,9 +25,32 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void Laporan_Load(object sender, EventArgs e)
         {
-            LoadFilterData();
-            LoadStatistics();
-            LoadLaporanData();
+            try
+            {
+                // Form sizing sudah dikonfigurasi di Designer (FixedSingle, CenterScreen)
+                // FormHelper.SetFullscreenMode(this);
+
+                Panel footerPanel = this.Controls["pnlFooter"] as Panel;
+                FormHelper.SetPanelDocking(panel1, null, footerPanel);
+                FormHelper.SetDataGridViewResponsive(dataGridView1);
+
+                // Set Anchor untuk responsiveness
+                foreach (Control ctrl in this.Controls)
+                {
+                    if (ctrl is Panel || ctrl is DataGridView)
+                    {
+                        ctrl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+                    }
+                }
+
+                LoadFilterData();
+                LoadStatistics();
+                LoadLaporanData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error di Laporan_Load: " + ex.Message);
+            }
         }
 
         private void LoadFilterData()
@@ -78,29 +101,34 @@ namespace SIBANTUAN.Forms.Petugas
 
                     // Total Warga Terdaftar
                     MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk", conn);
-                    lblCard1Value.Text = cmd1.ExecuteScalar().ToString();
+                    object result1 = cmd1.ExecuteScalar();
+                    lblCard1Value.Text = result1 != null ? result1.ToString() : "0";
 
-                    // Warga Dapat Bantuan
+                    // Warga Dapat Bantuan (Pendaftar yang sudah menerima distribusi)
                     MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT id_pendaftar) FROM distribusi", conn);
-                    lblCard2Value.Text = cmd2.ExecuteScalar().ToString();
+                    object result2 = cmd2.ExecuteScalar();
+                    lblCard2Value.Text = result2 != null ? result2.ToString() : "0";
 
                     // Permohonan Ditolak
                     MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan WHERE status = 'Ditolak'", conn);
-                    lblCard3Value.Text = cmd3.ExecuteScalar().ToString();
+                    object result3 = cmd3.ExecuteScalar();
+                    lblCard3Value.Text = result3 != null ? result3.ToString() : "0";
 
-                    // Belum Pernah Dapat
-                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM pendaftar WHERE id_pendaftar NOT IN (SELECT DISTINCT id_pendaftar FROM distribusi)", conn);
-                    lblCard4Value.Text = cmd4.ExecuteScalar().ToString();
+                    // Belum Pernah Dapat (Pendaftar yang belum menerima distribusi)
+                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(DISTINCT pd.id_pendaftar) FROM pendaftar pd WHERE pd.id_pendaftar NOT IN (SELECT DISTINCT id_pendaftar FROM distribusi)", conn);
+                    object result4 = cmd4.ExecuteScalar();
+                    lblCard4Value.Text = result4 != null ? result4.ToString() : "0";
 
                     // Total Anggaran Terpakai
                     MySqlCommand cmd5 = new MySqlCommand("SELECT COALESCE(SUM(jumlah_bantuan), 0) FROM distribusi", conn);
-                    object result = cmd5.ExecuteScalar();
-                    long totalAnggaran = Convert.ToInt64(result);
-                    lblCard5Value.Text = "Rp\n" + string.Format("{0:N0}", totalAnggaran);
+                    object result5 = cmd5.ExecuteScalar();
+                    long totalAnggaran = result5 != null ? Convert.ToInt64(result5) : 0;
+                    lblCard5Value.Text = "Rp " + string.Format("{0:N0}", totalAnggaran);
 
                     // Program Aktif
                     MySqlCommand cmd6 = new MySqlCommand("SELECT COUNT(*) FROM program WHERE status = 'Aktif'", conn);
-                    int programCount = Convert.ToInt32(cmd6.ExecuteScalar());
+                    object result6 = cmd6.ExecuteScalar();
+                    int programCount = result6 != null ? Convert.ToInt32(result6) : 0;
                     lblCard6Value.Text = programCount + " Program";
                 }
             }
@@ -149,7 +177,6 @@ namespace SIBANTUAN.Forms.Petugas
 
             if (dataTable == null || dataTable.Rows.Count == 0)
             {
-                lblPagination.Text = "Halaman 1 dari 1";
                 return;
             }
 
@@ -169,13 +196,6 @@ namespace SIBANTUAN.Forms.Petugas
                     row["bentuk_bantuan"].ToString()
                 );
             }
-
-            int totalPages = (totalRecords + pageSize - 1) / pageSize;
-            lblPagination.Text = $"Halaman {currentPage} dari {totalPages}";
-            btnFirstPage.Enabled = currentPage > 1;
-            btnPrev.Enabled = currentPage > 1;
-            btnNext.Enabled = currentPage < totalPages;
-            btnLastPage.Enabled = currentPage < totalPages;
         }
 
         private void tampilkan_bt_Click(object sender, EventArgs e)
@@ -287,10 +307,85 @@ namespace SIBANTUAN.Forms.Petugas
             MessageBox.Show("Data telah diperbarui");
         }
 
-        private void dashboard_bt_Click(object sender, EventArgs e) { new DashboardPetugas(0, "Petugas").ShowDialog(); }
-        private void verifikasi_bt_Click(object sender, EventArgs e) { new Verifikasi().ShowDialog(); }
-        private void permohonan_bt_Click(object sender, EventArgs e) { new Permohonan().ShowDialog(); }
-        private void distribusi_bt_Click(object sender, EventArgs e) { new Distribusi().ShowDialog(); }
+        private void dashboard_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    DashboardPetugas.Instance.ShowContentControls();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void verifikasi_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Verifikasi form = new Verifikasi();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void permohonan_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Permohonan form = new Permohonan();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void distribusi_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Distribusi form = new Distribusi();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void laporan_bt_Click(object sender, EventArgs e) { /* already here */ }
         private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
 
@@ -305,6 +400,11 @@ namespace SIBANTUAN.Forms.Petugas
         }
 
         private void lblCard6Value_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblStatistikTitle_Click(object sender, EventArgs e)
         {
 
         }

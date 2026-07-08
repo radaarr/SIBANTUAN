@@ -63,8 +63,32 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void Form_Load(object sender, EventArgs e)
         {
-            LoadStatusFilter();
-            LoadData();
+            try
+            {
+                // Form sizing sudah dikonfigurasi di Designer (FixedSingle, CenterScreen)
+                // FormHelper.SetFullscreenMode(this);
+
+                Panel footerPanel = this.Controls["pnlFooter"] as Panel;
+                FormHelper.SetPanelDocking(panel1, null, footerPanel);
+                FormHelper.SetDataGridViewResponsive(dataGridView1);
+
+                // Set Anchor untuk semua panel agar responsive
+                foreach (Control ctrl in this.Controls)
+                {
+                    if (ctrl is Panel || ctrl is DataGridView)
+                    {
+                        ctrl.Anchor = AnchorStyles.Top | AnchorStyles.Left | 
+                                     AnchorStyles.Right | AnchorStyles.Bottom;
+                    }
+                }
+
+                LoadStatusFilter();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error di Form_Load: " + ex.Message);
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -237,16 +261,181 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) // Setujui
         {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Silakan pilih pendaftar terlebih dahulu");
+                return;
+            }
 
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string nik = textBox1.Text;
+
+                    string query = "UPDATE penduduk SET status_verifikasi = 'Disetujui' WHERE nik = @nik";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nik", nik);
+                    int result = cmd.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Pendaftar berhasil disetujui");
+                        ClearDetailForm();
+                        LoadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mengupdate pendaftar");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
-        private void dashboard_bt_Click(object sender, EventArgs e) { new DashboardPetugas(0, "Petugas").ShowDialog(); }
+        private void button6_Click(object sender, EventArgs e) // Tolak
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Silakan pilih pendaftar terlebih dahulu");
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string nik = textBox1.Text;
+
+                    string catatan = textBox5.Text.Length > 0 ? textBox5.Text : "Tidak memenuhi kriteria";
+                    string query = "UPDATE penduduk SET status_verifikasi = 'Ditolak', catatan_verifikasi = @catatan WHERE nik = @nik";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@catatan", catatan);
+                    cmd.Parameters.AddWithValue("@nik", nik);
+                    int result = cmd.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Pendaftar berhasil ditolak");
+                        ClearDetailForm();
+                        LoadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mengupdate pendaftar");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void ClearDetailForm()
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox6.Clear();
+            textBox7.Clear();
+            textBox8.Clear();
+            textBox9.Clear();
+        }
+
+        private void button7_Click(object sender, EventArgs e) // Reset
+        {
+            ClearDetailForm();
+        }
+
+        private void dashboard_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    DashboardPetugas.Instance.ShowContentControls();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void verifikasi_bt_Click(object sender, EventArgs e) { /* already here */ }
-        private void permohonan_bt_Click(object sender, EventArgs e) { new Permohonan().ShowDialog(); }
-        private void distribus_bt_Click(object sender, EventArgs e) { new Distribusi().ShowDialog(); }
-        private void laporan_bt_Click(object sender, EventArgs e) { new Laporan().ShowDialog(); }
+        private void permohonan_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Permohonan form = new Permohonan();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void distribus_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Distribusi form = new Distribusi();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void laporan_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Laporan form = new Laporan();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
     }
 }

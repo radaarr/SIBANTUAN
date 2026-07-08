@@ -13,6 +13,8 @@ namespace SIBANTUAN.Forms.Petugas
 {
     public partial class Permohonan : Form
     {
+        private int currentPermohonanId = 0;
+
         public Permohonan()
         {
             InitializeComponent();
@@ -86,8 +88,32 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void Form_Load(object sender, EventArgs e)
         {
-            LoadStatusFilter();
-            LoadData();
+            try
+            {
+                // Form sizing sudah dikonfigurasi di Designer (FixedSingle, CenterScreen)
+                // FormHelper.SetFullscreenMode(this);
+
+                Panel footerPanel = this.Controls["pnlFooter"] as Panel;
+                FormHelper.SetPanelDocking(panel1, null, footerPanel);
+                FormHelper.SetDataGridViewResponsive(dataGridView1);
+
+                // Set Anchor untuk semua panel agar responsive
+                foreach (Control ctrl in this.Controls)
+                {
+                    if (ctrl is Panel || ctrl is DataGridView)
+                    {
+                        ctrl.Anchor = AnchorStyles.Top | AnchorStyles.Left | 
+                                     AnchorStyles.Right | AnchorStyles.Bottom;
+                    }
+                }
+
+                LoadStatusFilter();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error di Form_Load: " + ex.Message);
+            }
         }
 
         private void status_cmb_SelectedIndexChanged(object sender, EventArgs e)
@@ -225,13 +251,14 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_warga, program_bantuan, status_ekonomi, kuota_program, nik, tgl_pengajuan, alamat, periode_program FROM permohonan_view WHERE nama_warga = @nama_warga";
+                    string query = "SELECT id, nama_warga, program_bantuan, status_ekonomi, kuota_program, nik, tgl_pengajuan, alamat, periode_program FROM permohonan_view WHERE nama_warga = @nama_warga";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@nama_warga", nama_warga);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
+                        currentPermohonanId = Convert.ToInt32(reader["id"]);
                         textBox1.Text = reader["nama_warga"].ToString();
                         textBox2.Text = reader["program_bantuan"].ToString();
                         textBox3.Text = reader["status_ekonomi"].ToString();
@@ -267,11 +294,197 @@ namespace SIBANTUAN.Forms.Petugas
 
         }
 
-        private void dashboard_bt_Click(object sender, EventArgs e) { new DashboardPetugas(0, "Petugas").ShowDialog(); }
-        private void verifikasi_bt_Click(object sender, EventArgs e) { new Verifikasi().ShowDialog(); }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (currentPermohonanId == 0)
+            {
+                MessageBox.Show("Silakan pilih permohonan terlebih dahulu");
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "UPDATE permohonan SET status = 'Disetujui' WHERE id_permohonan = @id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", currentPermohonanId);
+                    int result = cmd.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Permohonan berhasil disetujui");
+                        ClearDetailForm();
+                        LoadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mengupdate permohonan");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (currentPermohonanId == 0)
+            {
+                MessageBox.Show("Silakan pilih permohonan terlebih dahulu");
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "UPDATE permohonan SET status = 'Ditolak' WHERE id_permohonan = @id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@id", currentPermohonanId);
+                    int result = cmd.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Permohonan berhasil ditolak");
+                        ClearDetailForm();
+                        LoadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mengupdate permohonan");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ClearDetailForm();
+            cari_tb.Clear();
+            status_cmb.SelectedIndex = 0;
+            program_cmb.SelectedIndex = 0;
+            LoadData();
+        }
+
+        private void ClearDetailForm()
+        {
+            currentPermohonanId = 0;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            textBox7.Clear();
+            textBox8.Clear();
+            textBox9.Clear();
+            label20.Text = "Detail Permohonan";
+            label21.Text = "Pilih data dari tabel";
+        }
+
+        private void OpenFormInPanel(Form form)
+        {
+            if (DashboardPetugas.Instance != null)
+            {
+                DashboardPetugas.Instance.ShowFormInContent(form);
+                this.Close();
+            }
+        }
+
+        private void dashboard_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    DashboardPetugas.Instance.ShowContentControls();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void verifikasi_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Verifikasi form = new Verifikasi();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void permohonan_bt_Click(object sender, EventArgs e) { /* already here */ }
-        private void distribusi_bt_Click(object sender, EventArgs e) { new Distribusi().ShowDialog(); }
-        private void laporan_bt_Click(object sender, EventArgs e) { new Laporan().ShowDialog(); }
+        private void distribusi_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Distribusi form = new Distribusi();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void laporan_bt_Click(object sender, EventArgs e) 
+        { 
+            try
+            {
+                if (DashboardPetugas.Instance != null)
+                {
+                    Laporan form = new Laporan();
+                    DashboardPetugas.Instance.ShowFormInContent(form);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Dashboard tidak ditemukan");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

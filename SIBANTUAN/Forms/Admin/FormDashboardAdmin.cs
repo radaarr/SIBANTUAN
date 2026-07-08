@@ -17,6 +17,9 @@ namespace SIBANTUAN.Forms.Admin
 
         private void FormDashboardAdmin_Load(object sender, EventArgs e)
         {
+            // Set form untuk fullscreen fit
+            FormHelper.SetFullscreenMode(this);
+
             lblWelcome.Text = "Selamat datang, " + nama;
             lblDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
         }

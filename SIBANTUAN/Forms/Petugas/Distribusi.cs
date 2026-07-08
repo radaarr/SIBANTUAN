@@ -39,16 +39,10 @@ namespace SIBANTUAN.Forms.Petugas
         private ComboBox program_cmb;
         private Label label6;
         private Panel panel5;
-        private DataGridViewTextBoxColumn no;
-        private DataGridViewTextBoxColumn nama_warga;
-        private DataGridViewTextBoxColumn program_bantuan;
-        private DataGridViewTextBoxColumn tgl_disetujui;
-        private DataGridViewTextBoxColumn status;
         private Panel panel6;
         private TextBox keterangan_tb;
         private Label label20;
         private Button button3;
-        private Button button2;
         private Button button1;
         private TextBox bentuk_bantuan_tb;
         private TextBox tgl_tb;
@@ -68,6 +62,10 @@ namespace SIBANTUAN.Forms.Petugas
         private Label label11;
         private ComboBox dicatat_cmb;
         private Label label1;
+        private DataGridViewTextBoxColumn no;
+        private DataGridViewTextBoxColumn nama_warga;
+        private DataGridViewTextBoxColumn program_bantuan;
+        private DataGridViewTextBoxColumn tgl_distribusi;
         private Label label21;
 
         public Distribusi()
@@ -77,8 +75,32 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void Distribusi_Load(object sender, EventArgs e)
         {
-            LoadProgramFilter();
-            LoadData();
+            try
+            {
+                // Form sizing sudah dikonfigurasi di Designer (FixedSingle, CenterScreen)
+                // FormHelper.SetFullscreenMode(this);
+
+                Panel footerPanel = this.Controls["pnlFooter"] as Panel;
+                FormHelper.SetPanelDocking(panel1, null, footerPanel);
+                FormHelper.SetDataGridViewResponsive(dataGridView1);
+
+                // Set Anchor untuk semua panel agar responsive
+                foreach (Control ctrl in this.Controls)
+                {
+                    if (ctrl is Panel || ctrl is DataGridView)
+                    {
+                        ctrl.Anchor = AnchorStyles.Top | AnchorStyles.Left | 
+                                     AnchorStyles.Right | AnchorStyles.Bottom;
+                    }
+                }
+
+                LoadProgramFilter();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error di Distribusi_Load: " + ex.Message);
+            }
         }
 
         private void LoadData()
@@ -295,41 +317,71 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = @"SELECT id_distribusi, nik, nama_warga, program_bantuan, 
-                                            tgl_distribusi, jumlah_bantuan, bentuk_bantuan, bukti_penerimaan, 
-                                            dicatat_oleh, keterangan 
-                                     FROM distribusi_view WHERE id_distribusi = @id";
+                    // JOIN distribusi_view dengan tabel distribusi untuk mengambil semua data
+                    string query = @"SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui,
+                                            d.jumlah_bantuan, d.bentuk_bantuan, d.bukti_penerimaan, 
+                                            d.dicatat_oleh, d.keterangan
+                                     FROM distribusi_view dv
+                                     LEFT JOIN distribusi d ON dv.id_distribusi = d.id_distribusi
+                                     WHERE dv.id_distribusi = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", idDistribusi);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
+                        // Simpan data ke variable sebelum reader ditutup
                         currentDistribusiId = Convert.ToInt32(reader["id_distribusi"]);
-                        currentPermohonanId = idDistribusi; // Gunakan id_distribusi sebagai reference
-                        nama_tb.Text = reader["nama_warga"].ToString();
-                        program_tb.Text = reader["program_bantuan"].ToString();
-                        jumlah_tb.Text = reader["jumlah_bantuan"] != DBNull.Value ? Convert.ToDecimal(reader["jumlah_bantuan"]).ToString("N0") : "";
-                        bukti_tb.Text = reader["bukti_penerimaan"].ToString();
-                        nik_tb.Text = reader["nik"].ToString();
-                        tgl_tb.Text = reader["tgl_distribusi"] != DBNull.Value ? Convert.ToDateTime(reader["tgl_distribusi"]).ToString("yyyy-MM-dd") : "";
-                        bentuk_bantuan_tb.Text = reader["bentuk_bantuan"].ToString();
-                        keterangan_tb.Text = reader["keterangan"].ToString();
+                        currentPermohonanId = idDistribusi;
+                        string namaPenerima = reader["nama_warga"].ToString();
+                        string programBantuan = reader["program_bantuan"].ToString();
+                        DateTime? tglDisetujui = reader["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(reader["tgl_disetujui"]) : (DateTime?)null;
+                        decimal jumlahBantuan = reader["jumlah_bantuan"] != DBNull.Value ? Convert.ToDecimal(reader["jumlah_bantuan"]) : 0;
+                        string bentukBantuan = reader["bentuk_bantuan"] != DBNull.Value ? reader["bentuk_bantuan"].ToString() : "";
+                        string buktiBantuan = reader["bukti_penerimaan"] != DBNull.Value ? reader["bukti_penerimaan"].ToString() : "";
+                        string dicatatOleh = reader["dicatat_oleh"] != DBNull.Value ? reader["dicatat_oleh"].ToString() : "";
+                        string keterangan = reader["keterangan"] != DBNull.Value ? reader["keterangan"].ToString() : "";
 
-                        string dicatatOleh = reader["dicatat_oleh"].ToString();
-                        if (dicatat_cmb.Items.Contains(dicatatOleh))
+                        // Isi textbox dengan data yang sudah disimpan
+                        nama_tb.Text = namaPenerima;
+                        program_tb.Text = programBantuan;
+                        tgl_tb.Text = tglDisetujui.HasValue ? tglDisetujui.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+                        jumlah_tb.Text = jumlahBantuan > 0 ? jumlahBantuan.ToString("N0") : "";
+                        bentuk_bantuan_tb.Text = bentukBantuan;
+                        bukti_tb.Text = buktiBantuan;
+                        keterangan_tb.Text = keterangan;
+
+                        // Set Dicatat Oleh combobox
+                        if (!string.IsNullOrEmpty(dicatatOleh) && dicatat_cmb.Items.Contains(dicatatOleh))
                         {
                             dicatat_cmb.SelectedItem = dicatatOleh;
                         }
+                        else
+                        {
+                            dicatat_cmb.SelectedIndex = 0;
+                        }
 
-                        label20.Text = "Form Pencatatan Distribusi — " + reader["nama_warga"].ToString();
-                        label21.Text = "Dipilih: " + reader["nama_warga"].ToString() + " | ID Distribusi: " + currentDistribusiId;
+                        reader.Close();
+
+                        // Ambil NIK dari pendaftar berdasarkan nama
+                        string queryNik = @"SELECT nik FROM pendaftar WHERE nama_lengkap = @nama LIMIT 1";
+                        MySqlCommand cmdNik = new MySqlCommand(queryNik, conn);
+                        cmdNik.Parameters.AddWithValue("@nama", namaPenerima);
+                        MySqlDataReader readerNik = cmdNik.ExecuteReader();
+                        if (readerNik.Read())
+                        {
+                            nik_tb.Text = readerNik["nik"].ToString();
+                        }
+                        readerNik.Close();
+
+                        // Gunakan variable yang sudah disimpan, bukan reader yang sudah ditutup
+                        label20.Text = "Form Pencatatan Distribusi — " + namaPenerima;
+                        label21.Text = "Dipilih: " + namaPenerima + " | ID: " + currentDistribusiId;
                     }
                     else
                     {
                         MessageBox.Show("Data distribusi tidak ditemukan.");
                     }
-                    reader.Close();
                 }
             }
             catch (Exception ex)
@@ -354,11 +406,6 @@ namespace SIBANTUAN.Forms.Petugas
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nama_warga = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.program_bantuan = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tgl_disetujui = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
@@ -374,7 +421,6 @@ namespace SIBANTUAN.Forms.Petugas
             this.keterangan_tb = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.bentuk_bantuan_tb = new System.Windows.Forms.TextBox();
             this.tgl_tb = new System.Windows.Forms.TextBox();
@@ -393,6 +439,10 @@ namespace SIBANTUAN.Forms.Petugas
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nama_warga = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.program_bantuan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tgl_distribusi = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -466,7 +516,7 @@ namespace SIBANTUAN.Forms.Petugas
             this.verifikasi_bt.Name = "verifikasi_bt";
             this.verifikasi_bt.Size = new System.Drawing.Size(118, 27);
             this.verifikasi_bt.TabIndex = 17;
-            this.verifikasi_bt.Text = "Verifikasi Warga";
+            this.verifikasi_bt.Text = "Verifikasi";
             this.verifikasi_bt.UseVisualStyleBackColor = true;
             this.verifikasi_bt.Click += new System.EventHandler(this.verifikasi_bt_Click);
             // 
@@ -484,6 +534,11 @@ namespace SIBANTUAN.Forms.Petugas
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoSize = true;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(95)))), ((int)(((byte)(138)))));
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -491,7 +546,7 @@ namespace SIBANTUAN.Forms.Petugas
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-3, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(900, 76);
+            this.panel1.Size = new System.Drawing.Size(883, 60);
             this.panel1.TabIndex = 15;
             // 
             // label4
@@ -555,8 +610,7 @@ namespace SIBANTUAN.Forms.Petugas
             this.no,
             this.nama_warga,
             this.program_bantuan,
-            this.tgl_disetujui,
-            this.status});
+            this.tgl_distribusi});
             this.dataGridView1.Location = new System.Drawing.Point(10, 31);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -566,50 +620,15 @@ namespace SIBANTUAN.Forms.Petugas
             this.dataGridView1.TabIndex = 23;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
-            // no
-            // 
-            this.no.HeaderText = "No";
-            this.no.MinimumWidth = 6;
-            this.no.Name = "no";
-            this.no.Width = 35;
-            // 
-            // nama_warga
-            // 
-            this.nama_warga.HeaderText = "Nama Warga";
-            this.nama_warga.MinimumWidth = 6;
-            this.nama_warga.Name = "nama_warga";
-            this.nama_warga.Width = 140;
-            // 
-            // program_bantuan
-            // 
-            this.program_bantuan.HeaderText = "Program Bantuan";
-            this.program_bantuan.MinimumWidth = 6;
-            this.program_bantuan.Name = "program_bantuan";
-            this.program_bantuan.Width = 150;
-            // 
-            // tgl_disetujui
-            // 
-            this.tgl_disetujui.HeaderText = "Tgl Disetujui";
-            this.tgl_disetujui.MinimumWidth = 6;
-            this.tgl_disetujui.Name = "tgl_disetujui";
-            this.tgl_disetujui.Width = 90;
-            // 
-            // status
-            // 
-            this.status.HeaderText = "Status";
-            this.status.MinimumWidth = 6;
-            this.status.Name = "status";
-            this.status.Width = 125;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(3, 5);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(232, 20);
+            this.label9.Size = new System.Drawing.Size(150, 20);
             this.label9.TabIndex = 22;
-            this.label9.Text = "Daftar Permohonan Masuk";
+            this.label9.Text = "Daftar Distribusi";
             // 
             // panel3
             // 
@@ -712,7 +731,6 @@ namespace SIBANTUAN.Forms.Petugas
             this.panel6.Controls.Add(this.keterangan_tb);
             this.panel6.Controls.Add(this.label20);
             this.panel6.Controls.Add(this.button3);
-            this.panel6.Controls.Add(this.button2);
             this.panel6.Controls.Add(this.button1);
             this.panel6.Controls.Add(this.bentuk_bantuan_tb);
             this.panel6.Controls.Add(this.tgl_tb);
@@ -766,26 +784,13 @@ namespace SIBANTUAN.Forms.Petugas
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(241, 261);
+            this.button3.Location = new System.Drawing.Point(114, 261);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(80, 28);
             this.button3.TabIndex = 19;
             this.button3.Text = "Reset";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.DarkTurquoise;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(115, 261);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 28);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Cetak Bukti";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -959,8 +964,38 @@ namespace SIBANTUAN.Forms.Petugas
             this.label21.Size = new System.Drawing.Size(135, 17);
             this.label21.TabIndex = 29;
             // 
+            // no
+            // 
+            this.no.HeaderText = "No";
+            this.no.MinimumWidth = 6;
+            this.no.Name = "no";
+            this.no.Width = 35;
+            // 
+            // nama_warga
+            // 
+            this.nama_warga.HeaderText = "Nama Warga";
+            this.nama_warga.MinimumWidth = 6;
+            this.nama_warga.Name = "nama_warga";
+            this.nama_warga.Width = 140;
+            // 
+            // program_bantuan
+            // 
+            this.program_bantuan.HeaderText = "Program Bantuan";
+            this.program_bantuan.MinimumWidth = 6;
+            this.program_bantuan.Name = "program_bantuan";
+            this.program_bantuan.Width = 150;
+            // 
+            // tgl_distribusi
+            // 
+            this.tgl_distribusi.HeaderText = "Tgl Distribusi";
+            this.tgl_distribusi.MinimumWidth = 6;
+            this.tgl_distribusi.Name = "tgl_distribusi";
+            this.tgl_distribusi.Width = 90;
+            // 
             // Distribusi
             // 
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(894, 796);
             this.Controls.Add(this.panel6);
@@ -987,6 +1022,7 @@ namespace SIBANTUAN.Forms.Petugas
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1019,7 +1055,7 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string query = @"UPDATE distribusi 
-                                    SET tgl_distribusi = @tglDistribusi,
+                                    SET tanggal_distribusi = @tglDistribusi,
                                         jumlah_bantuan = @jumlahBantuan,
                                         bentuk_bantuan = @bentukBantuan,
                                         bukti_penerimaan = @buktiBantuan,
@@ -1029,7 +1065,7 @@ namespace SIBANTUAN.Forms.Petugas
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", currentDistribusiId);
-                    cmd.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? (object)DBNull.Value : DateTime.Parse(tgl_tb.Text));
+                    cmd.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? DateTime.Now.ToString("yyyy-MM-dd") : tgl_tb.Text);
                     cmd.Parameters.AddWithValue("@jumlahBantuan", string.IsNullOrEmpty(jumlah_tb.Text) ? 0 : decimal.Parse(jumlah_tb.Text.Replace(".", "")));
                     cmd.Parameters.AddWithValue("@bentukBantuan", bentuk_bantuan_tb.Text);
                     cmd.Parameters.AddWithValue("@buktiBantuan", bukti_tb.Text);
@@ -1072,11 +1108,95 @@ namespace SIBANTUAN.Forms.Petugas
             dataGridView1.ClearSelection();
         }
 
-                 private void dashboard_bt_Click(object sender, EventArgs e) { new DashboardPetugas(0, "Petugas").ShowDialog(); }
-                 private void verifikasi_bt_Click(object sender, EventArgs e) { new Verifikasi().ShowDialog(); }
-                 private void permohonan_bt_Click(object sender, EventArgs e) { new Permohonan().ShowDialog(); }
+                 private void OpenFormInPanel(Form form)
+                 {
+                     if (DashboardPetugas.Instance != null)
+                     {
+                         DashboardPetugas.Instance.ShowFormInContent(form);
+                         this.Close();
+                     }
+                 }
+
+                 private void dashboard_bt_Click(object sender, EventArgs e) 
+                 { 
+                     try
+                     {
+                         if (DashboardPetugas.Instance != null)
+                         {
+                             DashboardPetugas.Instance.ShowContentControls();
+                             this.Close();
+                         }
+                         else
+                         {
+                             MessageBox.Show("Dashboard tidak ditemukan");
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show("Error: " + ex.Message);
+                     }
+                 }
+                 private void verifikasi_bt_Click(object sender, EventArgs e) 
+                 { 
+                     try
+                     {
+                         if (DashboardPetugas.Instance != null)
+                         {
+                             Verifikasi form = new Verifikasi();
+                             DashboardPetugas.Instance.ShowFormInContent(form);
+                             this.Close();
+                         }
+                         else
+                         {
+                             MessageBox.Show("Dashboard tidak ditemukan");
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show("Error: " + ex.Message);
+                     }
+                 }
+                 private void permohonan_bt_Click(object sender, EventArgs e) 
+                 { 
+                     try
+                     {
+                         if (DashboardPetugas.Instance != null)
+                         {
+                             Permohonan form = new Permohonan();
+                             DashboardPetugas.Instance.ShowFormInContent(form);
+                             this.Close();
+                         }
+                         else
+                         {
+                             MessageBox.Show("Dashboard tidak ditemukan");
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show("Error: " + ex.Message);
+                     }
+                 }
                  private void distribusi_bt_Click(object sender, EventArgs e) { /* already here */ }
-                 private void laporan_bt_Click(object sender, EventArgs e) { new Laporan().ShowDialog(); }
+                 private void laporan_bt_Click(object sender, EventArgs e) 
+                 { 
+                     try
+                     {
+                         if (DashboardPetugas.Instance != null)
+                         {
+                             Laporan form = new Laporan();
+                             DashboardPetugas.Instance.ShowFormInContent(form);
+                             this.Close();
+                         }
+                         else
+                         {
+                             MessageBox.Show("Dashboard tidak ditemukan");
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show("Error: " + ex.Message);
+                     }
+                 }
                  private void keluar_bt_Click(object sender, EventArgs e) { Application.Exit(); }
 
                  private void ClearDetailForm()
