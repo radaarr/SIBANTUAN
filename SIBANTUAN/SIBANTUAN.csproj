@@ -120,6 +120,7 @@
     <Compile Include="Forms\Admin\FormProgramBantuan.Designer.cs">
       <DependentUpon>FormProgramBantuan.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormHelper.cs" />
     <Compile Include="Forms\Login\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +150,45 @@
     </Compile>
     <Compile Include="Forms\Penerima\StatusPermohonan.Designer.cs">
       <DependentUpon>StatusPermohonan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Petugas\DashboardPetugas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\DashboardPetugas.Designer.cs">
+      <DependentUpon>DashboardPetugas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Petugas\Distribusi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Laporan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Laporan.Designer.cs">
+      <DependentUpon>Laporan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Petugas\Permohonan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Permohonan.Designer.cs">
+      <DependentUpon>Permohonan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Petugas\Verifikasi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Petugas\Verifikasi.Designer.cs">
+      <DependentUpon>Verifikasi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\FormDashboardAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\FormDashboardAdmin.Designer.cs">
+      <DependentUpon>FormDashboardAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Penerima\FormDashboardPenerima.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Penerima\FormDashboardPenerima.Designer.cs">
+      <DependentUpon>FormDashboardPenerima.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +221,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Penerima\StatusPermohonan.resx">
       <DependentUpon>StatusPermohonan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\DashboardPetugas.resx">
+      <DependentUpon>DashboardPetugas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Distribusi.resx">
+      <DependentUpon>Distribusi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Laporan.resx">
+      <DependentUpon>Laporan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Permohonan.resx">
+      <DependentUpon>Permohonan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Petugas\Verifikasi.resx">
+      <DependentUpon>Verifikasi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormDashboardAdmin.resx">
+      <DependentUpon>FormDashboardAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Penerima\FormDashboardPenerima.resx">
+      <DependentUpon>FormDashboardPenerima.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

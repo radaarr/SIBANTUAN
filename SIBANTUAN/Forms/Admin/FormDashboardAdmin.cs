@@ -1,22 +1,23 @@
 using System;
 using System.Windows.Forms;
 
-namespace SIBANTUAN.Forms.Penerima
+namespace SIBANTUAN.Forms.Admin
 {
-    public partial class FormDashboardPenerima : Form
+    public partial class FormDashboardAdmin : Form
     {
         private int userId;
         private string nama;
 
-        public FormDashboardPenerima(int userId, string nama)
+        public FormDashboardAdmin(int userId, string nama)
         {
             InitializeComponent();
             this.userId = userId;
             this.nama = nama;
         }
 
-        private void FormDashboardPenerima_Load(object sender, EventArgs e)
+        private void FormDashboardAdmin_Load(object sender, EventArgs e)
         {
+            // Set form untuk fullscreen fit
             FormHelper.SetFullscreenMode(this);
 
             lblWelcome.Text = "Selamat datang, " + nama;

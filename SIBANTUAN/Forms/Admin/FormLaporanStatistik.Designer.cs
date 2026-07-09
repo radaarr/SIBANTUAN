@@ -79,7 +79,7 @@
             this.dgvLaporan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLaporan.Size = new System.Drawing.Size(720, 265);
             this.dgvLaporan.TabIndex = 2;
-            this.dgvLaporan.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+
             // 
             // FormLaporanStatistik
             // 

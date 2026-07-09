@@ -2,6 +2,9 @@
 using MySqlX.XDevAPI;
 using System;
 using System.Windows.Forms;
+using SIBANTUAN.Forms.Petugas;
+using SIBANTUAN.Forms.Admin;
+using SIBANTUAN.Forms.Penerima;
 
 namespace SIBANTUAN
 {
@@ -53,32 +56,22 @@ namespace SIBANTUAN
                         string nama = reader.GetString("nama");
                         string role = reader.GetString("role");
                         reader.Close();
-                        conn.Close();
 
                         this.Hide();
 
                         if (role == "admin_pusat")
                         {
-                            // FormDashboardAdmin formAdmin = new FormDashboardAdmin(userId, nama);
-                            // formAdmin.ShowDialog();
-                            MessageBox.Show("Selamat datang Admin: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            FormDashboardAdmin formAdmin = new FormDashboardAdmin(userId, nama);
+                            formAdmin.ShowDialog();
                         }
                         else if (role == "petugas_rtrw")
                         {
-                            // FormDashboardPetugas formPetugas = new FormDashboardPetugas(userId, nama);
-                            // formPetugas.ShowDialog();
-                            MessageBox.Show("Selamat datang Petugas: " + nama, "Login Berhasil",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            DashboardPetugas dashboardPetugas = new DashboardPetugas(userId, nama);
+                            dashboardPetugas.ShowDialog();
                         }
                         else if (role == "penerima_bantuan")
                         {
-                            Session.UserId = userId;
-                            Session.Username = txtUsername.Text.Trim();
-                            Session.Nama = nama;
-                            Session.Role = role;
-
-                            Forms.Penerima.DashboardPenerima formPenerima = new Forms.Penerima.DashboardPenerima();
+                            FormDashboardPenerima formPenerima = new FormDashboardPenerima(userId, nama);
                             formPenerima.ShowDialog();
                         }
 
@@ -123,11 +116,6 @@ namespace SIBANTUAN
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void Form1_Load(object sender, EventArgs e)

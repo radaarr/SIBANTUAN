@@ -25,6 +25,7 @@ CREATE TABLE penduduk (
     nik VARCHAR(16) NOT NULL UNIQUE,
     nama_lengkap VARCHAR(100) NOT NULL,
     alamat TEXT NOT NULL,
+    nomor_telepon VARCHAR(20) DEFAULT NULL,
     rt_rw VARCHAR(10) NOT NULL,
     kelurahan VARCHAR(100) NOT NULL,
     tanggal_lahir DATE NOT NULL,
@@ -110,7 +111,7 @@ INSERT INTO program_bantuan (nama_program, deskripsi, anggaran_total, kuota_pene
 -- =============================================
 -- DATA AWAL: contoh data penduduk
 -- =============================================
-INSERT INTO penduduk (nik, nama_lengkap, alamat, rt_rw, kelurahan, tanggal_lahir, jenis_kelamin, status_ekonomi, user_id) VALUES
-('3201010101010001', 'Budi Santoso', 'Jl. Mawar No. 1', '001/001', 'Sidanegara', '1990-01-01', 'laki_laki', 'miskin', 3),
-('3201010101010002', 'Ahmad Maulana', 'Jl. Pisang No. 5', '001/001', 'Tambakreja', '1985-05-10', 'laki_laki', 'sangat_miskin', NULL),
-('3201010101010003', 'Ahmad Fauzi', 'Jl. Kenanga No. 3', '002/001', 'Donan', '1978-08-17', 'laki_laki', 'rentan', NULL);
+INSERT INTO penduduk (nik, nama_lengkap, alamat, nomor_telepon, rt_rw, kelurahan, tanggal_lahir, jenis_kelamin, status_ekonomi, user_id) VALUES
+('3201010101010001', 'Budi Santoso', 'Jl. Mawar No. 1', '081234567890', '001/001', 'Sidanegara', '1990-01-01', 'laki_laki', 'miskin', 3),
+('3201010101010002', 'Ahmad Maulana', 'Jl. Pisang No. 5', NULL, '001/001', 'Tambakreja', '1985-05-10', 'laki_laki', 'sangat_miskin', NULL),
+('3201010101010003', 'Ahmad Fauzi', 'Jl. Kenanga No. 3', NULL, '002/001', 'Donan', '1978-08-17', 'laki_laki', 'rentan', NULL);
