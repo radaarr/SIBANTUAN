@@ -29,6 +29,7 @@ namespace SIBANTUAN.Forms.Petugas
             lblGreeting.Text = "Selamat datang, " + nama + ". Ada tugas yang perlu ditindaklanjuti.";
             lblDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
             label3.Text = nama;
+            label4.Text = Session.WilayahRtRw + " - " + Session.WilayahKelurahan;
             LoadStatistics();
         }
 
@@ -40,16 +41,24 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
 
-                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk", conn);
+                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel", conn);
+                    cmd1.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd1.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard1Value.Text = cmd1.ExecuteScalar().ToString();
 
-                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE status_verifikasi = 'Belum Diverifikasi'", conn);
+                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE status_verifikasi = 'Belum Diverifikasi' AND rt_rw = @rw AND kelurahan = @kel", conn);
+                    cmd2.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd2.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard2Value.Text = cmd2.ExecuteScalar().ToString();
 
-                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan_view WHERE status = 'Pending'", conn);
+                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan_view pv JOIN penduduk p ON pv.nik = p.nik WHERE pv.status = 'Pending' AND p.rt_rw = @rw AND p.kelurahan = @kel", conn);
+                    cmd3.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd3.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard3Value.Text = cmd3.ExecuteScalar().ToString();
 
-                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM distribusi", conn);
+                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id JOIN penduduk p ON pm.penduduk_id = p.id WHERE p.rt_rw = @rw AND p.kelurahan = @kel", conn);
+                    cmd4.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd4.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard4Value.Text = cmd4.ExecuteScalar().ToString();
                 }
             }

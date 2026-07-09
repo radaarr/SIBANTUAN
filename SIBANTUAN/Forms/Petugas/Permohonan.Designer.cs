@@ -82,6 +82,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -468,18 +469,6 @@
             this.label20.Text = "Detail Permohonan ";
             this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
-            // label21
-            // 
-            this.label21 = new System.Windows.Forms.Label();
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.Gray;
-            this.label21.Location = new System.Drawing.Point(3, 28);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(135, 17);
-            this.label21.TabIndex = 29;
-            this.label21.Text = "Pilih data dari tabel";
-            // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -670,6 +659,17 @@
             this.label11.Size = new System.Drawing.Size(96, 18);
             this.label11.TabIndex = 0;
             this.label11.Text = "Nama Warga";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.Gray;
+            this.label21.Location = new System.Drawing.Point(156, 5);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(129, 17);
+            this.label21.TabIndex = 29;
+            this.label21.Text = "Pilih data dari tabel";
             // 
             // Permohonan
             // 

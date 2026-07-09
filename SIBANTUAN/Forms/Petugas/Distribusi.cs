@@ -15,6 +15,8 @@ namespace SIBANTUAN.Forms.Petugas
     {
         private int currentDistribusiId = 0;
         private int currentPermohonanId = 0;
+        private bool isNewRecord = false;
+        private Dictionary<string, int> petugasMap = new Dictionary<string, int>();
 
         private Panel panel2;
         private Button keluar_bt;
@@ -94,13 +96,29 @@ namespace SIBANTUAN.Forms.Petugas
                     }
                 }
 
+                label3.Text = Session.Nama;
+                label4.Text = Session.WilayahRtRw + " - " + Session.WilayahKelurahan;
                 LoadProgramFilter();
                 LoadData();
+
+                Button btnTambah = new Button();
+                btnTambah.Text = "Tambah Baru";
+                btnTambah.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold);
+                btnTambah.Location = new Point(panel3.Width - 220, 38);
+                btnTambah.Size = new Size(100, 27);
+                btnTambah.Click += BtnTambahDistribusi_Click;
+                panel3.Controls.Add(btnTambah);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error di Distribusi_Load: " + ex.Message);
             }
+        }
+
+        private void BtnTambahDistribusi_Click(object sender, EventArgs e)
+        {
+            ClearDetailForm();
+            isNewRecord = true;
         }
 
         private void LoadData()
@@ -110,8 +128,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT id_distribusi, nama_warga, program_bantuan, tgl_disetujui, status_permohonan AS status FROM distribusi_view";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    string query = "SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui, dv.status_permohonan AS status FROM distribusi_view dv JOIN penduduk p ON dv.nik = p.nik WHERE p.rt_rw = @rw AND p.kelurahan = @kel";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
@@ -144,7 +165,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT DISTINCT program_bantuan FROM distribusi_view";
+                    string query = "SELECT nama_program AS program_bantuan FROM program_bantuan WHERE status_program = 'aktif'";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -162,18 +183,21 @@ namespace SIBANTUAN.Forms.Petugas
 
             // Load Dicatat Oleh
             dicatat_cmb.Items.Clear();
-            dicatat_cmb.Items.Add("Pilih Petugas");
+            petugasMap.Clear();
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama FROM users WHERE role = 'petugas_rtrw' AND is_active = 1";
+                    string query = "SELECT id, nama FROM users WHERE role = 'petugas_rtrw' AND is_active = 1";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        dicatat_cmb.Items.Add(reader["nama"].ToString());
+                        int id = reader.GetInt32("id");
+                        string nama = reader.GetString("nama");
+                        petugasMap[nama] = id;
+                        dicatat_cmb.Items.Add(nama);
                     }
                     reader.Close();
                 }
@@ -182,6 +206,7 @@ namespace SIBANTUAN.Forms.Petugas
             {
                 MessageBox.Show("Error loading petugas: " + ex.Message);
             }
+            dicatat_cmb.Items.Insert(0, "Pilih Petugas");
             dicatat_cmb.SelectedIndex = 0;
         }
 
@@ -217,16 +242,18 @@ namespace SIBANTUAN.Forms.Petugas
                     conn.Open();
                     string program = program_cmb.SelectedItem.ToString();
 
-                    string query = "SELECT id_distribusi, nama_warga, program_bantuan, tgl_disetujui, status_permohonan AS status FROM distribusi_view";
+                    string query = "SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui, dv.status_permohonan AS status FROM distribusi_view dv JOIN penduduk p ON dv.nik = p.nik WHERE p.rt_rw = @rw AND p.kelurahan = @kel";
 
                     if (program != "Semua Program")
                     {
-                        query += " WHERE program_bantuan = @program";
+                        query += " AND dv.program_bantuan = @program";
                     }
 
-                    query += " ORDER BY tgl_disetujui DESC";
+                    query += " ORDER BY dv.tgl_disetujui DESC";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     if (program != "Semua Program")
                     {
                         cmd.Parameters.AddWithValue("@program", program);
@@ -263,9 +290,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT id_distribusi, nama_warga, program_bantuan, tgl_disetujui, status_permohonan AS status FROM distribusi_view WHERE nama_warga LIKE @searchTerm";
+                    string query = "SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui, dv.status_permohonan AS status FROM distribusi_view dv JOIN penduduk p ON dv.nik = p.nik WHERE dv.nama_warga LIKE @searchTerm AND p.rt_rw = @rw AND p.kelurahan = @kel";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@searchTerm", "%" + cari_tb.Text + "%");
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
@@ -317,9 +346,9 @@ namespace SIBANTUAN.Forms.Petugas
                     // JOIN distribusi_view dengan tabel distribusi untuk mengambil semua data
                     string query = @"SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui,
                                             d.jumlah_bantuan, d.bentuk_bantuan, d.bukti_penerimaan, 
-                                            d.dicatat_oleh, d.keterangan
+                                            dv.dicatat_oleh, d.keterangan
                                      FROM distribusi_view dv
-                                     LEFT JOIN distribusi d ON dv.id_distribusi = d.id_distribusi
+                                     LEFT JOIN distribusi d ON dv.id_distribusi = d.id
                                      WHERE dv.id_distribusi = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", idDistribusi);
@@ -361,7 +390,7 @@ namespace SIBANTUAN.Forms.Petugas
                         reader.Close();
 
                         // Ambil NIK dari pendaftar berdasarkan nama
-                        string queryNik = @"SELECT nik FROM pendaftar WHERE nama_lengkap = @nama LIMIT 1";
+                        string queryNik = @"SELECT nik FROM penduduk WHERE nama_lengkap = @nama LIMIT 1";
                         MySqlCommand cmdNik = new MySqlCommand(queryNik, conn);
                         cmdNik.Parameters.AddWithValue("@nama", namaPenerima);
                         MySqlDataReader readerNik = cmdNik.ExecuteReader();
@@ -1040,9 +1069,9 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (currentDistribusiId == 0)
+            if (!isNewRecord && currentDistribusiId == 0)
             {
-                MessageBox.Show("Pilih data distribusi terlebih dahulu");
+                MessageBox.Show("Pilih data distribusi terlebih dahulu, atau klik Tambah Baru");
                 return;
             }
 
@@ -1051,35 +1080,79 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = @"UPDATE distribusi 
-                                    SET tanggal_distribusi = @tglDistribusi,
-                                        jumlah_bantuan = @jumlahBantuan,
-                                        bentuk_bantuan = @bentukBantuan,
-                                        bukti_penerimaan = @buktiBantuan,
-                                        dicatat_oleh = @dicatatOleh,
-                                        keterangan = @keterangan
-                                    WHERE id_distribusi = @id";
+                    string petugasNama = dicatat_cmb.SelectedItem?.ToString() ?? "";
+                    int petugasId = petugasNama != null && petugasMap.ContainsKey(petugasNama) ? petugasMap[petugasNama] : 0;
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", currentDistribusiId);
-                    cmd.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? DateTime.Now.ToString("yyyy-MM-dd") : tgl_tb.Text);
-                    cmd.Parameters.AddWithValue("@jumlahBantuan", string.IsNullOrEmpty(jumlah_tb.Text) ? 0 : decimal.Parse(jumlah_tb.Text.Replace(".", "")));
-                    cmd.Parameters.AddWithValue("@bentukBantuan", bentuk_bantuan_tb.Text);
-                    cmd.Parameters.AddWithValue("@buktiBantuan", bukti_tb.Text);
-                    cmd.Parameters.AddWithValue("@dicatatOleh", dicatat_cmb.SelectedItem?.ToString() ?? "");
-                    cmd.Parameters.AddWithValue("@keterangan", keterangan_tb.Text);
-
-                    int result = cmd.ExecuteNonQuery();
-                    if (result > 0)
+                    if (isNewRecord)
                     {
-                        MessageBox.Show("Data distribusi berhasil disimpan");
-                        LoadData();
-                        ClearDetailForm();
+                        // Cari permohonan_id dari NIK yang terisi
+                        int permohonanId = 0;
+                        if (!string.IsNullOrEmpty(nik_tb.Text))
+                        {
+                            MySqlCommand cariPm = new MySqlCommand("SELECT id FROM permohonan WHERE penduduk_id = (SELECT id FROM penduduk WHERE nik = @nik) AND status_permohonan = 'disetujui' ORDER BY id DESC LIMIT 1", conn);
+                            cariPm.Parameters.AddWithValue("@nik", nik_tb.Text);
+                            object resultPm = cariPm.ExecuteScalar();
+                            if (resultPm != null)
+                                permohonanId = Convert.ToInt32(resultPm);
+                        }
+
+                        if (permohonanId == 0)
+                        {
+                            // Fallback: insert distribusi tanpa relasi permohonan (petugas bisa isi manual nanti)
+                            if (string.IsNullOrEmpty(nama_tb.Text) || string.IsNullOrEmpty(nik_tb.Text))
+                            {
+                                MessageBox.Show("Isi NIK dan Nama Warga terlebih dahulu");
+                                return;
+                            }
+                        }
+
+                        string insertQuery = @"INSERT INTO distribusi (permohonan_id, tanggal_distribusi, jumlah_bantuan, bentuk_bantuan, bukti_penerimaan, petugas_id, keterangan)
+                                               VALUES (@pmId, @tglDistribusi, @jumlahBantuan, @bentukBantuan, @buktiBantuan, @petugasId, @keterangan)";
+                        MySqlCommand cmdInsert = new MySqlCommand(insertQuery, conn);
+                        cmdInsert.Parameters.AddWithValue("@pmId", permohonanId);
+                        cmdInsert.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? DateTime.Now.ToString("yyyy-MM-dd") : tgl_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@jumlahBantuan", string.IsNullOrEmpty(jumlah_tb.Text) ? 0 : decimal.Parse(jumlah_tb.Text.Replace(".", "")));
+                        cmdInsert.Parameters.AddWithValue("@bentukBantuan", bentuk_bantuan_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@buktiBantuan", bukti_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@petugasId", petugasId);
+                        cmdInsert.Parameters.AddWithValue("@keterangan", keterangan_tb.Text);
+                        cmdInsert.ExecuteNonQuery();
+                        MessageBox.Show("Data distribusi baru berhasil disimpan");
+                        isNewRecord = false;
                     }
                     else
                     {
-                        MessageBox.Show("Gagal menyimpan data distribusi");
+                        string query = @"UPDATE distribusi 
+                                        SET tanggal_distribusi = @tglDistribusi,
+                                            jumlah_bantuan = @jumlahBantuan,
+                                            bentuk_bantuan = @bentukBantuan,
+                                            bukti_penerimaan = @buktiBantuan,
+                                            petugas_id = @petugasId,
+                                            keterangan = @keterangan
+                                        WHERE id = @id";
+
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@id", currentDistribusiId);
+                        cmd.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? DateTime.Now.ToString("yyyy-MM-dd") : tgl_tb.Text);
+                        cmd.Parameters.AddWithValue("@jumlahBantuan", string.IsNullOrEmpty(jumlah_tb.Text) ? 0 : decimal.Parse(jumlah_tb.Text.Replace(".", "")));
+                        cmd.Parameters.AddWithValue("@bentukBantuan", bentuk_bantuan_tb.Text);
+                        cmd.Parameters.AddWithValue("@buktiBantuan", bukti_tb.Text);
+                        cmd.Parameters.AddWithValue("@petugasId", petugasId);
+                        cmd.Parameters.AddWithValue("@keterangan", keterangan_tb.Text);
+
+                        int result = cmd.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Data distribusi berhasil disimpan");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Gagal menyimpan data distribusi");
+                            return;
+                        }
                     }
+                    LoadData();
+                    ClearDetailForm();
                 }
             }
             catch (Exception ex)

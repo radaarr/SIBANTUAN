@@ -16,7 +16,6 @@ namespace SIBANTUAN.Forms.Penerima
         public RiwayatBantuan()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
         }
 
         // ================================================================

@@ -60,9 +60,9 @@
             // 
             this.panel4.BackColor = System.Drawing.SystemColors.MenuBar;
             this.panel4.Controls.Add(this.label1);
-            this.panel4.Location = new System.Drawing.Point(1, 0);
+            this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1061, 58);
+            this.panel4.Size = new System.Drawing.Size(850, 45);
             this.panel4.TabIndex = 11;
             // 
             // label1
@@ -70,7 +70,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(365, 22);
+            this.label1.Location = new System.Drawing.Point(280, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(372, 25);
             this.label1.TabIndex = 0;
@@ -86,18 +86,21 @@
             this.panel1.Controls.Add(this.btnDashboard);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(1, 56);
+            this.panel1.Location = new System.Drawing.Point(0, 45);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(256, 582);
+            this.panel1.Size = new System.Drawing.Size(220, 500);
             this.panel1.TabIndex = 12;
             // 
             // btnRiwayatBantuan
             // 
+            this.btnRiwayatBantuan.FlatAppearance.BorderSize = 0;
+            this.btnRiwayatBantuan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRiwayatBantuan.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRiwayatBantuan.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnRiwayatBantuan.Location = new System.Drawing.Point(31, 314);
+            this.btnRiwayatBantuan.Location = new System.Drawing.Point(10, 280);
             this.btnRiwayatBantuan.Name = "btnRiwayatBantuan";
-            this.btnRiwayatBantuan.Size = new System.Drawing.Size(197, 35);
+            this.btnRiwayatBantuan.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnRiwayatBantuan.Size = new System.Drawing.Size(200, 40);
             this.btnRiwayatBantuan.TabIndex = 23;
             this.btnRiwayatBantuan.Text = "Riwayat Bantuan";
             this.btnRiwayatBantuan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -106,11 +109,14 @@
             // 
             // btnStatusPermohonan
             // 
+            this.btnStatusPermohonan.FlatAppearance.BorderSize = 0;
+            this.btnStatusPermohonan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStatusPermohonan.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStatusPermohonan.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnStatusPermohonan.Location = new System.Drawing.Point(31, 246);
+            this.btnStatusPermohonan.Location = new System.Drawing.Point(10, 220);
             this.btnStatusPermohonan.Name = "btnStatusPermohonan";
-            this.btnStatusPermohonan.Size = new System.Drawing.Size(197, 35);
+            this.btnStatusPermohonan.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnStatusPermohonan.Size = new System.Drawing.Size(200, 40);
             this.btnStatusPermohonan.TabIndex = 22;
             this.btnStatusPermohonan.Text = "Status Permohonan";
             this.btnStatusPermohonan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -119,11 +125,14 @@
             // 
             // btnAjukanPermohonan
             // 
+            this.btnAjukanPermohonan.FlatAppearance.BorderSize = 0;
+            this.btnAjukanPermohonan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAjukanPermohonan.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAjukanPermohonan.ForeColor = System.Drawing.Color.Indigo;
-            this.btnAjukanPermohonan.Location = new System.Drawing.Point(31, 177);
+            this.btnAjukanPermohonan.Location = new System.Drawing.Point(10, 160);
             this.btnAjukanPermohonan.Name = "btnAjukanPermohonan";
-            this.btnAjukanPermohonan.Size = new System.Drawing.Size(197, 35);
+            this.btnAjukanPermohonan.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnAjukanPermohonan.Size = new System.Drawing.Size(200, 40);
             this.btnAjukanPermohonan.TabIndex = 21;
             this.btnAjukanPermohonan.Text = "Ajukan Permohonan";
             this.btnAjukanPermohonan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -132,11 +141,14 @@
             // 
             // btnDashboard
             // 
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDashboard.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDashboard.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnDashboard.Location = new System.Drawing.Point(31, 111);
+            this.btnDashboard.Location = new System.Drawing.Point(10, 100);
             this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Size = new System.Drawing.Size(197, 35);
+            this.btnDashboard.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnDashboard.Size = new System.Drawing.Size(200, 40);
             this.btnDashboard.TabIndex = 20;
             this.btnDashboard.Text = "Dashboard";
             this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -168,10 +180,10 @@
             // lblWelcome
             // 
             this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.Location = new System.Drawing.Point(298, 81);
+            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(245, 65);
             this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(279, 28);
+            this.lblWelcome.Size = new System.Drawing.Size(340, 32);
             this.lblWelcome.TabIndex = 14;
             this.lblWelcome.Text = "Ajukan Permohonan Bantuan";
             // 
@@ -180,7 +192,7 @@
             this.lblNIK.AutoSize = true;
             this.lblNIK.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNIK.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblNIK.Location = new System.Drawing.Point(298, 109);
+            this.lblNIK.Location = new System.Drawing.Point(245, 97);
             this.lblNIK.Name = "lblNIK";
             this.lblNIK.Size = new System.Drawing.Size(346, 25);
             this.lblNIK.TabIndex = 13;
@@ -191,7 +203,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(298, 224);
+            this.label4.Location = new System.Drawing.Point(245, 165);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(275, 25);
             this.label4.TabIndex = 15;
@@ -199,11 +211,12 @@
             // 
             // cmbProgram
             // 
-            this.cmbProgram.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbProgram.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProgram.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbProgram.FormattingEnabled = true;
-            this.cmbProgram.Location = new System.Drawing.Point(303, 262);
+            this.cmbProgram.Location = new System.Drawing.Point(245, 193);
             this.cmbProgram.Name = "cmbProgram";
-            this.cmbProgram.Size = new System.Drawing.Size(714, 45);
+            this.cmbProgram.Size = new System.Drawing.Size(575, 38);
             this.cmbProgram.TabIndex = 16;
             // 
             // label5
@@ -211,7 +224,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(302, 331);
+            this.label5.Location = new System.Drawing.Point(245, 244);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(283, 25);
             this.label5.TabIndex = 17;
@@ -222,7 +235,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(302, 457);
+            this.label6.Location = new System.Drawing.Point(245, 360);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 25);
             this.label6.TabIndex = 18;
@@ -233,7 +246,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(636, 457);
+            this.label7.Location = new System.Drawing.Point(530, 360);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(135, 25);
             this.label7.TabIndex = 19;
@@ -241,48 +254,52 @@
             // 
             // txtKeterangan
             // 
-            this.txtKeterangan.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtKeterangan.Location = new System.Drawing.Point(303, 370);
+            this.txtKeterangan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtKeterangan.Location = new System.Drawing.Point(245, 272);
+            this.txtKeterangan.Multiline = true;
             this.txtKeterangan.Name = "txtKeterangan";
-            this.txtKeterangan.Size = new System.Drawing.Size(714, 62);
+            this.txtKeterangan.Size = new System.Drawing.Size(575, 70);
             this.txtKeterangan.TabIndex = 20;
             // 
             // txtNIK
             // 
-            this.txtNIK.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNIK.Location = new System.Drawing.Point(303, 485);
+            this.txtNIK.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNIK.Location = new System.Drawing.Point(245, 388);
             this.txtNIK.Name = "txtNIK";
-            this.txtNIK.Size = new System.Drawing.Size(274, 30);
+            this.txtNIK.Size = new System.Drawing.Size(260, 33);
             this.txtNIK.TabIndex = 21;
             // 
             // txtNama
             // 
-            this.txtNama.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNama.Location = new System.Drawing.Point(641, 485);
+            this.txtNama.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNama.Location = new System.Drawing.Point(530, 388);
             this.txtNama.Name = "txtNama";
-            this.txtNama.Size = new System.Drawing.Size(376, 30);
+            this.txtNama.Size = new System.Drawing.Size(290, 33);
             this.txtNama.TabIndex = 22;
             // 
             // btnKirim
             // 
-            this.btnKirim.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnKirim.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnKirim.Location = new System.Drawing.Point(301, 559);
+            this.btnKirim.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
+            this.btnKirim.FlatAppearance.BorderSize = 0;
+            this.btnKirim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKirim.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKirim.ForeColor = System.Drawing.Color.White;
+            this.btnKirim.Location = new System.Drawing.Point(245, 460);
             this.btnKirim.Name = "btnKirim";
-            this.btnKirim.Size = new System.Drawing.Size(716, 45);
+            this.btnKirim.Size = new System.Drawing.Size(575, 45);
             this.btnKirim.TabIndex = 25;
             this.btnKirim.Text = "Kirim Permohonan";
-            this.btnKirim.UseVisualStyleBackColor = true;
-            this.btnKirim.Visible = false;
+            this.btnKirim.UseVisualStyleBackColor = false;
+            this.btnKirim.Visible = true;
             this.btnKirim.Click += new System.EventHandler(this.btnKirim_Click);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.GhostWhite;
             this.panel2.Controls.Add(this.label8);
-            this.panel2.Location = new System.Drawing.Point(301, 149);
+            this.panel2.Location = new System.Drawing.Point(245, 130);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(716, 53);
+            this.panel2.Size = new System.Drawing.Size(575, 30);
             this.panel2.TabIndex = 26;
             // 
             // label8
@@ -290,22 +307,25 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Indigo;
-            this.label8.Location = new System.Drawing.Point(17, 18);
+            this.label8.Location = new System.Drawing.Point(12, 6);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(678, 21);
+            this.label8.Size = new System.Drawing.Size(553, 21);
             this.label8.TabIndex = 0;
-            this.label8.Text = "Pastikan data kependudukan kamu sudah diinput oleh Petugas RT/RW sebelum mengajuk" +
-    "an!";
+            this.label8.Text = "Pastikan data kependudukan sudah diinput oleh Petugas RT/RW sebelum mengajukan!";
             // 
             // btnClose
             // 
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnClose.Location = new System.Drawing.Point(31, 513);
+            this.btnClose.Location = new System.Drawing.Point(10, 430);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(108, 35);
+            this.btnClose.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.btnClose.Size = new System.Drawing.Size(200, 40);
             this.btnClose.TabIndex = 25;
-            this.btnClose.Text = "Close";
+            this.btnClose.Text = "Tutup";
+            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -314,7 +334,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1059, 636);
+            this.ClientSize = new System.Drawing.Size(850, 545);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnKirim);
             this.Controls.Add(this.txtNama);
@@ -329,8 +349,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblNIK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AjukanPermohonan";
-            this.Text = "AjukanPermohonan";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SIBANTUAN - Ajukan Permohonan";
             this.Load += new System.EventHandler(this.AjukanPermohonan_Load);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();

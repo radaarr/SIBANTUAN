@@ -1,9 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
+using SIBANTUAN.Forms;
 using SIBANTUAN.Forms.Petugas;
-using SIBANTUAN.Forms.Admin;
 using SIBANTUAN.Forms.Penerima;
 
 namespace SIBANTUAN
@@ -59,9 +60,37 @@ namespace SIBANTUAN
 
                         this.Hide();
 
+                        Session.UserId = userId;
+                        Session.Username = txtUsername.Text.Trim();
+                        Session.Nama = nama;
+                        Session.Role = role;
+
+                        if (role == "petugas_rtrw")
+                        {
+                            MySqlCommand wilCmd = new MySqlCommand(
+                                "SELECT id, rt_rw, kelurahan FROM penduduk " +
+                                "WHERE user_id = @uid LIMIT 1", conn);
+                            wilCmd.Parameters.AddWithValue("@uid", userId);
+                            MySqlDataReader wilReader = wilCmd.ExecuteReader();
+                            if (wilReader.Read())
+                            {
+                                Session.PendudukId = wilReader.GetInt32("id");
+                                Session.WilayahRtRw = wilReader.GetString("rt_rw");
+                                Session.WilayahKelurahan = wilReader.GetString("kelurahan");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Akun petugas belum terhubung ke data penduduk.\r\n" +
+                                    "Silakan hubungi admin untuk menautkan akun ini ke penduduk.",
+                                    "Wilayah Tidak Ditemukan",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            wilReader.Close();
+                        }
+
                         if (role == "admin_pusat")
                         {
-                            FormDashboardAdmin formAdmin = new FormDashboardAdmin(userId, nama);
+                            FormAdmin formAdmin = new FormAdmin();
                             formAdmin.ShowDialog();
                         }
                         else if (role == "petugas_rtrw")
@@ -71,7 +100,7 @@ namespace SIBANTUAN
                         }
                         else if (role == "penerima_bantuan")
                         {
-                            FormDashboardPenerima formPenerima = new FormDashboardPenerima(userId, nama);
+                            DashboardPenerima formPenerima = new DashboardPenerima();
                             formPenerima.ShowDialog();
                         }
 
@@ -120,7 +149,12 @@ namespace SIBANTUAN
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        }
 
+        private void BtnDaftar_Click(object sender, EventArgs e)
+        {
+            FormDaftar daftar = new FormDaftar();
+            daftar.ShowDialog();
         }
     }
 }

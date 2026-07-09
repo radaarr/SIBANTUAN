@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
 using System.Windows.Forms;
 
@@ -6,114 +7,159 @@ namespace SIBANTUAN.Forms.Admin
 {
     public partial class FormProgramBantuan : Form
     {
-        // Membuat DataTable global di dalam form agar data bisa ditambah, diedit, dan diubah statusnya
         private DataTable dtProgram;
+        private int selectedId = 0;
 
         public FormProgramBantuan()
         {
             InitializeComponent();
-            InisialisasiTabel();
+            LoadDataFromDatabase();
         }
 
-        // 1. Fungsi awal untuk membuat kolom tabel dan mengisi data default
-        private void InisialisasiTabel()
+        private void LoadDataFromDatabase()
         {
-            dtProgram = new DataTable();
-            dtProgram.Columns.Add("ID Program", typeof(string));
-            dtProgram.Columns.Add("Nama Program Bantuan", typeof(string));
-            dtProgram.Columns.Add("Sasaran Penerima", typeof(string));
-            dtProgram.Columns.Add("Status Program", typeof(string));
-
-            // Mengisi data awal (Dummy Data)
-            dtProgram.Rows.Add("PRG-001", "Bantuan Langsung Tunai (BLT)", "Keluarga Miskin", "Aktif");
-            dtProgram.Rows.Add("PRG-002", "Bantuan Sembako Pangan", "Lansia & Disabilitas", "Aktif");
-            dtProgram.Rows.Add("PRG-003", "Beasiswa Pendidikan SIBANTUAN", "Anak Yatim / Pelajar", "Selesai");
-
-            // Hubungkan DataTable ke DataGridView dgvProgram
-            dgvProgram.DataSource = dtProgram;
-
-            // Merapikan ukuran kolom agar memenuhi space tabel
-            dgvProgram.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProgram.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Pilih langsung 1 baris penuh saat diklik
-            dgvProgram.MultiSelect = false; // Hanya boleh pilih satu baris dalam satu waktu
-        }
-
-        // ====================================================
-        // EVENT TOMBOL TAMBAH
-        // ====================================================
-        private void btnTambah_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        // ====================================================
-        // EVENT TOMBOL EDIT
-        // ====================================================
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            // Validasi apakah user sudah memilih baris di tabel
-            if (dgvProgram.SelectedRows.Count > 0)
+            try
             {
-                // Ambil baris yang sedang aktif dipilih user
-                int indexTerpilih = dgvProgram.SelectedRows[0].Index;
-                DataRow baris = dtProgram.Rows[indexTerpilih];
-
-                // Simulasi mengubah nama program bantuan yang dipilih
-                string namaLama = baris["Nama Program Bantuan"].ToString();
-                baris["Nama Program Bantuan"] = namaLama + " (Updated)";
-                baris["Sasaran Penerima"] = "Keluarga Rentan";
-
-                MessageBox.Show("Data program berhasil diperbarui!", "Sukses Edit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Silakan klik/pilih salah satu baris di tabel terlebih dahulu untuk diedit.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        // ====================================================
-        // EVENT TOMBOL TUTUP PROGRAM
-        // ====================================================
-        private void btnTutup_Click(object sender, EventArgs e)
-        {
-            // Validasi apakah user sudah memilih baris di tabel
-            if (dgvProgram.SelectedRows.Count > 0)
-            {
-                int indexTerpilih = dgvProgram.SelectedRows[0].Index;
-                DataRow baris = dtProgram.Rows[indexTerpilih];
-
-                // Cek jika statusnya memang masih aktif
-                if (baris["Status Program"].ToString() == "Aktif")
+                using (MySqlConnection conn = DBHelper.GetConnection())
                 {
-                    DialogResult dialog = MessageBox.Show($"Apakah Anda yakin ingin menutup program '{baris["Nama Program Bantuan"]}'?",
-                        "Konfirmasi Tutup Program", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    conn.Open();
+                    string query = "SELECT id, nama_program, deskripsi, kuota_penerima, status_program FROM program_bantuan ORDER BY id";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    dtProgram = new DataTable();
+                    adapter.Fill(dtProgram);
 
-                    if (dialog == DialogResult.Yes)
+                    dgvProgram.DataSource = null;
+                    dgvProgram.Columns.Clear();
+                    dgvProgram.ColumnCount = 4;
+                    dgvProgram.Columns[0].Name = "ID";
+                    dgvProgram.Columns[1].Name = "Nama Program";
+                    dgvProgram.Columns[2].Name = "Deskripsi";
+                    dgvProgram.Columns[3].Name = "Status";
+
+                    dgvProgram.Rows.Clear();
+                    foreach (DataRow row in dtProgram.Rows)
                     {
-                        // Mengubah status program dari 'Aktif' menjadi 'Selesai' / 'Nonaktif'
-                        baris["Status Program"] = "Selesai";
-                        MessageBox.Show("Program telah berhasil ditutup/dinonaktifkan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string status = row["status_program"].ToString() == "aktif" ? "Aktif" : "Nonaktif";
+                        dgvProgram.Rows.Add(row["id"].ToString(), row["nama_program"].ToString(), row["deskripsi"].ToString(), status);
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Program ini memang sudah berstatus Selesai/Nonaktif.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dgvProgram.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dgvProgram.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dgvProgram.MultiSelect = false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Silakan pilih program pada tabel yang ingin ditutup.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
         private void btnTambah_Click_1(object sender, EventArgs e)
         {
-            
+            string nama = Microsoft.VisualBasic.Interaction.InputBox("Nama Program:", "Tambah Program", "");
+            if (string.IsNullOrEmpty(nama)) return;
+            string deskripsi = Microsoft.VisualBasic.Interaction.InputBox("Deskripsi:", "Tambah Program", "");
+            string kuota = Microsoft.VisualBasic.Interaction.InputBox("Kuota Penerima:", "Tambah Program", "100");
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "INSERT INTO program_bantuan (nama_program, deskripsi, kuota_penerima, status_program, periode_mulai, periode_selesai) VALUES (@nama, @desk, @kuota, 'aktif', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR))";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nama", nama);
+                    cmd.Parameters.AddWithValue("@desk", deskripsi);
+                    cmd.Parameters.AddWithValue("@kuota", int.TryParse(kuota, out int k) ? k : 100);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Program berhasil ditambahkan", "Sukses");
+                    LoadDataFromDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void btnEdit_Click_1(object sender, EventArgs e)
         {
+            if (dgvProgram.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Pilih program terlebih dahulu.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            string id = dgvProgram.SelectedRows[0].Cells["ID"].Value.ToString();
+            string namaLama = dgvProgram.SelectedRows[0].Cells["Nama Program"].Value.ToString();
+            string deskLama = dgvProgram.SelectedRows[0].Cells["Deskripsi"].Value.ToString();
+
+            string namaBaru = Microsoft.VisualBasic.Interaction.InputBox("Nama Program:", "Edit Program", namaLama);
+            if (string.IsNullOrEmpty(namaBaru)) return;
+            string deskBaru = Microsoft.VisualBasic.Interaction.InputBox("Deskripsi:", "Edit Program", deskLama);
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "UPDATE program_bantuan SET nama_program = @nama, deskripsi = @desk WHERE id = @id";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nama", namaBaru);
+                    cmd.Parameters.AddWithValue("@desk", deskBaru);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Program berhasil diperbarui", "Sukses");
+                    LoadDataFromDatabase();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
+
+        private void btnTutup_Click(object sender, EventArgs e)
+        {
+            if (dgvProgram.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Pilih program terlebih dahulu.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string id = dgvProgram.SelectedRows[0].Cells["ID"].Value.ToString();
+            string nama = dgvProgram.SelectedRows[0].Cells["Nama Program"].Value.ToString();
+            string status = dgvProgram.SelectedRows[0].Cells["Status"].Value.ToString();
+
+            if (status != "Aktif")
+            {
+                MessageBox.Show("Program ini sudah Nonaktif.", "Informasi");
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Tutup program '" + nama + "'?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection conn = DBHelper.GetConnection())
+                    {
+                        conn.Open();
+                        string query = "UPDATE program_bantuan SET status_program = 'nonaktif' WHERE id = @id";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Program berhasil ditutup", "Informasi");
+                        LoadDataFromDatabase();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnTambah_Click(object sender, EventArgs e) { }
+        private void btnEdit_Click(object sender, EventArgs e) { }
     }
 }

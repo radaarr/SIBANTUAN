@@ -10,6 +10,9 @@ namespace SIBANTUAN
         public static string Username { get; set; }
         public static string Nama { get; set; }
         public static string Role { get; set; }
+        public static string WilayahRtRw { get; set; }
+        public static string WilayahKelurahan { get; set; }
+        public static int? PendudukId { get; set; }
 
         public static void Clear()
         {
@@ -17,6 +20,9 @@ namespace SIBANTUAN
             Username = null;
             Nama = null;
             Role = null;
+            WilayahRtRw = null;
+            WilayahKelurahan = null;
+            PendudukId = null;
         }
     }
 }

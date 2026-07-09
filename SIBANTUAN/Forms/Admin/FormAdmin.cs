@@ -1,5 +1,7 @@
-﻿using SIBANTUAN.Forms.Admin;
+﻿using MySql.Data.MySqlClient;
+using SIBANTUAN.Forms.Admin;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,7 +16,35 @@ namespace SIBANTUAN.Forms
         {
             InitializeComponent();
             SetupModernUI();
+            AddAdminNavButtons();
             TampilkanDashboard(); // Tampilkan dashboard langsung saat aplikasi pertama kali dibuka
+        }
+
+        private void AddAdminNavButtons()
+        {
+            Button btnPenduduk = new Button();
+            btnPenduduk.Text = "Data Penduduk";
+            btnPenduduk.Dock = DockStyle.Top;
+            btnPenduduk.FlatAppearance.BorderSize = 0;
+            btnPenduduk.FlatStyle = FlatStyle.Flat;
+            btnPenduduk.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnPenduduk.ForeColor = Color.WhiteSmoke;
+            btnPenduduk.Height = 50;
+            btnPenduduk.Click += BtnPenduduk_Click;
+            panel1.Controls.Add(btnPenduduk);
+            panel1.Controls.SetChildIndex(btnPenduduk, 0);
+
+            Button btnPermohonan = new Button();
+            btnPermohonan.Text = "Permohonan";
+            btnPermohonan.Dock = DockStyle.Top;
+            btnPermohonan.FlatAppearance.BorderSize = 0;
+            btnPermohonan.FlatStyle = FlatStyle.Flat;
+            btnPermohonan.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnPermohonan.ForeColor = Color.WhiteSmoke;
+            btnPermohonan.Height = 50;
+            btnPermohonan.Click += BtnPermohonanAdmin_Click;
+            panel1.Controls.Add(btnPermohonan);
+            panel1.Controls.SetChildIndex(btnPermohonan, 0);
         }
 
         // ====================================================
@@ -155,14 +185,94 @@ namespace SIBANTUAN.Forms
 
         private void btnKelolaUser_Click(object sender, EventArgs e)
         {
-            // Pastikan FormKelolaUser sudah ada di project Anda
-            // LoadFormToMainPanel(new FormKelolaUser()); 
+            LoadFormToMainPanel(new FormKelolaUser());
         }
 
         private void btnLaporan_Click(object sender, EventArgs e)
         {
-            // Pastikan FormLaporanStatistik sudah ada di project Anda
-            // LoadFormToMainPanel(new FormLaporanStatistik());
+            LoadFormToMainPanel(new FormLaporanStatistik());
+        }
+
+        private void BtnPenduduk_Click(object sender, EventArgs e)
+        {
+            if (activeForm != null) { activeForm.Close(); activeForm = null; }
+            panel3.Controls.Clear();
+            DataGridView dgv = new DataGridView();
+            dgv.Dock = DockStyle.Fill;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+            dgv.RowHeadersVisible = false;
+            panel3.Controls.Add(dgv);
+
+            Label lbl = new Label();
+            lbl.Text = "Data Seluruh Penduduk";
+            lbl.Font = new Font("Segoe UI", 20, FontStyle.Bold);
+            lbl.Location = new Point(20, 20);
+            lbl.AutoSize = true;
+            panel3.Controls.Add(lbl);
+
+            dgv.Location = new Point(20, 70);
+            dgv.Size = new Size(panel3.Width - 40, panel3.Height - 90);
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT nik, nama_lengkap, rt_rw, kelurahan, status_ekonomi, status_verifikasi FROM penduduk ORDER BY kelurahan, rt_rw, nama_lengkap";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgv.DataSource = dt;
+                    dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void BtnPermohonanAdmin_Click(object sender, EventArgs e)
+        {
+            if (activeForm != null) { activeForm.Close(); activeForm = null; }
+            panel3.Controls.Clear();
+            DataGridView dgv = new DataGridView();
+            dgv.Dock = DockStyle.Fill;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+            dgv.RowHeadersVisible = false;
+            panel3.Controls.Add(dgv);
+
+            Label lbl = new Label();
+            lbl.Text = "Semua Permohonan";
+            lbl.Font = new Font("Segoe UI", 20, FontStyle.Bold);
+            lbl.Location = new Point(20, 20);
+            lbl.AutoSize = true;
+            panel3.Controls.Add(lbl);
+
+            dgv.Location = new Point(20, 70);
+            dgv.Size = new Size(panel3.Width - 40, panel3.Height - 90);
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = "SELECT p.nama_lengkap, p.rt_rw, p.kelurahan, pb.nama_program, pm.tanggal_pengajuan, pm.status_permohonan FROM permohonan pm JOIN penduduk p ON pm.penduduk_id = p.id JOIN program_bantuan pb ON pm.program_id = pb.id ORDER BY pm.tanggal_pengajuan DESC";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgv.DataSource = dt;
+                    dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         // ====================================================

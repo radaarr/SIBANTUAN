@@ -16,6 +16,8 @@ namespace SIBANTUAN.Forms.Petugas
         public Verifikasi()
         {
             InitializeComponent();
+            label3.Text = Session.Nama;
+            label4.Text = Session.WilayahRtRw + " - " + Session.WilayahKelurahan;
         }
 
         private void LoadData()
@@ -25,8 +27,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
@@ -40,7 +45,7 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
                             Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
-                            row["status_ekonomi"].ToString()
+                            row["status_verifikasi"].ToString()
                         );
                     }
                 }
@@ -55,9 +60,9 @@ namespace SIBANTUAN.Forms.Petugas
         {
             status_cmb.Items.Clear();
             status_cmb.Items.Add("Semua Status");
-            status_cmb.Items.Add("sangat_miskin");
-            status_cmb.Items.Add("miskin");
-            status_cmb.Items.Add("rentan");
+            status_cmb.Items.Add("Belum Diverifikasi");
+            status_cmb.Items.Add("Disetujui");
+            status_cmb.Items.Add("Ditolak");
             status_cmb.SelectedIndex = 0;
         }
 
@@ -84,10 +89,134 @@ namespace SIBANTUAN.Forms.Petugas
 
                 LoadStatusFilter();
                 LoadData();
+                SetupCrudButtons();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error di Form_Load: " + ex.Message);
+            }
+        }
+
+        private void SetupCrudButtons()
+        {
+            Button btnTambah = new Button();
+            btnTambah.Text = "Tambah Data";
+            btnTambah.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold);
+            btnTambah.Location = new Point(panel3.Width - 220, 38);
+            btnTambah.Size = new Size(100, 27);
+            btnTambah.Click += BtnTambah_Click;
+            panel3.Controls.Add(btnTambah);
+
+            Button btnSimpan = new Button();
+            btnSimpan.Text = "Simpan";
+            btnSimpan.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            btnSimpan.BackColor = Color.DodgerBlue;
+            btnSimpan.ForeColor = Color.White;
+            btnSimpan.Location = new Point(340, 317);
+            btnSimpan.Size = new Size(80, 32);
+            btnSimpan.Click += BtnSimpan_Click;
+            panel5.Controls.Add(btnSimpan);
+
+            Button btnHapus = new Button();
+            btnHapus.Text = "Hapus";
+            btnHapus.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            btnHapus.BackColor = Color.OrangeRed;
+            btnHapus.ForeColor = Color.White;
+            btnHapus.Location = new Point(426, 317);
+            btnHapus.Size = new Size(80, 32);
+            btnHapus.Click += BtnHapus_Click;
+            panel5.Controls.Add(btnHapus);
+        }
+
+        private bool isNewRecord = false;
+
+        private void BtnTambah_Click(object sender, EventArgs e)
+        {
+            ClearDetailForm();
+            isNewRecord = true;
+        }
+
+        private void BtnSimpan_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox6.Text))
+            {
+                MessageBox.Show("NIK dan Nama Lengkap wajib diisi");
+                return;
+            }
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    if (isNewRecord)
+                    {
+                        string query = @"INSERT INTO penduduk (nik, nama_lengkap, alamat, rt_rw, kelurahan, tanggal_lahir, jenis_kelamin, status_ekonomi, nomor_telepon, status_verifikasi)
+                                         VALUES (@nik, @nama, @alamat, @rw, @kel, @tgl, @jk, 'miskin', @telp, 'Belum Diverifikasi')";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@nik", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@nama", textBox6.Text);
+                        cmd.Parameters.AddWithValue("@alamat", textBox3.Text);
+                        cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                        cmd.Parameters.AddWithValue("@kel", textBox9.Text);
+                        cmd.Parameters.AddWithValue("@tgl", DateTime.TryParse(textBox2.Text, out var tgl) ? tgl.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@jk", textBox7.Text == "L" ? "laki_laki" : "perempuan");
+                        cmd.Parameters.AddWithValue("@telp", textBox4.Text);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data penduduk berhasil ditambahkan");
+                    }
+                    else
+                    {
+                        string query = @"UPDATE penduduk SET nama_lengkap=@nama, alamat=@alamat, kelurahan=@kel, tanggal_lahir=@tgl, jenis_kelamin=@jk, nomor_telepon=@telp WHERE nik=@nik";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@nik", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@nama", textBox6.Text);
+                        cmd.Parameters.AddWithValue("@alamat", textBox3.Text);
+                        cmd.Parameters.AddWithValue("@kel", textBox9.Text);
+                        cmd.Parameters.AddWithValue("@tgl", DateTime.TryParse(textBox2.Text, out var tgl) ? tgl.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@jk", textBox7.Text == "L" ? "laki_laki" : "perempuan");
+                        cmd.Parameters.AddWithValue("@telp", textBox4.Text);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data penduduk berhasil diperbarui");
+                    }
+                    ClearDetailForm();
+                    LoadData();
+                    isNewRecord = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void BtnHapus_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Pilih data penduduk terlebih dahulu");
+                return;
+            }
+            DialogResult dr = MessageBox.Show("Yakin hapus data penduduk NIK: " + textBox1.Text + "?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection conn = DBHelper.GetConnection())
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM penduduk WHERE nik = @nik";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@nik", textBox1.Text);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Data berhasil dihapus");
+                        ClearDetailForm();
+                        LoadData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
             }
         }
 
@@ -135,14 +264,16 @@ namespace SIBANTUAN.Forms.Petugas
 
                     if (status == "Semua Status")
                     {
-                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk";
+                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel";
                     }
                     else
                     {
-                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk WHERE status_ekonomi = @status";
+                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE status_verifikasi = @status AND rt_rw = @rw AND kelurahan = @kel";
                     }
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     if (status != "Semua Status")
                     {
                         cmd.Parameters.AddWithValue("@status", status);
@@ -161,7 +292,7 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
                             Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
-                            row["status_ekonomi"].ToString()
+                            row["status_verifikasi"].ToString()
                         );
                     }
                 }
@@ -180,10 +311,12 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string searchTerm = cari_tb.Text;
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_ekonomi FROM penduduk WHERE nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm";
+                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE (nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm) AND rt_rw = @rw AND kelurahan = @kel";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@searchTerm", "%" + searchTerm + "%");
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
@@ -199,7 +332,7 @@ namespace SIBANTUAN.Forms.Petugas
                             row["nik"].ToString(),
                             row["jenis_kelamin"].ToString(),
                             Convert.ToDateTime(row["created_at"]).ToString("dd/MM/yyyy"),
-                            row["status_ekonomi"].ToString()
+                            row["status_verifikasi"].ToString()
                         );
                     }
                 }
@@ -234,7 +367,7 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string query = @"SELECT nik, tanggal_lahir, alamat, nama_lengkap, jenis_kelamin,
-                                            status_ekonomi, kelurahan, rt_rw, nomor_telepon
+                                            status_verifikasi, status_ekonomi, kelurahan, rt_rw, nomor_telepon
                                      FROM penduduk
                                      WHERE nik = @nik";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -249,7 +382,7 @@ namespace SIBANTUAN.Forms.Petugas
                         textBox9.Text = reader["kelurahan"].ToString();
                         textBox6.Text = reader["nama_lengkap"].ToString();
                         textBox7.Text = reader["jenis_kelamin"].ToString();
-                        textBox8.Text = reader["status_ekonomi"].ToString();
+                        textBox8.Text = reader["status_verifikasi"].ToString();
                         textBox4.Text = reader["nomor_telepon"] == DBNull.Value ? "" : reader["nomor_telepon"].ToString();
                     }
                     reader.Close();

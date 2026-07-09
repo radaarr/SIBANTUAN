@@ -112,6 +112,7 @@
             this.btnRiwayatBantuan.Text = "Riwayat Bantuan";
             this.btnRiwayatBantuan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRiwayatBantuan.UseVisualStyleBackColor = true;
+            this.btnRiwayatBantuan.Click += new System.EventHandler(this.btnRiwayatBantuan_Click);
             // 
             // btnStatusPermohonan
             // 
@@ -124,6 +125,7 @@
             this.btnStatusPermohonan.Text = "Status Permohonan";
             this.btnStatusPermohonan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStatusPermohonan.UseVisualStyleBackColor = true;
+            this.btnStatusPermohonan.Click += new System.EventHandler(this.btnStatusPermohonan_Click);
             // 
             // btnAjukanPermohonan
             // 
@@ -136,6 +138,7 @@
             this.btnAjukanPermohonan.Text = "Ajukan Permohonan";
             this.btnAjukanPermohonan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAjukanPermohonan.UseVisualStyleBackColor = true;
+            this.btnAjukanPermohonan.Click += new System.EventHandler(this.btnAjukanPermohonan_Click);
             // 
             // btnDashboard
             // 
@@ -148,6 +151,7 @@
             this.btnDashboard.Text = "Dashboard";
             this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDashboard.UseVisualStyleBackColor = true;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // label3
             // 
@@ -270,7 +274,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1223, 634);
+            this.ClientSize = new System.Drawing.Size(1200, 640);
             this.Controls.Add(this.dgvRiwayat);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -278,8 +282,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.lblNIK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "RiwayatBantuan";
-            this.Text = "RiwayatBantuan";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SIBANTUAN - Riwayat Bantuan";
             this.Load += new System.EventHandler(this.RiwayatBantuan_Load);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();

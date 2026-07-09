@@ -80,8 +80,7 @@ namespace SIBANTUAN.Forms
             this.pnlGaris1.Name = "pnlGaris1";
             this.pnlGaris1.Size = new System.Drawing.Size(240, 2);
             this.pnlGaris1.TabIndex = 4;
-            this.pnlGaris1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
+            //             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
@@ -199,11 +198,6 @@ namespace SIBANTUAN.Forms
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

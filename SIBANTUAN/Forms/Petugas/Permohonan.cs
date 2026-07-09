@@ -18,6 +18,8 @@ namespace SIBANTUAN.Forms.Petugas
         public Permohonan()
         {
             InitializeComponent();
+            label3.Text = Session.Nama;
+            label4.Text = Session.WilayahRtRw + " - " + Session.WilayahKelurahan;
         }
 
         private void LoadData()
@@ -27,8 +29,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_warga, program_bantuan, tgl_pengajuan, status_ekonomi, status FROM permohonan_view";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    string query = "SELECT pv.nama_warga, pv.program_bantuan, pv.tgl_pengajuan, pv.status_ekonomi, pv.status FROM permohonan_view pv JOIN penduduk p ON pv.nik = p.nik WHERE p.rt_rw = @rw AND p.kelurahan = @kel";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
 
@@ -69,7 +74,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT DISTINCT program_bantuan FROM permohonan_view";
+                    string query = "SELECT nama_program AS program_bantuan FROM program_bantuan WHERE status_program = 'aktif'";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -149,20 +154,24 @@ namespace SIBANTUAN.Forms.Petugas
                     string status = status_cmb.SelectedItem?.ToString() ?? "Semua";
                     string program = program_cmb.SelectedItem?.ToString() ?? "Semua Program";
 
-                    string query = "SELECT nama_warga, program_bantuan, tgl_pengajuan, status_ekonomi, status FROM permohonan_view WHERE 1=1";
+                    string query = "SELECT pv.nama_warga, pv.program_bantuan, pv.tgl_pengajuan, pv.status_ekonomi, pv.status FROM permohonan_view pv JOIN penduduk p ON pv.nik = p.nik WHERE 1=1";
 
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = conn;
 
+                    query += " AND p.rt_rw = @rw AND p.kelurahan = @kel";
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
+
                     if (status != "Semua")
                     {
-                        query += " AND status = @status";
+                        query += " AND pv.status = @status";
                         cmd.Parameters.AddWithValue("@status", status);
                     }
 
                     if (program != "Semua Program")
                     {
-                        query += " AND program_bantuan = @program";
+                        query += " AND pv.program_bantuan = @program";
                         cmd.Parameters.AddWithValue("@program", program);
                     }
 
@@ -199,9 +208,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_warga, program_bantuan, tgl_pengajuan, status_ekonomi, status FROM permohonan_view WHERE nama_warga LIKE @searchTerm";
+                    string query = "SELECT pv.nama_warga, pv.program_bantuan, pv.tgl_pengajuan, pv.status_ekonomi, pv.status FROM permohonan_view pv JOIN penduduk p ON pv.nik = p.nik WHERE pv.nama_warga LIKE @searchTerm AND p.rt_rw = @rw AND p.kelurahan = @kel";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@searchTerm", "%" + cari_tb.Text + "%");
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
@@ -251,7 +262,14 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT id, nama_warga, program_bantuan, status_ekonomi, kuota_program, nik, tgl_pengajuan, alamat, periode_program FROM permohonan_view WHERE nama_warga = @nama_warga";
+                    string query = @"SELECT pm.id, p.nama_lengkap AS nama_warga, pb.nama_program AS program_bantuan,
+                                           p.status_ekonomi, pb.kuota_penerima AS kuota_program, p.nik,
+                                           pm.tanggal_pengajuan AS tgl_pengajuan, p.alamat,
+                                           CONCAT(pb.periode_mulai, ' - ', pb.periode_selesai) AS periode_program
+                                    FROM permohonan pm
+                                    JOIN penduduk p ON pm.penduduk_id = p.id
+                                    JOIN program_bantuan pb ON pm.program_id = pb.id
+                                    WHERE p.nama_lengkap = @nama_warga";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@nama_warga", nama_warga);
                     MySqlDataReader reader = cmd.ExecuteReader();
@@ -307,7 +325,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "UPDATE permohonan SET status = 'Disetujui' WHERE id_permohonan = @id";
+                    string query = "UPDATE permohonan SET status_permohonan = 'disetujui' WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", currentPermohonanId);
                     int result = cmd.ExecuteNonQuery();
@@ -343,7 +361,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "UPDATE permohonan SET status = 'Ditolak' WHERE id_permohonan = @id";
+                    string query = "UPDATE permohonan SET status_permohonan = 'ditolak' WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", currentPermohonanId);
                     int result = cmd.ExecuteNonQuery();

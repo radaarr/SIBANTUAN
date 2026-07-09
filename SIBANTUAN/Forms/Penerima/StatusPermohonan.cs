@@ -16,7 +16,6 @@ namespace SIBANTUAN.Forms.Penerima
         public StatusPermohonan()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
         }
 
         // ================================================================

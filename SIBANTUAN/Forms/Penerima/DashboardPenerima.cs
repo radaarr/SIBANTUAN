@@ -16,11 +16,16 @@ namespace SIBANTUAN.Forms.Penerima
         // ── Simpan penduduk_id & NIK setelah load ──
         private int _pendudukId;
         private string _nik;
+        private string _namaLengkap;
+        private string _alamat;
+        private string _rtRw;
+        private string _kelurahan;
+        private string _statusEkonomi;
+        private string _nomorTelepon;
 
         public DashboardPenerima()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
         }
 
         // ================================================================
@@ -31,6 +36,25 @@ namespace SIBANTUAN.Forms.Penerima
             LoadDataPenduduk();
             LoadStatistik();
             LoadPermohonanTerbaru();
+            AddEditProfilButton();
+        }
+
+        private void AddEditProfilButton()
+        {
+            Button btnEdit = new Button();
+            btnEdit.Text = "Edit Profil";
+            btnEdit.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            btnEdit.ForeColor = Color.Indigo;
+            btnEdit.Location = new Point(31, 111);
+            btnEdit.Size = new Size(197, 35);
+            btnEdit.TextAlign = ContentAlignment.MiddleLeft;
+            btnEdit.UseVisualStyleBackColor = true;
+
+            int idx = panel1.Controls.GetChildIndex(btnDashboard);
+            panel1.Controls.Add(btnEdit);
+            panel1.Controls.SetChildIndex(btnEdit, idx);
+
+            btnEdit.Click += BtnEditProfil_Click;
         }
         // ================================================================
         // 1. ISI DATA PENDUDUK (Selamat datang, NIK, Data Kependudukan)
@@ -46,7 +70,7 @@ namespace SIBANTUAN.Forms.Penerima
                     var cmd = new MySqlCommand(@"
                         SELECT p.id, p.nik, p.nama_lengkap,
                                p.alamat, p.rt_rw, p.kelurahan,
-                               p.status_ekonomi
+                               p.status_ekonomi, p.nomor_telepon
                         FROM penduduk p
                         WHERE p.user_id = @uid", conn);
 
@@ -59,15 +83,21 @@ namespace SIBANTUAN.Forms.Penerima
                         {
                             _pendudukId = Convert.ToInt32(r["id"]);
                             _nik = r["nik"].ToString();
+                            _namaLengkap = r["nama_lengkap"].ToString();
+                            _alamat = r["alamat"].ToString();
+                            _rtRw = r["rt_rw"].ToString();
+                            _kelurahan = r["kelurahan"].ToString();
+                            _statusEkonomi = r["status_ekonomi"].ToString();
+                            _nomorTelepon = r["nomor_telepon"] == DBNull.Value ? "" : r["nomor_telepon"].ToString();
 
                             // ── Selamat datang & NIK ──
                             // Ganti "lblWelcome" dengan nama label "Selamat datang," milikmu
-                            lblWelcome.Text = $"Selamat datang, {r["nama_lengkap"]}";
-                            lblNIK.Text = $"NIK: {r["nik"]}  RT/RW {r["rt_rw"]}";
+                            lblWelcome.Text = $"Selamat datang, {_namaLengkap}";
+                            lblNIK.Text = $"NIK: {_nik}  RT/RW {_rtRw}";
 
                             // ── Data Kependudukan ──
-                            lblAlamat.Text = r["alamat"].ToString();
-                            lblStatusEkonomi.Text = FormatStatusEkonomi(r["status_ekonomi"].ToString());
+                            lblAlamat.Text = _alamat;
+                            lblStatusEkonomi.Text = FormatStatusEkonomi(_statusEkonomi);
                             lblKelayakan.Text = "Layak";
                             lblKelayakan.BackColor = Color.FromArgb(0, 188, 212);
                             lblKelayakan.ForeColor = Color.White;
@@ -204,6 +234,13 @@ namespace SIBANTUAN.Forms.Penerima
         // ================================================================
 
         // Ganti nama method sesuai nama button di Designer kamu
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            // already on dashboard, just refresh
+            LoadStatistik();
+            LoadPermohonanTerbaru();
+        }
+
         private void btnAjukanPermohonan_Click(object sender, EventArgs e)
         {
             var form = new AjukanPermohonan();
@@ -223,6 +260,32 @@ namespace SIBANTUAN.Forms.Penerima
         {
             var form = new RiwayatBantuan();
             form.ShowDialog();
+        }
+
+        private void BtnEditProfil_Click(object sender, EventArgs e)
+        {
+            string alamatBaru = Microsoft.VisualBasic.Interaction.InputBox("Alamat:", "Edit Profil", _alamat);
+            if (string.IsNullOrEmpty(alamatBaru)) return;
+            string telpBaru = Microsoft.VisualBasic.Interaction.InputBox("Nomor Telepon:", "Edit Profil", _nomorTelepon);
+
+            try
+            {
+                using (var conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new MySqlCommand("UPDATE penduduk SET alamat = @alamat, nomor_telepon = @telp WHERE id = @pid", conn);
+                    cmd.Parameters.AddWithValue("@alamat", alamatBaru);
+                    cmd.Parameters.AddWithValue("@telp", telpBaru);
+                    cmd.Parameters.AddWithValue("@pid", _pendudukId);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Data berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataPenduduk();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

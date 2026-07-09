@@ -166,6 +166,7 @@
             this.btnDashboard.Text = "Dashboard";
             this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDashboard.UseVisualStyleBackColor = true;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // label3
             // 
@@ -435,7 +436,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1202, 714);
+            this.ClientSize = new System.Drawing.Size(1200, 720);
             this.Controls.Add(this.dgvPermohonanTerbaru);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.panel6);
@@ -446,8 +447,11 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "DashboardPenerima";
-            this.Text = "DashboardPenerima";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SIBANTUAN - Dashboard Penerima";
             this.Load += new System.EventHandler(this.DashboardPenerima_Load);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();

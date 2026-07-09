@@ -64,6 +64,7 @@
             this.btnLaporan.TabIndex = 3;
             this.btnLaporan.Text = "Laporan dan Statistik";
             this.btnLaporan.UseVisualStyleBackColor = true;
+            this.btnLaporan.Click += new System.EventHandler(this.btnLaporan_Click);
             // 
             // btnKelolaUser
             // 
@@ -78,6 +79,7 @@
             this.btnKelolaUser.TabIndex = 2;
             this.btnKelolaUser.Text = "Kelola User";
             this.btnKelolaUser.UseVisualStyleBackColor = true;
+            this.btnKelolaUser.Click += new System.EventHandler(this.btnKelolaUser_Click);
             // 
             // btnProgramBantuan
             // 
@@ -92,7 +94,7 @@
             this.btnProgramBantuan.TabIndex = 1;
             this.btnProgramBantuan.Text = "Program Bantuan";
             this.btnProgramBantuan.UseVisualStyleBackColor = true;
-            this.btnProgramBantuan.Click += new System.EventHandler(this.button2_Click);
+            this.btnProgramBantuan.Click += new System.EventHandler(this.btnProgramBantuan_Click);
             // 
             // btnDashboard
             // 
@@ -107,6 +109,7 @@
             this.btnDashboard.TabIndex = 0;
             this.btnDashboard.Text = "Dashboard";
             this.btnDashboard.UseVisualStyleBackColor = true;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // panel2
             // 

@@ -43,6 +43,8 @@ namespace SIBANTUAN.Forms.Petugas
                     }
                 }
 
+                label3.Text = Session.Nama;
+                label4.Text = Session.WilayahRtRw + " - " + Session.WilayahKelurahan;
                 LoadFilterData();
                 LoadStatistics();
                 LoadLaporanData();
@@ -64,7 +66,7 @@ namespace SIBANTUAN.Forms.Petugas
                     // Load Program
                     program_cmb.Items.Clear();
                     program_cmb.Items.Add("Semua Program");
-                    string queryProgram = "SELECT DISTINCT nama_program FROM program WHERE status = 'Aktif'";
+                    string queryProgram = "SELECT DISTINCT nama_program FROM program_bantuan WHERE status_program = 'aktif'";
                     MySqlDataAdapter adapterProgram = new MySqlDataAdapter(queryProgram, conn);
                     DataTable dtProgram = new DataTable();
                     adapterProgram.Fill(dtProgram);
@@ -99,34 +101,47 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
 
+                    string rw = Session.WilayahRtRw;
+                    string kel = Session.WilayahKelurahan;
+
                     // Total Warga Terdaftar
-                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk", conn);
+                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel", conn);
+                    cmd1.Parameters.AddWithValue("@rw", rw);
+                    cmd1.Parameters.AddWithValue("@kel", kel);
                     object result1 = cmd1.ExecuteScalar();
                     lblCard1Value.Text = result1 != null ? result1.ToString() : "0";
 
-                    // Warga Dapat Bantuan (Pendaftar yang sudah menerima distribusi)
-                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT id_pendaftar) FROM distribusi", conn);
+                    // Warga Dapat Bantuan (penduduk yang sudah menerima distribusi)
+                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT pm.penduduk_id) FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id JOIN penduduk p ON pm.penduduk_id = p.id WHERE p.rt_rw = @rw2 AND p.kelurahan = @kel2", conn);
+                    cmd2.Parameters.AddWithValue("@rw2", rw);
+                    cmd2.Parameters.AddWithValue("@kel2", kel);
                     object result2 = cmd2.ExecuteScalar();
                     lblCard2Value.Text = result2 != null ? result2.ToString() : "0";
 
-                    // Permohonan Ditolak
-                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan WHERE status = 'Ditolak'", conn);
+                    // Permohonan Ditolak (wilayah)
+                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan pm JOIN penduduk p ON pm.penduduk_id = p.id WHERE pm.status_permohonan = 'ditolak' AND p.rt_rw = @rw3 AND p.kelurahan = @kel3", conn);
+                    cmd3.Parameters.AddWithValue("@rw3", rw);
+                    cmd3.Parameters.AddWithValue("@kel3", kel);
                     object result3 = cmd3.ExecuteScalar();
                     lblCard3Value.Text = result3 != null ? result3.ToString() : "0";
 
-                    // Belum Pernah Dapat (Pendaftar yang belum menerima distribusi)
-                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(DISTINCT pd.id_pendaftar) FROM pendaftar pd WHERE pd.id_pendaftar NOT IN (SELECT DISTINCT id_pendaftar FROM distribusi)", conn);
+                    // Belum Pernah Dapat (penduduk yang belum menerima distribusi)
+                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM penduduk p WHERE p.rt_rw = @rw4 AND p.kelurahan = @kel4 AND p.id NOT IN (SELECT pm.penduduk_id FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id)", conn);
+                    cmd4.Parameters.AddWithValue("@rw4", rw);
+                    cmd4.Parameters.AddWithValue("@kel4", kel);
                     object result4 = cmd4.ExecuteScalar();
                     lblCard4Value.Text = result4 != null ? result4.ToString() : "0";
 
-                    // Total Anggaran Terpakai
-                    MySqlCommand cmd5 = new MySqlCommand("SELECT COALESCE(SUM(jumlah_bantuan), 0) FROM distribusi", conn);
+                    // Total Anggaran Terpakai (wilayah)
+                    MySqlCommand cmd5 = new MySqlCommand("SELECT COALESCE(SUM(d.jumlah_bantuan), 0) FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id JOIN penduduk p ON pm.penduduk_id = p.id WHERE p.rt_rw = @rw5 AND p.kelurahan = @kel5", conn);
+                    cmd5.Parameters.AddWithValue("@rw5", rw);
+                    cmd5.Parameters.AddWithValue("@kel5", kel);
                     object result5 = cmd5.ExecuteScalar();
                     long totalAnggaran = result5 != null ? Convert.ToInt64(result5) : 0;
                     lblCard5Value.Text = "Rp " + string.Format("{0:N0}", totalAnggaran);
 
-                    // Program Aktif
-                    MySqlCommand cmd6 = new MySqlCommand("SELECT COUNT(*) FROM program WHERE status = 'Aktif'", conn);
+                    // Program Aktif (global — tidak perlu filter wilayah)
+                    MySqlCommand cmd6 = new MySqlCommand("SELECT COUNT(*) FROM program_bantuan WHERE status_program = 'aktif'", conn);
                     object result6 = cmd6.ExecuteScalar();
                     int programCount = result6 != null ? Convert.ToInt32(result6) : 0;
                     lblCard6Value.Text = programCount + " Program";
@@ -146,18 +161,54 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string query = @"SELECT 
-                                      d.id_distribusi,
-                                      pd.nama_lengkap,
-                                      pr.nama_program,
+                                      d.id,
+                                      p.nama_lengkap,
+                                      pb.nama_program,
                                       d.tanggal_distribusi,
                                       d.jumlah_bantuan,
                                       d.bentuk_bantuan
                                    FROM distribusi d
-                                   JOIN pendaftar pd ON d.id_pendaftar = pd.id_pendaftar
-                                   JOIN program pr ON d.id_program = pr.id_program
-                                   ORDER BY d.tanggal_distribusi DESC";
+                                   JOIN permohonan pm ON d.permohonan_id = pm.id
+                                   JOIN penduduk p ON pm.penduduk_id = p.id
+                                   JOIN program_bantuan pb ON pm.program_id = pb.id
+                                   WHERE p.rt_rw = @rw AND p.kelurahan = @kel";
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    string selectedProgram = program_cmb.SelectedItem?.ToString() ?? "Semua Program";
+                    string selectedPeriode = periode_cmb.SelectedItem?.ToString() ?? "Semua Periode";
+
+                    if (selectedProgram != "Semua Program")
+                    {
+                        query += " AND pb.nama_program = @program";
+                    }
+
+                    if (selectedPeriode == "Bulan Ini")
+                    {
+                        query += " AND d.tanggal_distribusi >= DATE_FORMAT(CURDATE(), '%Y-%m-01')";
+                    }
+                    else if (selectedPeriode == "3 Bulan Terakhir")
+                    {
+                        query += " AND d.tanggal_distribusi >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)";
+                    }
+                    else if (selectedPeriode == "6 Bulan Terakhir")
+                    {
+                        query += " AND d.tanggal_distribusi >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)";
+                    }
+                    else if (selectedPeriode == "Tahun Ini")
+                    {
+                        query += " AND d.tanggal_distribusi >= DATE_FORMAT(CURDATE(), '%Y-01-01')";
+                    }
+
+                    query += " ORDER BY d.tanggal_distribusi DESC";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
+                    cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
+                    if (selectedProgram != "Semua Program")
+                    {
+                        cmd.Parameters.AddWithValue("@program", selectedProgram);
+                    }
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     dataTable = new DataTable();
                     adapter.Fill(dataTable);
                     totalRecords = dataTable.Rows.Count;
@@ -274,7 +325,7 @@ namespace SIBANTUAN.Forms.Petugas
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
                 // Header
-                sb.AppendLine("LAPORAN WILAYAH RT 001/RW 001 SUKAMAJU");
+                sb.AppendLine("LAPORAN WILAYAH " + Session.WilayahRtRw + " " + Session.WilayahKelurahan.ToUpper());
                 sb.AppendLine();
 
                 // Column Headers
