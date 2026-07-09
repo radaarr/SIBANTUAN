@@ -134,6 +134,12 @@
     <EmbeddedResource Include="Forms\Admin\FormKelolaUser.resx">
       <DependentUpon>FormKelolaUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormLaporanStatistik.resx">
+      <DependentUpon>FormLaporanStatistik.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormProgramBantuan.resx">
+      <DependentUpon>FormProgramBantuan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Login\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLaporan = new System.Windows.Forms.Button();
+            this.btnKelolaUser = new System.Windows.Forms.Button();
+            this.btnProgramBantuan = new System.Windows.Forms.Button();
+            this.btnDashboard = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
@@ -41,71 +41,72 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(95)))), ((int)(((byte)(138)))));
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btnLaporan);
+            this.panel1.Controls.Add(this.btnKelolaUser);
+            this.panel1.Controls.Add(this.btnProgramBantuan);
+            this.panel1.Controls.Add(this.btnDashboard);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(250, 450);
             this.panel1.TabIndex = 0;
             // 
-            // button4
+            // btnLaporan
             // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.button4.Location = new System.Drawing.Point(0, 150);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(250, 50);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Laporan dan Statistik";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnLaporan.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnLaporan.FlatAppearance.BorderSize = 0;
+            this.btnLaporan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLaporan.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLaporan.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btnLaporan.Location = new System.Drawing.Point(0, 150);
+            this.btnLaporan.Name = "btnLaporan";
+            this.btnLaporan.Size = new System.Drawing.Size(250, 50);
+            this.btnLaporan.TabIndex = 3;
+            this.btnLaporan.Text = "Laporan dan Statistik";
+            this.btnLaporan.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnKelolaUser
             // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.button3.Location = new System.Drawing.Point(0, 100);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(250, 50);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Kelola User";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnKelolaUser.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnKelolaUser.FlatAppearance.BorderSize = 0;
+            this.btnKelolaUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKelolaUser.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKelolaUser.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btnKelolaUser.Location = new System.Drawing.Point(0, 100);
+            this.btnKelolaUser.Name = "btnKelolaUser";
+            this.btnKelolaUser.Size = new System.Drawing.Size(250, 50);
+            this.btnKelolaUser.TabIndex = 2;
+            this.btnKelolaUser.Text = "Kelola User";
+            this.btnKelolaUser.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnProgramBantuan
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.button2.Location = new System.Drawing.Point(0, 50);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(250, 50);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Program Bantuan";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnProgramBantuan.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnProgramBantuan.FlatAppearance.BorderSize = 0;
+            this.btnProgramBantuan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProgramBantuan.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProgramBantuan.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btnProgramBantuan.Location = new System.Drawing.Point(0, 50);
+            this.btnProgramBantuan.Name = "btnProgramBantuan";
+            this.btnProgramBantuan.Size = new System.Drawing.Size(250, 50);
+            this.btnProgramBantuan.TabIndex = 1;
+            this.btnProgramBantuan.Text = "Program Bantuan";
+            this.btnProgramBantuan.UseVisualStyleBackColor = true;
+            this.btnProgramBantuan.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // btnDashboard
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(250, 50);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Dashboard";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnDashboard.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDashboard.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDashboard.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.btnDashboard.Location = new System.Drawing.Point(0, 0);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new System.Drawing.Size(250, 50);
+            this.btnDashboard.TabIndex = 0;
+            this.btnDashboard.Text = "Dashboard";
+            this.btnDashboard.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -147,9 +148,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLaporan;
+        private System.Windows.Forms.Button btnKelolaUser;
+        private System.Windows.Forms.Button btnProgramBantuan;
+        private System.Windows.Forms.Button btnDashboard;
     }
 }
