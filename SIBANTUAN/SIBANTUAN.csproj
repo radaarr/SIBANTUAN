@@ -96,6 +96,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="Forms\Admin\FormAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\FormAdmin.Designer.cs">
+      <DependentUpon>FormAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\FormKelolaUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\FormKelolaUser.Designer.cs">
+      <DependentUpon>FormKelolaUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\FormLaporanStatistik.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\FormLaporanStatistik.Designer.cs">
+      <DependentUpon>FormLaporanStatistik.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\FormProgramBantuan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\FormProgramBantuan.Designer.cs">
+      <DependentUpon>FormProgramBantuan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Login\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +153,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Admin\FormAdmin.resx">
+      <DependentUpon>FormAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormKelolaUser.resx">
+      <DependentUpon>FormKelolaUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormLaporanStatistik.resx">
+      <DependentUpon>FormLaporanStatistik.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\FormProgramBantuan.resx">
+      <DependentUpon>FormProgramBantuan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Login\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
