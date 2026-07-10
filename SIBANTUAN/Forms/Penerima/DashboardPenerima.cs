@@ -245,7 +245,6 @@ namespace SIBANTUAN.Forms.Penerima
         {
             var form = new AjukanPermohonan();
             form.ShowDialog();
-            // Refresh data setelah kembali dari form AjukanPermohonan
             LoadStatistik();
             LoadPermohonanTerbaru();
         }

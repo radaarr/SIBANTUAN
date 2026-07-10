@@ -15,6 +15,7 @@ namespace SIBANTUAN.Forms.Petugas
     {
         private int currentDistribusiId = 0;
         private int currentPermohonanId = 0;
+        private int _pendingRecordId = 0;
         private bool isNewRecord = false;
         private Dictionary<string, int> petugasMap = new Dictionary<string, int>();
 
@@ -68,6 +69,7 @@ namespace SIBANTUAN.Forms.Petugas
         private DataGridViewTextBoxColumn nama_warga;
         private DataGridViewTextBoxColumn program_bantuan;
         private DataGridViewTextBoxColumn tgl_distribusi;
+        private DataGridViewTextBoxColumn status;
         private Label label21;
 
         public Distribusi()
@@ -128,7 +130,7 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui, dv.status_permohonan AS status FROM distribusi_view dv JOIN penduduk p ON dv.nik = p.nik WHERE p.rt_rw = @rw AND p.kelurahan = @kel";
+                    string query = "SELECT dv.id_distribusi, dv.nama_warga, dv.program_bantuan, dv.tgl_disetujui, dv.status_permohonan AS status FROM distribusi_view dv JOIN penduduk p ON dv.nik = p.nik WHERE p.rt_rw = @rw AND p.kelurahan = @kel ORDER BY dv.tgl_disetujui DESC";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
                     cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
@@ -140,11 +142,16 @@ namespace SIBANTUAN.Forms.Petugas
                     int no = 1;
                     foreach (DataRow row in dt.Rows)
                     {
+                        string statusVal = row["status"].ToString();
+                        string statusDisplay = statusVal == "menunggu_penyaluran" ? "Menunggu" :
+                                               statusVal == "disalurkan" ? "Disalurkan" : statusVal;
+                        string tglDisplay = row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : "";
                         int rowIdx = dataGridView1.Rows.Add(
                             no++,
                             row["nama_warga"].ToString(),
                             row["program_bantuan"].ToString(),
-                            row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : ""
+                            tglDisplay,
+                            statusDisplay
                         );
                         dataGridView1.Rows[rowIdx].Tag = row["id_distribusi"];
                     }
@@ -267,11 +274,16 @@ namespace SIBANTUAN.Forms.Petugas
                     int no = 1;
                     foreach (DataRow row in dt.Rows)
                     {
+                        string statusVal = row["status"].ToString();
+                        string statusDisplay = statusVal == "menunggu_penyaluran" ? "Menunggu" :
+                                               statusVal == "disalurkan" ? "Disalurkan" : statusVal;
+                        string tglDisplay = row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : "";
                         int rowIdx = dataGridView1.Rows.Add(
                             no++,
                             row["nama_warga"].ToString(),
                             row["program_bantuan"].ToString(),
-                            row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : ""
+                            tglDisplay,
+                            statusDisplay
                         );
                         dataGridView1.Rows[rowIdx].Tag = row["id_distribusi"];
                     }
@@ -304,11 +316,16 @@ namespace SIBANTUAN.Forms.Petugas
                     int no = 1;
                     foreach (DataRow row in dt.Rows)
                     {
+                        string statusVal = row["status"].ToString();
+                        string statusDisplay = statusVal == "menunggu_penyaluran" ? "Menunggu" :
+                                               statusVal == "disalurkan" ? "Disalurkan" : statusVal;
+                        string tglDisplay = row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : "";
                         int rowIdx = dataGridView1.Rows.Add(
                             no++,
                             row["nama_warga"].ToString(),
                             row["program_bantuan"].ToString(),
-                            row["tgl_disetujui"] != DBNull.Value ? Convert.ToDateTime(row["tgl_disetujui"]).ToString("dd/MM/yyyy") : ""
+                            tglDisplay,
+                            statusDisplay
                         );
                         dataGridView1.Rows[rowIdx].Tag = row["id_distribusi"];
                     }
@@ -327,7 +344,23 @@ namespace SIBANTUAN.Forms.Petugas
                 try
                 {
                     int idDistribusi = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Tag);
-                    LoadDetailDistribusiById(idDistribusi);
+                    string namaWarga = dataGridView1.Rows[e.RowIndex].Cells["nama_warga"].Value?.ToString() ?? "";
+                    string program = dataGridView1.Rows[e.RowIndex].Cells["program_bantuan"].Value?.ToString() ?? "";
+
+                    _pendingRecordId = 0;
+                    currentPermohonanId = 0;
+                    currentDistribusiId = 0;
+
+                    if (idDistribusi > 0)
+                    {
+                        // Sudah ada distribusi — load detail distribusi
+                        LoadDetailDistribusiById(idDistribusi);
+                    }
+                    else
+                    {
+                        // Belum ada distribusi (menunggu) — muat data dari penduduk + permohonan
+                        LoadDetailFromPermohonan(namaWarga, program);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -416,6 +449,55 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
+        private void LoadDetailFromPermohonan(string namaWarga, string programBantuan)
+        {
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    string query = @"SELECT pm.id AS permohonan_id, p.nik, p.nama_lengkap, pb.nama_program,
+                                            pm.tanggal_pengajuan
+                                     FROM permohonan pm
+                                     JOIN penduduk p ON pm.penduduk_id = p.id
+                                     JOIN program_bantuan pb ON pm.program_id = pb.id
+                                     WHERE p.nama_lengkap = @nama AND pb.nama_program = @prog
+                                       AND pm.status_permohonan = 'menunggu_penyaluran'
+                                     LIMIT 1";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@nama", namaWarga);
+                    cmd.Parameters.AddWithValue("@prog", programBantuan);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        _pendingRecordId = Convert.ToInt32(reader["permohonan_id"]);
+                        nik_tb.Text = reader["nik"].ToString();
+                        nama_tb.Text = reader["nama_lengkap"].ToString();
+                        program_tb.Text = reader["nama_program"].ToString();
+                        tgl_tb.Text = Convert.ToDateTime(reader["tanggal_pengajuan"]).ToString("yyyy-MM-dd");
+                        jumlah_tb.Clear();
+                        bentuk_bantuan_tb.Clear();
+                        bukti_tb.Clear();
+                        keterangan_tb.Clear();
+                        dicatat_cmb.SelectedIndex = 0;
+
+                        label20.Text = "Form Pencatatan Distribusi — " + namaWarga + " (Baru)";
+                        label21.Text = "Menunggu penyaluran — " + namaWarga;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data penyaluran tidak ditemukan.");
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
@@ -469,6 +551,7 @@ namespace SIBANTUAN.Forms.Petugas
             this.nama_warga = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.program_bantuan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tgl_distribusi = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -636,7 +719,8 @@ namespace SIBANTUAN.Forms.Petugas
             this.no,
             this.nama_warga,
             this.program_bantuan,
-            this.tgl_distribusi});
+            this.tgl_distribusi,
+            this.status});
             this.dataGridView1.Location = new System.Drawing.Point(10, 31);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -1018,6 +1102,13 @@ namespace SIBANTUAN.Forms.Petugas
             this.tgl_distribusi.Name = "tgl_distribusi";
             this.tgl_distribusi.Width = 90;
             // 
+            // status
+            // 
+            this.status.HeaderText = "Status";
+            this.status.MinimumWidth = 6;
+            this.status.Name = "status";
+            this.status.Width = 100;
+            // 
             // Distribusi
             // 
             this.AutoSize = true;
@@ -1069,21 +1160,56 @@ namespace SIBANTUAN.Forms.Petugas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!isNewRecord && currentDistribusiId == 0)
+            if (!isNewRecord && currentDistribusiId == 0 && _pendingRecordId == 0)
             {
                 MessageBox.Show("Pilih data distribusi terlebih dahulu, atau klik Tambah Baru");
                 return;
             }
+
+            if (string.IsNullOrEmpty(nama_tb.Text) || string.IsNullOrEmpty(nik_tb.Text))
+            {
+                MessageBox.Show("Isi NIK dan Nama Warga terlebih dahulu");
+                return;
+            }
+
+            string petugasNama = dicatat_cmb.SelectedItem?.ToString() ?? "";
+            if (string.IsNullOrEmpty(petugasNama) || petugasNama == "Pilih Petugas" || !petugasMap.ContainsKey(petugasNama))
+            {
+                MessageBox.Show("Pilih petugas yang mencatat (Dicatat Oleh) terlebih dahulu.");
+                return;
+            }
+            int petugasId = petugasMap[petugasNama];
 
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string petugasNama = dicatat_cmb.SelectedItem?.ToString() ?? "";
-                    int petugasId = petugasNama != null && petugasMap.ContainsKey(petugasNama) ? petugasMap[petugasNama] : 0;
 
-                    if (isNewRecord)
+                    if (_pendingRecordId > 0)
+                    {
+                        // Dari pending — INSERT distribusi + UPDATE permohonan
+                        string insertQuery = @"INSERT INTO distribusi (permohonan_id, tanggal_distribusi, jumlah_bantuan, bentuk_bantuan, bukti_penerimaan, petugas_id, keterangan)
+                                               VALUES (@pmId, @tglDistribusi, @jumlahBantuan, @bentukBantuan, @buktiBantuan, @petugasId, @keterangan)";
+                        MySqlCommand cmdInsert = new MySqlCommand(insertQuery, conn);
+                        cmdInsert.Parameters.AddWithValue("@pmId", _pendingRecordId);
+                        cmdInsert.Parameters.AddWithValue("@tglDistribusi", string.IsNullOrEmpty(tgl_tb.Text) ? DateTime.Now.ToString("yyyy-MM-dd") : tgl_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@jumlahBantuan", string.IsNullOrEmpty(jumlah_tb.Text) ? 0 : decimal.Parse(jumlah_tb.Text.Replace(".", "")));
+                        cmdInsert.Parameters.AddWithValue("@bentukBantuan", bentuk_bantuan_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@buktiBantuan", bukti_tb.Text);
+                        cmdInsert.Parameters.AddWithValue("@petugasId", petugasId);
+                        cmdInsert.Parameters.AddWithValue("@keterangan", keterangan_tb.Text);
+                        cmdInsert.ExecuteNonQuery();
+
+                        // Update status permohonan menjadi 'disalurkan'
+                        MySqlCommand cmdUpdate = new MySqlCommand(
+                            "UPDATE permohonan SET status_permohonan = 'disalurkan' WHERE id = @id", conn);
+                        cmdUpdate.Parameters.AddWithValue("@id", _pendingRecordId);
+                        cmdUpdate.ExecuteNonQuery();
+
+                        MessageBox.Show("Bantuan berhasil disalurkan!");
+                    }
+                    else if (isNewRecord)
                     {
                         // Cari permohonan_id dari NIK yang terisi
                         int permohonanId = 0;
@@ -1094,16 +1220,6 @@ namespace SIBANTUAN.Forms.Petugas
                             object resultPm = cariPm.ExecuteScalar();
                             if (resultPm != null)
                                 permohonanId = Convert.ToInt32(resultPm);
-                        }
-
-                        if (permohonanId == 0)
-                        {
-                            // Fallback: insert distribusi tanpa relasi permohonan (petugas bisa isi manual nanti)
-                            if (string.IsNullOrEmpty(nama_tb.Text) || string.IsNullOrEmpty(nik_tb.Text))
-                            {
-                                MessageBox.Show("Isi NIK dan Nama Warga terlebih dahulu");
-                                return;
-                            }
                         }
 
                         string insertQuery = @"INSERT INTO distribusi (permohonan_id, tanggal_distribusi, jumlah_bantuan, bentuk_bantuan, bukti_penerimaan, petugas_id, keterangan)
@@ -1118,7 +1234,6 @@ namespace SIBANTUAN.Forms.Petugas
                         cmdInsert.Parameters.AddWithValue("@keterangan", keterangan_tb.Text);
                         cmdInsert.ExecuteNonQuery();
                         MessageBox.Show("Data distribusi baru berhasil disimpan");
-                        isNewRecord = false;
                     }
                     else
                     {
@@ -1273,6 +1388,8 @@ namespace SIBANTUAN.Forms.Petugas
         {
             currentDistribusiId = 0;
             currentPermohonanId = 0;
+            _pendingRecordId = 0;
+            isNewRecord = false;
             nama_tb.Clear();
             program_tb.Clear();
             jumlah_tb.Clear();

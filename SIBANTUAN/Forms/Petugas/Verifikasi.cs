@@ -27,7 +27,11 @@ namespace SIBANTUAN.Forms.Petugas
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel";
+                    string query = @"SELECT p.nama_lengkap, p.nik, p.jenis_kelamin, p.created_at, p.status_verifikasi
+                                     FROM penduduk p
+                                     LEFT JOIN users u ON p.user_id = u.id
+                                     WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                                       AND p.rt_rw = @rw AND p.kelurahan = @kel";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
                     cmd.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
@@ -264,11 +268,20 @@ namespace SIBANTUAN.Forms.Petugas
 
                     if (status == "Semua Status")
                     {
-                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel";
+                        query = @"SELECT p.nama_lengkap, p.nik, p.jenis_kelamin, p.created_at, p.status_verifikasi
+                                  FROM penduduk p
+                                  LEFT JOIN users u ON p.user_id = u.id
+                                  WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                                    AND p.rt_rw = @rw AND p.kelurahan = @kel";
                     }
                     else
                     {
-                        query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE status_verifikasi = @status AND rt_rw = @rw AND kelurahan = @kel";
+                        query = @"SELECT p.nama_lengkap, p.nik, p.jenis_kelamin, p.created_at, p.status_verifikasi
+                                  FROM penduduk p
+                                  LEFT JOIN users u ON p.user_id = u.id
+                                  WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                                    AND p.status_verifikasi = @status
+                                    AND p.rt_rw = @rw AND p.kelurahan = @kel";
                     }
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -311,7 +324,12 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string searchTerm = cari_tb.Text;
-                    string query = "SELECT nama_lengkap, nik, jenis_kelamin, created_at, status_verifikasi FROM penduduk WHERE (nama_lengkap LIKE @searchTerm OR nik LIKE @searchTerm) AND rt_rw = @rw AND kelurahan = @kel";
+                    string query = @"SELECT p.nama_lengkap, p.nik, p.jenis_kelamin, p.created_at, p.status_verifikasi
+                                      FROM penduduk p
+                                      LEFT JOIN users u ON p.user_id = u.id
+                                      WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                                        AND (p.nama_lengkap LIKE @searchTerm OR p.nik LIKE @searchTerm)
+                                        AND p.rt_rw = @rw AND p.kelurahan = @kel";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@searchTerm", "%" + searchTerm + "%");

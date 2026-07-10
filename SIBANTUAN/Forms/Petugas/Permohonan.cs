@@ -239,14 +239,15 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 try
                 {
                     string nama_warga = dataGridView1.Rows[e.RowIndex].Cells["nama_warga"].Value.ToString();
-                    LoadDetailPermohonan(nama_warga);
+                    string program = dataGridView1.Rows[e.RowIndex].Cells["program_bantuan"].Value.ToString();
+                    LoadDetailPermohonan(nama_warga, program);
                 }
                 catch (Exception ex)
                 {
@@ -255,7 +256,7 @@ namespace SIBANTUAN.Forms.Petugas
             }
         }
 
-        private void LoadDetailPermohonan(string nama_warga)
+        private void LoadDetailPermohonan(string nama_warga, string program)
         {
             try
             {
@@ -263,15 +264,17 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
                     string query = @"SELECT pm.id, p.nama_lengkap AS nama_warga, pb.nama_program AS program_bantuan,
-                                           p.status_ekonomi, pb.kuota_penerima AS kuota_program, p.nik,
-                                           pm.tanggal_pengajuan AS tgl_pengajuan, p.alamat,
-                                           CONCAT(pb.periode_mulai, ' - ', pb.periode_selesai) AS periode_program
-                                    FROM permohonan pm
-                                    JOIN penduduk p ON pm.penduduk_id = p.id
-                                    JOIN program_bantuan pb ON pm.program_id = pb.id
-                                    WHERE p.nama_lengkap = @nama_warga";
+                                            p.status_ekonomi, pb.kuota_penerima AS kuota_program, p.nik,
+                                            pm.tanggal_pengajuan AS tgl_pengajuan, p.alamat,
+                                            CONCAT(pb.periode_mulai, ' - ', pb.periode_selesai) AS periode_program
+                                     FROM permohonan pm
+                                     JOIN penduduk p ON pm.penduduk_id = p.id
+                                     JOIN program_bantuan pb ON pm.program_id = pb.id
+                                     WHERE p.nama_lengkap = @nama_warga AND pb.nama_program = @program
+                                     ORDER BY pm.id DESC LIMIT 1";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@nama_warga", nama_warga);
+                    cmd.Parameters.AddWithValue("@program", program);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
@@ -356,14 +359,24 @@ namespace SIBANTUAN.Forms.Petugas
                 return;
             }
 
+            string alasan = textBox9.Text.Trim();
+            if (string.IsNullOrWhiteSpace(alasan))
+            {
+                MessageBox.Show("Alasan penolakan wajib diisi!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox9.Focus();
+                return;
+            }
+
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "UPDATE permohonan SET status_permohonan = 'ditolak' WHERE id = @id";
+                    string query = "UPDATE permohonan SET status_permohonan = 'ditolak', alasan_tolak = @alasan WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", currentPermohonanId);
+                    cmd.Parameters.AddWithValue("@alasan", alasan);
                     int result = cmd.ExecuteNonQuery();
 
                     if (result > 0)

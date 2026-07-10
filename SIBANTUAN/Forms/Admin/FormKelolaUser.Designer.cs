@@ -134,6 +134,7 @@ namespace SIBANTUAN.Forms
             this.btnSimpan.TabIndex = 10;
             this.btnSimpan.Text = "Simpan User";
             this.btnSimpan.UseVisualStyleBackColor = false;
+            this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
             // 
             // btnReset
             // 
@@ -146,6 +147,7 @@ namespace SIBANTUAN.Forms
             this.btnReset.TabIndex = 11;
             this.btnReset.Text = "Reset Password";
             this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnNonaktif
             // 
@@ -158,6 +160,7 @@ namespace SIBANTUAN.Forms
             this.btnNonaktif.TabIndex = 12;
             this.btnNonaktif.Text = "Nonaktifkan User";
             this.btnNonaktif.UseVisualStyleBackColor = false;
+            this.btnNonaktif.Click += new System.EventHandler(this.btnNonaktif_Click);
             // 
             // dgvUser
             // 
@@ -173,6 +176,7 @@ namespace SIBANTUAN.Forms
             this.dgvUser.Size = new System.Drawing.Size(508, 446);
             this.dgvUser.TabIndex = 13;
             this.dgvUser.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUser_CellContentClick);
+            this.dgvUser.SelectionChanged += new System.EventHandler(this.dgvUser_SelectionChanged);
             // 
             // FormKelolaUser
             // 

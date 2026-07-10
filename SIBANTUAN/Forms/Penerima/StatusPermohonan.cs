@@ -24,6 +24,7 @@ namespace SIBANTUAN.Forms.Penerima
         private void StatusPermohonan_Load(object sender, EventArgs e)
         {
             SetupDGV();
+            SetupAjukanPenyaluran();
             LoadStatus();
         }
 
@@ -46,10 +47,56 @@ namespace SIBANTUAN.Forms.Penerima
 
             // Event klik baris — tampilkan detail di bawah
             dgvStatus.SelectionChanged += DgvStatus_SelectionChanged;
+            dgvStatus.CellClick += DgvStatus_CellClick;
         }
 
         // ================================================================
-        // 2. LOAD DATA dari database
+        // TOMBOL AJUKAN PENYALURAN
+        // ================================================================
+        private void SetupAjukanPenyaluran()
+        {
+            btnAjukanPenyaluran.Visible = false;
+        }
+
+        private void BtnAjukanPenyaluran_Click(object sender, EventArgs e)
+        {
+            if (dgvStatus.SelectedRows.Count == 0) return;
+
+            var row = dgvStatus.SelectedRows[0];
+            int id = Convert.ToInt32(row.Cells["id"].Value);
+
+            try
+            {
+                using (var conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    var cmd = new MySqlCommand(
+                        "UPDATE permohonan SET status_permohonan = 'menunggu_penyaluran' WHERE id = @id AND status_permohonan = 'disetujui'",
+                        conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    int affected = cmd.ExecuteNonQuery();
+
+                    if (affected > 0)
+                    {
+                        MessageBox.Show("Permohonan penyaluran telah diajukan ke Petugas RT/RW.",
+                            "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadStatus();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mengajukan penyaluran. Status permohonan mungkin sudah berubah.",
+                            "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ================================================================
+        // LOAD DATA dari database
         // ================================================================
         private void LoadStatus()
         {
@@ -133,6 +180,14 @@ namespace SIBANTUAN.Forms.Penerima
                         row.DefaultCellStyle.ForeColor = Color.FromArgb(160, 40, 40);
                         row.DefaultCellStyle.BackColor = Color.FromArgb(252, 235, 235);
                         break;
+                    case "menunggu_penyaluran":
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(0, 90, 156);
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(220, 235, 252);
+                        break;
+                    case "disalurkan":
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(0, 100, 50);
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(210, 245, 225);
+                        break;
                     default: // pending
                         row.DefaultCellStyle.ForeColor = Color.FromArgb(180, 100, 20);
                         row.DefaultCellStyle.BackColor = Color.FromArgb(250, 238, 218);
@@ -147,35 +202,66 @@ namespace SIBANTUAN.Forms.Penerima
         // ================================================================
         private void DgvStatus_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvStatus.SelectedRows.Count == 0) return;
+            TampilkanDetailBaris(null);
+        }
 
-            var row = dgvStatus.SelectedRows[0];
-            string status = row.Cells["Status"]?.Value?.ToString() ?? "";
-            string alasan = row.Cells["alasan_tolak"]?.Value?.ToString() ?? "";
-            string catatan = row.Cells["catatan_petugas"]?.Value?.ToString() ?? "";
+        private void DgvStatus_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                TampilkanDetailBaris(dgvStatus.Rows[e.RowIndex]);
+        }
+
+        private void TampilkanDetailBaris(DataGridViewRow selectedRow = null)
+        {
+            btnAjukanPenyaluran.Visible = false;
+
+            if (selectedRow == null)
+            {
+                if (dgvStatus.SelectedRows.Count == 0) return;
+                selectedRow = dgvStatus.SelectedRows[0];
+            }
+
+            string status = selectedRow.Cells["Status"]?.Value?.ToString() ?? "";
+            string alasan = selectedRow.Cells["alasan_tolak"]?.Value?.ToString() ?? "";
+            string catatan = selectedRow.Cells["catatan_petugas"]?.Value?.ToString() ?? "";
 
             // Tampilkan info di lblDetail (label di bawah DataGridView)
             switch (status)
             {
                 case "ditolak":
                     lblDetail.Visible = true;
-                    lblDetail.Text = "❌ Alasan ditolak: " +
+                    lblDetail.Text = "Alasan ditolak: " +
                         (string.IsNullOrWhiteSpace(alasan) ? "(tidak ada keterangan)" : alasan);
                     lblDetail.BackColor = Color.FromArgb(252, 235, 235);
                     lblDetail.ForeColor = Color.FromArgb(160, 40, 40);
                     break;
 
                 case "disetujui":
+                    btnAjukanPenyaluran.Visible = true;
                     lblDetail.Visible = true;
-                    lblDetail.Text = "✅ Permohonan disetujui! Bantuan akan segera disalurkan oleh Petugas RT/RW." +
-                        (string.IsNullOrWhiteSpace(catatan) ? "" : "\n📝 Catatan: " + catatan);
+                    lblDetail.Text = "Permohonan disetujui! Klik 'Ajukan Penyaluran' untuk meminta bantuan disalurkan." +
+                        (string.IsNullOrWhiteSpace(catatan) ? "" : "\nCatatan: " + catatan);
                     lblDetail.BackColor = Color.FromArgb(234, 243, 222);
                     lblDetail.ForeColor = Color.FromArgb(39, 80, 10);
                     break;
 
+                case "menunggu_penyaluran":
+                    lblDetail.Visible = true;
+                    lblDetail.Text = "Permohonan penyaluran sedang menunggu diproses oleh Petugas RT/RW.";
+                    lblDetail.BackColor = Color.FromArgb(220, 235, 252);
+                    lblDetail.ForeColor = Color.FromArgb(0, 90, 156);
+                    break;
+
+                case "disalurkan":
+                    lblDetail.Visible = true;
+                    lblDetail.Text = "Bantuan telah disalurkan! Silakan cek Riwayat Bantuan untuk detail.";
+                    lblDetail.BackColor = Color.FromArgb(210, 245, 225);
+                    lblDetail.ForeColor = Color.FromArgb(0, 100, 50);
+                    break;
+
                 case "pending":
                     lblDetail.Visible = true;
-                    lblDetail.Text = "🕐 Permohonan sedang menunggu verifikasi dari Petugas RT/RW.";
+                    lblDetail.Text = "Permohonan sedang menunggu verifikasi dari Petugas RT/RW.";
                     lblDetail.BackColor = Color.FromArgb(250, 238, 218);
                     lblDetail.ForeColor = Color.FromArgb(180, 100, 20);
                     break;
@@ -191,13 +277,18 @@ namespace SIBANTUAN.Forms.Penerima
         // ================================================================
         private void btnDashboard_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Abort;
             this.Close();
         }
 
         private void btnAjukanPermohonan_Click(object sender, EventArgs e)
         {
             var form = new AjukanPermohonan();
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.Abort)
+            {
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
         }
 
         private void btnStatusPermohonan_Click(object sender, EventArgs e)
@@ -207,7 +298,11 @@ namespace SIBANTUAN.Forms.Penerima
         private void btnRiwayatBantuan_Click(object sender, EventArgs e)
         {
             var form = new RiwayatBantuan();
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.Abort)
+            {
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

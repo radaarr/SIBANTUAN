@@ -68,17 +68,14 @@ namespace SIBANTUAN.Forms
         // ====================================================
         private void TampilkanDashboard()
         {
-            // Tutup form anak yang sedang terbuka (jika ada)
             if (activeForm != null)
             {
                 activeForm.Close();
                 activeForm = null;
             }
 
-            // Bersihkan isi panel3
             panel3.Controls.Clear();
 
-            // --- MEMBUAT JUDUL DASHBOARD ---
             Label lblJudul = new Label();
             lblJudul.Text = "Selamat Datang di SIBANTUAN";
             lblJudul.Font = new Font("Segoe UI", 24, FontStyle.Bold);
@@ -95,17 +92,39 @@ namespace SIBANTUAN.Forms
             lblSubJudul.Location = new Point(35, 75);
             panel3.Controls.Add(lblSubJudul);
 
-            // --- MEMBUAT KARTU INFORMASI (WIDGETS) ---
-            // Kartu 1: Total Program
-            Panel card1 = BuatKartu("Total Program", "3 Aktif", Color.FromArgb(52, 152, 219), 30, 130);
+            // Ambil data live dari database
+            int totalProgram = 0;
+            int totalPenerima = 0;
+            int menungguVerifikasi = 0;
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+
+                    MySqlCommand cmd1 = new MySqlCommand(
+                        "SELECT COUNT(*) FROM program_bantuan WHERE status_program = 'aktif'", conn);
+                    totalProgram = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    MySqlCommand cmd2 = new MySqlCommand(
+                        "SELECT COUNT(DISTINCT pm.penduduk_id) FROM permohonan pm WHERE pm.status_permohonan = 'disetujui'", conn);
+                    totalPenerima = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    MySqlCommand cmd3 = new MySqlCommand(
+                        "SELECT COUNT(*) FROM permohonan WHERE status_permohonan = 'pending'", conn);
+                    menungguVerifikasi = Convert.ToInt32(cmd3.ExecuteScalar());
+                }
+            }
+            catch { }
+
+            Panel card1 = BuatKartu("Program Aktif", totalProgram + " Program", Color.FromArgb(52, 152, 219), 30, 130);
             panel3.Controls.Add(card1);
 
-            // Kartu 2: Total Penerima
-            Panel card2 = BuatKartu("Penerima Bantuan", "1,245 Jiwa", Color.FromArgb(46, 204, 113), 260, 130);
+            Panel card2 = BuatKartu("Penerima Bantuan", totalPenerima + " Jiwa", Color.FromArgb(46, 204, 113), 260, 130);
             panel3.Controls.Add(card2);
 
-            // Kartu 3: Menunggu Verifikasi
-            Panel card3 = BuatKartu("Menunggu Verifikasi", "12 Pengajuan", Color.FromArgb(241, 196, 15), 490, 130);
+            Panel card3 = BuatKartu("Menunggu Verifikasi", menungguVerifikasi + " Pengajuan", Color.FromArgb(241, 196, 15), 490, 130);
             panel3.Controls.Add(card3);
         }
 

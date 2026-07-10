@@ -32,11 +32,19 @@ JOIN penduduk p ON pm.penduduk_id = p.id
 JOIN program_bantuan pb ON pm.program_id = pb.id;
 
 -- =============================================
--- 3. View: distribusi_view (untuk form Distribusi)
+-- 3. Ubah ENUM status_permohonan — tambah 'menunggu_penyaluran' dan 'disalurkan'
+-- =============================================
+ALTER TABLE permohonan
+  MODIFY COLUMN status_permohonan
+    ENUM('pending','disetujui','ditolak','menunggu_penyaluran','disalurkan')
+    DEFAULT 'pending';
+
+-- =============================================
+-- 4. View: distribusi_view — LEFT JOIN agar pending penyaluran ikut tampil
 -- =============================================
 CREATE OR REPLACE VIEW distribusi_view AS
 SELECT 
-    d.id AS id_distribusi,
+    COALESCE(d.id, 0) AS id_distribusi,
     pm.id AS permohonan_id,
     p.nik,
     p.nama_lengkap AS nama_warga,
@@ -49,8 +57,9 @@ SELECT
     u.nama AS dicatat_oleh,
     d.keterangan,
     pm.status_permohonan AS status_permohonan
-FROM distribusi d
-JOIN permohonan pm ON d.permohonan_id = pm.id
+FROM permohonan pm
 JOIN penduduk p ON pm.penduduk_id = p.id
 JOIN program_bantuan pb ON pm.program_id = pb.id
-JOIN users u ON d.petugas_id = u.id;
+LEFT JOIN distribusi d ON d.permohonan_id = pm.id
+LEFT JOIN users u ON d.petugas_id = u.id
+WHERE pm.status_permohonan IN ('menunggu_penyaluran', 'disalurkan');

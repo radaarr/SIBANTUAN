@@ -160,19 +160,28 @@ namespace SIBANTUAN.Forms.Penerima
         // ================================================================
         private void btnDashboard_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Abort;
             this.Close();
         }
 
         private void btnAjukanPermohonan_Click(object sender, EventArgs e)
         {
             var form = new AjukanPermohonan();
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.Abort)
+            {
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
         }
 
         private void btnStatusPermohonan_Click(object sender, EventArgs e)
         {
             var form = new StatusPermohonan();
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.Abort)
+            {
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
         }
 
         private void btnRiwayatBantuan_Click(object sender, EventArgs e)
