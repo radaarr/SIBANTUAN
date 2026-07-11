@@ -33,6 +33,7 @@
             this.btnTambah = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnTutup = new System.Windows.Forms.Button();
+            this.btnHapus = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProgram)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,12 +106,25 @@
             this.btnTutup.UseVisualStyleBackColor = false;
             this.btnTutup.Click += new System.EventHandler(this.btnTutup_Click);
             // 
+            // btnHapus
+            // 
+            this.btnHapus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.btnHapus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHapus.ForeColor = System.Drawing.Color.White;
+            this.btnHapus.Location = new System.Drawing.Point(120, 350);
+            this.btnHapus.Name = "btnHapus";
+            this.btnHapus.Size = new System.Drawing.Size(100, 48);
+            this.btnHapus.TabIndex = 5;
+            this.btnHapus.Text = "Hapus";
+            this.btnHapus.UseVisualStyleBackColor = false;
+            // 
             // FormProgramBantuan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(578, 444);
+            this.Controls.Add(this.btnHapus);
             this.Controls.Add(this.btnTutup);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnTambah);
@@ -134,5 +148,6 @@
         private System.Windows.Forms.Button btnTambah;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnTutup;
+        private System.Windows.Forms.Button btnHapus;
     }
 }
