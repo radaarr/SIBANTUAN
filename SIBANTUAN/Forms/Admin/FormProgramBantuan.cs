@@ -57,19 +57,29 @@ namespace SIBANTUAN.Forms.Admin
         {
             string nama = Microsoft.VisualBasic.Interaction.InputBox("Nama Program:", "Tambah Program", "");
             if (string.IsNullOrEmpty(nama)) return;
+
             string deskripsi = Microsoft.VisualBasic.Interaction.InputBox("Deskripsi:", "Tambah Program", "");
             string kuota = Microsoft.VisualBasic.Interaction.InputBox("Kuota Penerima:", "Tambah Program", "100");
+
+            // TAMBAHAN: Meminta input untuk anggaran_total agar database tidak error
+            string anggaran = Microsoft.VisualBasic.Interaction.InputBox("Total Anggaran (Rp):", "Tambah Program", "0");
 
             try
             {
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "INSERT INTO program_bantuan (nama_program, deskripsi, kuota_penerima, status_program, periode_mulai, periode_selesai) VALUES (@nama, @desk, @kuota, 'aktif', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR))";
+                    // TAMBAHAN: Memasukkan kolom anggaran_total ke dalam query INSERT
+                    string query = "INSERT INTO program_bantuan (nama_program, deskripsi, kuota_penerima, anggaran_total, status_program, periode_mulai, periode_selesai) VALUES (@nama, @desk, @kuota, @anggaran, 'aktif', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR))";
+
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@nama", nama);
                     cmd.Parameters.AddWithValue("@desk", deskripsi);
                     cmd.Parameters.AddWithValue("@kuota", int.TryParse(kuota, out int k) ? k : 100);
+
+                    // TAMBAHAN: Memasukkan parameter nilai anggaran (dikonversi ke tipe desimal/angka)
+                    cmd.Parameters.AddWithValue("@anggaran", decimal.TryParse(anggaran, out decimal a) ? a : 0);
+
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Program berhasil ditambahkan", "Sukses");
                     LoadDataFromDatabase();
@@ -80,7 +90,7 @@ namespace SIBANTUAN.Forms.Admin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
+        
         private void btnEdit_Click_1(object sender, EventArgs e)
         {
             if (dgvProgram.SelectedRows.Count == 0)
