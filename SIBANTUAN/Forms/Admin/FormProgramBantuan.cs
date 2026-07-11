@@ -205,6 +205,47 @@ namespace SIBANTUAN.Forms.Admin
             }
         }
 
+        private void btnAktifkan_Click(object sender, EventArgs e)
+        {
+            if (dgvProgram.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Pilih program terlebih dahulu.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string id = dgvProgram.SelectedRows[0].Cells["ID"].Value.ToString();
+            string nama = dgvProgram.SelectedRows[0].Cells["Nama Program"].Value.ToString();
+            string status = dgvProgram.SelectedRows[0].Cells["Status"].Value.ToString();
+
+            if (status == "Aktif")
+            {
+                MessageBox.Show("Program ini sudah Aktif.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Aktifkan kembali program '" + nama + "'?\nProgram akan dapat menerima penerima baru kembali.", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                try
+                {
+                    using (MySqlConnection conn = DBHelper.GetConnection())
+                    {
+                        conn.Open();
+                        string query = "UPDATE program_bantuan SET status_program = 'aktif' WHERE id = @id";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Program berhasil diaktifkan kembali", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadDataFromDatabase();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message, "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         // Fungsi kosong jika tidak sengaja terklik di desainer
         private void btnTambah_Click(object sender, EventArgs e) { }
         private void btnEdit_Click(object sender, EventArgs e) { }
