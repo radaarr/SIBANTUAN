@@ -104,36 +104,69 @@ namespace SIBANTUAN.Forms.Petugas
                     string rw = Session.WilayahRtRw;
                     string kel = Session.WilayahKelurahan;
 
-                    // Total Warga Terdaftar
-                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel", conn);
+                    // Total Warga Terdaftar (hanya penerima_bantuan, bukan petugas)
+                    MySqlCommand cmd1 = new MySqlCommand(@"
+                        SELECT COUNT(*) FROM penduduk p
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.rt_rw = @rw AND p.kelurahan = @kel", conn);
                     cmd1.Parameters.AddWithValue("@rw", rw);
                     cmd1.Parameters.AddWithValue("@kel", kel);
                     object result1 = cmd1.ExecuteScalar();
                     lblCard1Value.Text = result1 != null ? result1.ToString() : "0";
 
                     // Warga Dapat Bantuan (penduduk yang sudah menerima distribusi)
-                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(DISTINCT pm.penduduk_id) FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id JOIN penduduk p ON pm.penduduk_id = p.id WHERE p.rt_rw = @rw2 AND p.kelurahan = @kel2", conn);
+                    MySqlCommand cmd2 = new MySqlCommand(@"
+                        SELECT COUNT(DISTINCT pm.penduduk_id)
+                        FROM distribusi d
+                        JOIN permohonan pm ON d.permohonan_id = pm.id
+                        JOIN penduduk p ON pm.penduduk_id = p.id
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.rt_rw = @rw2 AND p.kelurahan = @kel2", conn);
                     cmd2.Parameters.AddWithValue("@rw2", rw);
                     cmd2.Parameters.AddWithValue("@kel2", kel);
                     object result2 = cmd2.ExecuteScalar();
                     lblCard2Value.Text = result2 != null ? result2.ToString() : "0";
 
                     // Permohonan Ditolak (wilayah)
-                    MySqlCommand cmd3 = new MySqlCommand("SELECT COUNT(*) FROM permohonan pm JOIN penduduk p ON pm.penduduk_id = p.id WHERE pm.status_permohonan = 'ditolak' AND p.rt_rw = @rw3 AND p.kelurahan = @kel3", conn);
+                    MySqlCommand cmd3 = new MySqlCommand(@"
+                        SELECT COUNT(*)
+                        FROM permohonan pm
+                        JOIN penduduk p ON pm.penduduk_id = p.id
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND pm.status_permohonan = 'ditolak'
+                          AND p.rt_rw = @rw3 AND p.kelurahan = @kel3", conn);
                     cmd3.Parameters.AddWithValue("@rw3", rw);
                     cmd3.Parameters.AddWithValue("@kel3", kel);
                     object result3 = cmd3.ExecuteScalar();
                     lblCard3Value.Text = result3 != null ? result3.ToString() : "0";
 
                     // Belum Pernah Dapat (penduduk yang belum menerima distribusi)
-                    MySqlCommand cmd4 = new MySqlCommand("SELECT COUNT(*) FROM penduduk p WHERE p.rt_rw = @rw4 AND p.kelurahan = @kel4 AND p.id NOT IN (SELECT pm.penduduk_id FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id)", conn);
+                    MySqlCommand cmd4 = new MySqlCommand(@"
+                        SELECT COUNT(*) FROM penduduk p
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.rt_rw = @rw4 AND p.kelurahan = @kel4
+                          AND p.id NOT IN (
+                              SELECT pm.penduduk_id FROM distribusi d
+                              JOIN permohonan pm ON d.permohonan_id = pm.id
+                          )", conn);
                     cmd4.Parameters.AddWithValue("@rw4", rw);
                     cmd4.Parameters.AddWithValue("@kel4", kel);
                     object result4 = cmd4.ExecuteScalar();
                     lblCard4Value.Text = result4 != null ? result4.ToString() : "0";
 
                     // Total Anggaran Terpakai (wilayah)
-                    MySqlCommand cmd5 = new MySqlCommand("SELECT COALESCE(SUM(d.jumlah_bantuan), 0) FROM distribusi d JOIN permohonan pm ON d.permohonan_id = pm.id JOIN penduduk p ON pm.penduduk_id = p.id WHERE p.rt_rw = @rw5 AND p.kelurahan = @kel5", conn);
+                    MySqlCommand cmd5 = new MySqlCommand(@"
+                        SELECT COALESCE(SUM(d.jumlah_bantuan), 0)
+                        FROM distribusi d
+                        JOIN permohonan pm ON d.permohonan_id = pm.id
+                        JOIN penduduk p ON pm.penduduk_id = p.id
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.rt_rw = @rw5 AND p.kelurahan = @kel5", conn);
                     cmd5.Parameters.AddWithValue("@rw5", rw);
                     cmd5.Parameters.AddWithValue("@kel5", kel);
                     object result5 = cmd5.ExecuteScalar();

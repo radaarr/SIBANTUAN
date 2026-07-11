@@ -104,12 +104,7 @@ namespace SIBANTUAN.Forms.Penerima
 
                     foreach (DataRow row in dt.Rows)
                     {
-                        // Jumlah hanya dihitung kalau bentuknya uang/voucher
-                        string bentuk = row["Bentuk"].ToString();
-                        if (bentuk == "uang_tunai" || bentuk == "voucher")
-                        {
-                            totalNilai += Convert.ToDecimal(row["Jumlah"]);
-                        }
+                        totalNilai += Convert.ToDecimal(row["Jumlah"]);
                     }
 
                     // Isi label statistik

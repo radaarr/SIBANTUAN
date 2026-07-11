@@ -108,7 +108,7 @@ namespace SIBANTUAN.Forms
                     totalProgram = Convert.ToInt32(cmd1.ExecuteScalar());
 
                     MySqlCommand cmd2 = new MySqlCommand(
-                        "SELECT COUNT(DISTINCT pm.penduduk_id) FROM permohonan pm WHERE pm.status_permohonan = 'disetujui'", conn);
+                        "SELECT COUNT(*) FROM penduduk p JOIN users u ON p.user_id = u.id WHERE u.role = 'penerima_bantuan' AND p.status_verifikasi = 'Disetujui'", conn);
                     totalPenerima = Convert.ToInt32(cmd2.ExecuteScalar());
 
                     MySqlCommand cmd3 = new MySqlCommand(
@@ -239,7 +239,11 @@ namespace SIBANTUAN.Forms
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT nik, nama_lengkap, rt_rw, kelurahan, status_ekonomi, status_verifikasi FROM penduduk ORDER BY kelurahan, rt_rw, nama_lengkap";
+                    string query = @"SELECT p.nik, p.nama_lengkap, p.rt_rw, p.kelurahan, p.status_ekonomi,
+                                            CASE WHEN u.role = 'petugas_rtrw' THEN 'Disetujui' ELSE p.status_verifikasi END AS status_verifikasi
+                                     FROM penduduk p
+                                     LEFT JOIN users u ON p.user_id = u.id
+                                     ORDER BY p.kelurahan, p.rt_rw, p.nama_lengkap";
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);

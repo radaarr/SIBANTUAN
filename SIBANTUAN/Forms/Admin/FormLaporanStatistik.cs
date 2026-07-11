@@ -109,7 +109,7 @@ namespace SIBANTUAN.Forms.Admin
 
                     // ── METRIK ──
                     MySqlCommand cmdPenerima = new MySqlCommand(
-                        "SELECT COUNT(DISTINCT pm.penduduk_id) FROM permohonan pm WHERE pm.status_permohonan = 'disetujui'", conn);
+                        "SELECT COUNT(*) FROM penduduk p JOIN users u ON p.user_id = u.id WHERE u.role = 'penerima_bantuan' AND p.status_verifikasi = 'Disetujui'", conn);
                     int totalPenerima = Convert.ToInt32(cmdPenerima.ExecuteScalar());
 
                     MySqlCommand cmdRealisasi = new MySqlCommand(
@@ -198,11 +198,12 @@ namespace SIBANTUAN.Forms.Admin
                         SELECT 
                           p.kelurahan,
                           p.rt_rw,
-                          COUNT(DISTINCT pm.penduduk_id) AS penerima,
+                          COUNT(DISTINCT CASE WHEN u.role = 'penerima_bantuan' AND p.status_verifikasi = 'Disetujui' THEN p.id END) AS penerima,
                           COUNT(d.id) AS distribusi,
                           COALESCE(SUM(d.jumlah_bantuan), 0) AS total_bantuan
                         FROM penduduk p
-                        LEFT JOIN permohonan pm ON p.id = pm.penduduk_id AND pm.status_permohonan = 'disetujui'
+                        LEFT JOIN users u ON p.user_id = u.id
+                        LEFT JOIN permohonan pm ON p.id = pm.penduduk_id AND pm.status_permohonan IN ('disetujui','menunggu_penyaluran','disalurkan')
                         LEFT JOIN distribusi d ON d.permohonan_id = pm.id
                         GROUP BY p.kelurahan, p.rt_rw
                         ORDER BY p.kelurahan, p.rt_rw";

@@ -101,6 +101,16 @@ namespace SIBANTUAN
             this.Controls.Add(tb);
         }
 
+        private string NormalizeRtRw(string rtrw)
+        {
+            var parts = rtrw.Trim().Split('/');
+            if (parts.Length == 2)
+            {
+                return $"{parts[0].PadLeft(3, '0')}/{parts[1].PadLeft(3, '0')}";
+            }
+            return rtrw.Trim();
+        }
+
         private void BtnDaftar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtNik.Text) || string.IsNullOrEmpty(txtNama.Text) || string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text))
@@ -151,6 +161,9 @@ namespace SIBANTUAN
                     MySqlCommand lastId = new MySqlCommand("SELECT LAST_INSERT_ID()", conn);
                     long userId = Convert.ToInt64(lastId.ExecuteScalar());
 
+                    // Normalisasi RT/RW ke format 3 digit (02/01 → 002/001)
+                    string rtrw = NormalizeRtRw(txtRtRw.Text);
+
                     // Insert penduduk
                     string tglLahir = string.IsNullOrEmpty(txtTglLahir.Text) ? "2000-01-01" : txtTglLahir.Text;
                     MySqlCommand insertPenduduk = new MySqlCommand(
@@ -160,7 +173,7 @@ namespace SIBANTUAN
                     insertPenduduk.Parameters.AddWithValue("@nik", txtNik.Text.Trim());
                     insertPenduduk.Parameters.AddWithValue("@nama", txtNama.Text.Trim());
                     insertPenduduk.Parameters.AddWithValue("@alamat", txtAlamat.Text);
-                    insertPenduduk.Parameters.AddWithValue("@rtrw", txtRtRw.Text);
+                    insertPenduduk.Parameters.AddWithValue("@rtrw", rtrw);
                     insertPenduduk.Parameters.AddWithValue("@kel", txtKelurahan.Text);
                     insertPenduduk.Parameters.AddWithValue("@tgl", tglLahir);
                     insertPenduduk.Parameters.AddWithValue("@jk", cmbJk.SelectedItem.ToString());

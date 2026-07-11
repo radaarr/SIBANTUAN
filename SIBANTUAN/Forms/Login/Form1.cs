@@ -58,6 +58,23 @@ namespace SIBANTUAN
                         string role = reader.GetString("role");
                         reader.Close();
 
+                        // Jika penerima bantuan, cek status verifikasi
+                        if (role == "penerima_bantuan")
+                        {
+                            MySqlCommand verifCmd = new MySqlCommand(
+                                "SELECT status_verifikasi FROM penduduk WHERE user_id = @uid", conn);
+                            verifCmd.Parameters.AddWithValue("@uid", userId);
+                            string statusVerif = verifCmd.ExecuteScalar()?.ToString() ?? "";
+                            if (statusVerif == "Ditolak")
+                            {
+                                MessageBox.Show("Akun Anda telah ditolak oleh petugas.\nSilakan hubungi petugas RT/RW untuk informasi lebih lanjut.",
+                                    "Verifikasi Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                txtPassword.Clear();
+                                txtPassword.Focus();
+                                return;
+                            }
+                        }
+
                         this.Hide();
 
                         Session.UserId = userId;

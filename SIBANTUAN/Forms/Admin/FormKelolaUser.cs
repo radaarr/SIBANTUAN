@@ -87,8 +87,21 @@ namespace SIBANTUAN.Forms
             cmbWilayah.Location = new Point(24, 344);
             cmbWilayah.Size = new Size(240, 28);
 
+            Button btnTambahWilayah = new Button();
+            btnTambahWilayah.Text = "Tambah Wilayah Baru";
+            btnTambahWilayah.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            btnTambahWilayah.TextAlign = ContentAlignment.MiddleLeft;
+            btnTambahWilayah.Location = new Point(24, 378);
+            btnTambahWilayah.Size = new Size(240, 40);
+            btnTambahWilayah.Click += BtnTambahWilayah_Click;
+            btnTambahWilayah.BackColor = Color.FromArgb(46, 204, 113);
+            btnTambahWilayah.ForeColor = Color.White;
+            btnTambahWilayah.FlatStyle = FlatStyle.Flat;
+            btnTambahWilayah.FlatAppearance.BorderSize = 0;
+
             this.Controls.Add(lblWilayah);
             this.Controls.Add(cmbWilayah);
+            this.Controls.Add(btnTambahWilayah);
         }
 
         private void BuatPasswordField()
@@ -112,11 +125,11 @@ namespace SIBANTUAN.Forms
         {
             lblRole.Location = new Point(24, 262);
             cmbRole.Location = new Point(24, 287);
-            btnSimpan.Location = new Point(24, 370);
-            btnReset.Location = new Point(24, 420);
-            btnNonaktif.Location = new Point(24, 470);
-            dgvUser.Size = new Size(508, 474);
-            this.ClientSize = new Size(800, 520);
+            btnSimpan.Location = new Point(24, 424);
+            btnReset.Location = new Point(24, 470);
+            btnNonaktif.Location = new Point(24, 516);
+            dgvUser.Size = new Size(508, 532);
+            this.ClientSize = new Size(800, 580);
         }
 
         private void LoadWilayahOptions()
@@ -127,7 +140,7 @@ namespace SIBANTUAN.Forms
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT DISTINCT rt_rw, kelurahan FROM penduduk ORDER BY kelurahan, rt_rw";
+                    string query = "SELECT rt_rw, kelurahan FROM wilayah ORDER BY kelurahan, rt_rw";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     using (MySqlDataReader r = cmd.ExecuteReader())
                     {
@@ -151,6 +164,39 @@ namespace SIBANTUAN.Forms
                 cmbWilayah.SelectedIndex = 0;
         }
 
+        private void BtnTambahWilayah_Click(object sender, EventArgs e)
+        {
+            string rtRw = Microsoft.VisualBasic.Interaction.InputBox(
+                "Masukkan RT/RW (contoh: 004/001):", "Tambah Wilayah Baru", "", -1, -1);
+            if (string.IsNullOrWhiteSpace(rtRw)) return;
+
+            string kelurahan = Microsoft.VisualBasic.Interaction.InputBox(
+                "Masukkan Nama Kelurahan:", "Tambah Wilayah Baru", "", -1, -1);
+            if (string.IsNullOrWhiteSpace(kelurahan)) return;
+
+            try
+            {
+                using (MySqlConnection conn = DBHelper.GetConnection())
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"
+                        INSERT INTO wilayah (rt_rw, kelurahan)
+                        VALUES (@rt, @kel)", conn);
+                    cmd.Parameters.AddWithValue("@rt", rtRw);
+                    cmd.Parameters.AddWithValue("@kel", kelurahan);
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Wilayah berhasil ditambahkan!", "Sukses",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadWilayahOptions();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
         private void CmbRole_SelectedIndexChanged(object sender, EventArgs e)
         {
             ToggleWilayahVisibility();
@@ -170,7 +216,10 @@ namespace SIBANTUAN.Forms
                 using (MySqlConnection conn = DBHelper.GetConnection())
                 {
                     conn.Open();
-                    string query = "SELECT id, nama, username, role, is_active FROM users ORDER BY id";
+                    string query = @"SELECT u.id, u.nama, u.username, u.role, u.is_active, p.status_verifikasi
+                                     FROM users u
+                                     LEFT JOIN penduduk p ON u.id = p.user_id
+                                     ORDER BY u.id";
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -188,7 +237,14 @@ namespace SIBANTUAN.Forms
                     {
                         string roleDb = row["role"].ToString();
                         string role = roleDb == "admin_pusat" ? "Admin" : roleDb == "petugas_rtrw" ? "Petugas" : "Penerima";
-                        string status = Convert.ToInt32(row["is_active"]) == 1 ? "Aktif" : "Nonaktif";
+
+                        string status;
+                        if (Convert.ToInt32(row["is_active"]) == 0)
+                            status = "Nonaktif";
+                        else if (roleDb == "penerima_bantuan" && row["status_verifikasi"] != DBNull.Value && row["status_verifikasi"].ToString() == "Ditolak")
+                            status = "Ditolak";
+                        else
+                            status = "Aktif";
 
                         // Ambil wilayah dari tabel penduduk untuk petugas
                         string wilayah = "-";
@@ -302,10 +358,10 @@ namespace SIBANTUAN.Forms
                                 MySqlCommand ins = new MySqlCommand(@"
                                     INSERT INTO penduduk
                                         (nik, nama_lengkap, alamat, rt_rw, kelurahan,
-                                         tanggal_lahir, jenis_kelamin, status_ekonomi, user_id)
+                                         tanggal_lahir, jenis_kelamin, status_ekonomi, user_id, status_verifikasi)
                                     VALUES
                                         (@nik, @nama, '-', @rt, @kel,
-                                         '2000-01-01', 'laki_laki', 'miskin', @uid)", conn, trans);
+                                         '2000-01-01', 'laki_laki', 'miskin', @uid, 'Disetujui')", conn, trans);
                                 ins.Parameters.AddWithValue("@nik", dummyNik);
                                 ins.Parameters.AddWithValue("@nama", txtNama.Text.Trim());
                                 ins.Parameters.AddWithValue("@rt", wil.RtRw);
@@ -336,10 +392,10 @@ namespace SIBANTUAN.Forms
                             MySqlCommand ins = new MySqlCommand(@"
                                 INSERT INTO penduduk
                                     (nik, nama_lengkap, alamat, rt_rw, kelurahan,
-                                     tanggal_lahir, jenis_kelamin, status_ekonomi, user_id)
+                                     tanggal_lahir, jenis_kelamin, status_ekonomi, user_id, status_verifikasi)
                                 VALUES
                                     (@nik, @nama, '-', @rt, @kel,
-                                     '2000-01-01', 'laki_laki', 'miskin', @uid)", conn, trans);
+                                     '2000-01-01', 'laki_laki', 'miskin', @uid, 'Disetujui')", conn, trans);
                             ins.Parameters.AddWithValue("@nik", dummyNik);
                             ins.Parameters.AddWithValue("@nama", txtNama.Text.Trim());
                             ins.Parameters.AddWithValue("@rt", wil.RtRw);

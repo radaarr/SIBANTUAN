@@ -41,12 +41,21 @@ namespace SIBANTUAN.Forms.Petugas
                 {
                     conn.Open();
 
-                    MySqlCommand cmd1 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE rt_rw = @rw AND kelurahan = @kel", conn);
+                    MySqlCommand cmd1 = new MySqlCommand(@"
+                        SELECT COUNT(*) FROM penduduk p
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.rt_rw = @rw AND p.kelurahan = @kel", conn);
                     cmd1.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
                     cmd1.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard1Value.Text = cmd1.ExecuteScalar().ToString();
 
-                    MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(*) FROM penduduk WHERE status_verifikasi = 'Belum Diverifikasi' AND rt_rw = @rw AND kelurahan = @kel", conn);
+                    MySqlCommand cmd2 = new MySqlCommand(@"
+                        SELECT COUNT(*) FROM penduduk p
+                        LEFT JOIN users u ON p.user_id = u.id
+                        WHERE (u.id IS NULL OR u.role = 'penerima_bantuan')
+                          AND p.status_verifikasi = 'Belum Diverifikasi'
+                          AND p.rt_rw = @rw AND p.kelurahan = @kel", conn);
                     cmd2.Parameters.AddWithValue("@rw", Session.WilayahRtRw);
                     cmd2.Parameters.AddWithValue("@kel", Session.WilayahKelurahan);
                     lblCard2Value.Text = cmd2.ExecuteScalar().ToString();

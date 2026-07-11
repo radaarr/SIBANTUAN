@@ -136,8 +136,8 @@ namespace SIBANTUAN.Forms.Penerima
                     conn.Open();
                     var cmd = new MySqlCommand(@"
                         SELECT
-                          SUM(CASE WHEN status_permohonan = 'disetujui' THEN 1 ELSE 0 END) AS diterima,
-                          SUM(CASE WHEN status_permohonan = 'pending'   THEN 1 ELSE 0 END) AS diproses,
+                          SUM(CASE WHEN status_permohonan = 'disalurkan' THEN 1 ELSE 0 END) AS diterima,
+                          SUM(CASE WHEN status_permohonan IN ('pending','disetujui','menunggu_penyaluran') THEN 1 ELSE 0 END) AS diproses,
                           SUM(CASE WHEN status_permohonan = 'ditolak'   THEN 1 ELSE 0 END) AS ditolak
                         FROM permohonan
                         WHERE penduduk_id = @pid", conn);
